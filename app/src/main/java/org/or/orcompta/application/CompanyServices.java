@@ -1,5 +1,7 @@
 package org.or.orcompta.application;
 
+import java.util.Collection;
+
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.AddressCompany;
 import org.or.orcompta.domain.FactoryCompanies;
@@ -60,6 +62,23 @@ public class CompanyServices {
         entry.addLineEntry(newLineEntry);
         System.out.println("createNewLineEntry " + newLineEntry);
         return idLineEntry;
+    }
+
+    public Collection<Entry> getEntriesInExercice(CompanyId idCompany, ExerciceId idExercice) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        return exercice.getEntries();
+    }
+
+    public Entry getEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntry);
+        return entry;
+    }
+
+    public EntryId computeIdNewEntry(EntryId idEntry) {
+        return idEntry.nextId();
     }
 
     public String toString() {

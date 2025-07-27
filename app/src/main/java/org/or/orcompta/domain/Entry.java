@@ -12,6 +12,7 @@ public class Entry {
     private String journal;
     private String voucher;
     private Map <LineEntryId, LineEntry> linesEntry;
+    private Integer nbLinesEntry;
     private double amountDebit;
     private double amountCredit;
 
@@ -20,15 +21,40 @@ public class Entry {
         this.idEntry = idEntry;
         this.lastIdLineEntry = new LineEntryId(-1);
         this.date = date;
-        this.journal= journal;
+        this.journal = journal;
         this.voucher = voucher;
         linesEntry = new HashMap<>();
+        this.nbLinesEntry = 0;
         this.amountDebit = 0.0;
         this.amountCredit = 0.0;
     }
 
     public EntryId getIdEntry() {
         return this.idEntry;
+    }
+
+    public DateEntry getDate() {
+        return this.date;
+    }
+
+    public String getJournal() {
+        return this.journal;
+    }
+
+    public String getVoucher() {
+        return this.voucher;
+    }
+
+    public Integer getNbLinesEntry() {
+        return this.nbLinesEntry;
+    }
+
+    public double getAmountDebit() {
+        return this.amountDebit;
+    }
+
+    public double getAmountCredit() {
+        return this.amountCredit;
     }
 
     public LineEntryId getIdNewLineEntry() {
@@ -48,6 +74,7 @@ public class Entry {
         this.newIdLineEntry = newLineEntry.getIdLineEntry();        
         linesEntry.put(this.newIdLineEntry, newLineEntry);
         this.lastIdLineEntry = this.newIdLineEntry;
+        this.nbLinesEntry++;
         this.amountDebit += newLineEntry.getAmountDebit();
         this.amountCredit += newLineEntry.getAmountCredit();
     }

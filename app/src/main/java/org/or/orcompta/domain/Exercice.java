@@ -1,5 +1,6 @@
 package org.or.orcompta.domain;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +58,10 @@ public class Exercice {
 
     public boolean getIsClosed() {
         return this.exerciceClosed;
+    }
+
+    public Collection<Entry> getEntries() {
+        return this.entries.values();
     }
 
     boolean checkBalance() {

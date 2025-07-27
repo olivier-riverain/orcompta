@@ -3,12 +3,14 @@ package org.or.orcompta.ui.models;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
+import org.or.orcompta.domain.LineEntryId;
 
 public class Model {
     
     private CompanyId idCompany;
     private ExerciceId idExercice;
     private EntryId idEntry;
+    private LineEntryId idLineEntry;
 
     public Model() {
         this.idCompany = null;
@@ -22,7 +24,7 @@ public class Model {
         this.idCompany = idCompany;
     }
 
-    public ExerciceId getIdexercice() {
+    public ExerciceId getIdExercice() {
         return idExercice;
     }
 
@@ -32,10 +34,18 @@ public class Model {
 
     public EntryId getIdEntry() {
         return idEntry;
-    }
+    }    
 
     public void setIdEntry(EntryId idEntry) {
         this.idEntry = idEntry;
+    }
+
+    public LineEntryId getIdLineEntry() {
+        return idLineEntry;
+    }
+    
+    public void setIdLineEntry(LineEntryId idLineEntry) {
+        this.idLineEntry = idLineEntry;
     }
 
 

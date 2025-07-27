@@ -24,10 +24,29 @@ public class App extends Application{
         System.out.println("idCompany " + idCompany);
         ExerciceId idExercice = controller.createNewExercice(idCompany, "01",  "01", "2024", "31", "12", "2024");
         System.out.println("idExercice " + idExercice);
+        controller.initTabViewEntries();
         EntryId idEntry = controller.createNewEntry(idCompany, idExercice,  "10", "03", "2024", "AC", "20240301");       
         System.out.println("idEntry " + idEntry);
-        LineEntryId idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "401or", 200.0, 0.0);
+        LineEntryId idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "401or", 0.0, 240.0);
         System.out.println("idLineEntry " + idLineEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "445664", 40.0, 0.0);
+        System.out.println("idLineEntry " + idLineEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "601000", 200.0, 0.0);
+        System.out.println("idLineEntry " + idLineEntry);
+        idEntry = controller.createNewEntry(idCompany, idExercice,  "05", "06", "2024", "AC", "20240610");       
+        System.out.println("idEntry " + idEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "401or", 0.0, 120.0);
+        System.out.println("idLineEntry " + idLineEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "445664", 20.0, 0.0);
+        System.out.println("idLineEntry " + idLineEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "601000", 100.0, 0.0);
+        System.out.println("idLineEntry " + idLineEntry);        
+        idEntry = controller.createNewEntry(idCompany, idExercice,  "17", "11", "2024", "AC", "20241110");       
+        System.out.println("idEntry " + idEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "512000", 100.0, 0.0);
+        System.out.println("idLineEntry " + idLineEntry);
+        idLineEntry = controller.createNewLineEntry(idCompany, idExercice, idEntry, "455or", 0.0, 100.0);
+    
     }
 
     public static void main(String[] args) {

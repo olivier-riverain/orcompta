@@ -1,9 +1,11 @@
 package org.or.orcompta.ui.controls;
 
+import java.util.Collection;
 import java.util.Vector;
 
 import org.or.orcompta.application.CompanyServices;
 import org.or.orcompta.domain.CompanyId;
+import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
 import org.or.orcompta.domain.LineEntryId;
@@ -19,10 +21,10 @@ public class Controller {
     private Model model;
     
     public Controller(Stage stage) {
+        this.companyServices = new CompanyServices(); 
+        this.model = new Model();
         this.viewMain = new ViewMain();
-        this.initView(stage, this.viewMain);
-        this.companyServices = new CompanyServices();
-        this.model = new Model();        
+        this.initView(stage, this.viewMain);                       
     }
 
     private void initView(Stage stage, ViewMain viewMain) {
@@ -31,6 +33,14 @@ public class Controller {
 
     public void run() {
         viewMain.show();
+    }
+
+    public CompanyId getIdCompany() {
+        return this.model.getIdCompany();
+    }
+
+    public ExerciceId getIdExercice() {
+        return this.model.getIdExercice();
     }
 
     public Vector<String> retrieveYears() {
@@ -61,19 +71,40 @@ public class Controller {
         return idExercice;
     }
     
-    public EntryId createNewEntry(CompanyId idCompany, ExerciceId idExercice, String jj, String mm, String yy, String journal, String voucher) {       
+    public EntryId createNewEntry(String jj, String mm, String yy, String journal, String voucher) {       
+        CompanyId idCompany = this.model.getIdCompany();
+        ExerciceId idExercice = this.model.getIdExercice();
         EntryId idEntry = companyServices.createNewEntry(idCompany, idExercice, jj,  mm, yy, journal, voucher);        
         model.setIdEntry(idEntry);
+        Entry newEntry = companyServices.getEntry(idCompany, idExercice, idEntry);
+        this.addEntryInTabViewEntries(newEntry);
         return idEntry;
     }
 
     public LineEntryId createNewLineEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry, String account, double amountDebit, double amountCredit) {
         LineEntryId idLineEntry = companyServices.createNewLineEntry(idCompany, idExercice, idEntry, account, amountDebit, amountCredit);        
-        model.setIdEntry(idEntry);
+        model.setIdLineEntry(idLineEntry);
         return idLineEntry;
     }
 
     
+    public Collection<Entry> getEntriesInExercice(CompanyId idCompany, ExerciceId idExercice) {
+        Collection<Entry> entries = companyServices.getEntriesInExercice(idCompany, idExercice);
+        return entries;
+    }
+
+    public void initTabViewEntries() {
+        this.viewMain.initTabViewEntries();
+    }
+
+    private void addEntryInTabViewEntries(Entry newEntry) {
+        this.viewMain.addEntryInTabViewEntries(newEntry);
+    }
+
+    public void computeIdNewEntry() {
+        EntryId idNewEntry =  companyServices.computeIdNewEntry(model.getIdEntry());
+        this.viewMain.newEntryNumber(idNewEntry);        
+    }
 
     
     

@@ -18,6 +18,10 @@ public class LineEntry {
         return this.idLineEntry;
     }
 
+    public Account geAccount() {
+        return this.account;
+    }
+
     public double getAmountDebit() {
         return amountDebit;
     }
