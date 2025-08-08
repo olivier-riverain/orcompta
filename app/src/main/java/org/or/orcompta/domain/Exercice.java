@@ -49,11 +49,25 @@ public class Exercice {
         return lastIdEntry;
     }
 
+    public EntryId resetIdEntry() {
+        return new EntryId();
+    }
+
     public Account getAccount(String account) {
         if(accounts.containsKey(account)) {
             return accounts.get(account);
         }        
         return null;
+    }
+
+    public Account createNewAccount(String name, String description) {
+        Account newAccount = null;
+        if(!(accounts.containsKey(name))) { 
+            newAccount = new Account(name, description);
+            accounts.put(name, newAccount); 
+            return newAccount;           
+        }
+        return newAccount;       
     }
 
     public boolean getIsClosed() {
@@ -62,6 +76,10 @@ public class Exercice {
 
     public Collection<Entry> getEntries() {
         return this.entries.values();
+    }
+
+    public Collection<Account> getAccounts() {
+        return this.accounts.values();
     }
 
     boolean checkBalance() {

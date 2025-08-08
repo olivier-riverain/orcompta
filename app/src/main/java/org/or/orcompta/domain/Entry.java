@@ -1,7 +1,10 @@
 package org.or.orcompta.domain;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Entry {
 
@@ -12,7 +15,8 @@ public class Entry {
     private String journal;
     private String voucher;
     private Map <LineEntryId, LineEntry> linesEntry;
-    private Integer nbLinesEntry;
+    //private Integer nbLinesEntry;
+    private SimpleIntegerProperty nbLinesEntry;
     private double amountDebit;
     private double amountCredit;
 
@@ -24,7 +28,8 @@ public class Entry {
         this.journal = journal;
         this.voucher = voucher;
         linesEntry = new HashMap<>();
-        this.nbLinesEntry = 0;
+        //this.nbLinesEntry = 0;
+        this.nbLinesEntry = new SimpleIntegerProperty(0);
         this.amountDebit = 0.0;
         this.amountCredit = 0.0;
     }
@@ -45,8 +50,11 @@ public class Entry {
         return this.voucher;
     }
 
-    public Integer getNbLinesEntry() {
+    /*public Integer getNbLinesEntry() {
         return this.nbLinesEntry;
+    }*/
+    public Integer getNbLinesEntry() {
+        return this.nbLinesEntry.get();
     }
 
     public double getAmountDebit() {
@@ -59,6 +67,21 @@ public class Entry {
 
     public LineEntryId getIdNewLineEntry() {
         return lastIdLineEntry.nextId();
+    }
+
+    public LineEntryId resetIdLineEntry() {
+        return new LineEntryId();
+    }
+
+    public LineEntry getLineEntry(LineEntryId idLineEntry) {
+        if(linesEntry.containsKey(idLineEntry)) {
+            return linesEntry.get(idLineEntry);
+        }        
+        return null;
+    }
+
+    public Collection<LineEntry> getLinesEntry() {
+        return this.linesEntry.values();
     }
 
     boolean checkEntry() {
@@ -74,7 +97,9 @@ public class Entry {
         this.newIdLineEntry = newLineEntry.getIdLineEntry();        
         linesEntry.put(this.newIdLineEntry, newLineEntry);
         this.lastIdLineEntry = this.newIdLineEntry;
-        this.nbLinesEntry++;
+        //this.nbLinesEntry++;
+        this.nbLinesEntry.set(this.nbLinesEntry.get()+1);
+        System.out.println("Entry addLineEntry this.nbLinesEntry = " + getNbLinesEntry());
         this.amountDebit += newLineEntry.getAmountDebit();
         this.amountCredit += newLineEntry.getAmountCredit();
     }

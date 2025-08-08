@@ -8,6 +8,7 @@ import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.LineEntry;
+import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.ui.controls.Controller;
 
 import javafx.collections.FXCollections;
@@ -35,16 +36,26 @@ public class ViewMain {
     private Stage stage;
     private Scene scene;
     private Controller controller;
+    private ComboBox<String> jj;
+    private ComboBox<String> mm;
+    private ComboBox<String> aa;
+    private ComboBox<String> journal;
     private Label entryNumber;
-    private TableView<LineEntry> entryLines;
+    private Label lineNumber;
+    private Label totalDebit;
+    private Label totalCredit;
+    private Label solde;
+    private TableView<LineEntry> tableViewLinesEntry;
     private TableView<Entry> tableViewEntries;
-    private TableView<Account> accounts;
+    private TableView<Account> tableViewAccounts;
     private TableView<LineEntry> operationsOnAccount;
     private TextField account;
     private TextField libelle;
     private TextField justificatif;
     private TextField montantDebit;
     private TextField montantCredit;
+    private ObservableList<Entry> listOfEntries;
+    private ObservableList<Account> listOfAccounts;
 
     private VBox mainVbox;
 
@@ -52,9 +63,9 @@ public class ViewMain {
     private int height = 700;
     
     public ViewMain() {
-        entryLines = new TableView<LineEntry>();
+        tableViewLinesEntry = new TableView<LineEntry>();
         tableViewEntries = new TableView<Entry>();
-        accounts = new TableView<Account>();
+        tableViewAccounts = new TableView<Account>();
         operationsOnAccount = new TableView<LineEntry>();
 
     }
@@ -98,17 +109,17 @@ public class ViewMain {
 
         HBox line1 = new HBox(5);
         Label labelDatejj = new Label("Date jj: ");
-        ComboBox<String> jj = new ComboBox<>();
+        jj = new ComboBox<>();
         for(Integer i=1; i<32; i++) {
             jj.getItems().add(i.toString());
         }
         Label labelDatemm = new Label("mm ");
-        ComboBox<String> mm = new ComboBox<>();
+        mm = new ComboBox<>();
         for(Integer i=1; i<13; i++) {
             mm.getItems().add(i.toString());
         }
         Label labelDateaa = new Label("aa ");
-        ComboBox<String> aa = new ComboBox<>();
+        aa = new ComboBox<>();
         Vector<String> yearsExercice = controller.retrieveYears();
         for(Integer i=0; i<yearsExercice.size(); i++) {
             aa.getItems().add(yearsExercice.get(i));
@@ -116,14 +127,16 @@ public class ViewMain {
         Label labelEcrituren = new Label("Ecriture n° : ");
         this.entryNumber = new Label("0");
         Label labelLignen = new Label("Ligne n° : ");
-        Label lineNumber = new Label("0");
+        this.lineNumber = new Label("0");
         Label labelJournal = new Label("Journal : ");
-        ComboBox<String> journal = new ComboBox<>();
+        journal = new ComboBox<>();
         Vector<String> journalList = controller.retrieveJournal();
         for(Integer i=0; i<journalList.size(); i++) {
             journal.getItems().add(journalList.get(i));
         }
-        line1.getChildren().addAll(labelDatejj, jj, labelDatemm, mm, labelDateaa, aa, labelEcrituren, this.entryNumber, labelLignen, lineNumber, labelJournal, journal);
+        Label labelJustificatif = new Label("Numéro du justificatif : ");
+        justificatif = new TextField();
+        line1.getChildren().addAll(labelDatejj, jj, labelDatemm, mm, labelDateaa, aa, labelEcrituren, this.entryNumber, labelLignen, this.lineNumber, labelJournal, journal, labelJustificatif, justificatif);
         
         HBox line2 = new HBox(5);
         Label labelCompten = new Label("Numéro de compte : ");
@@ -133,18 +146,16 @@ public class ViewMain {
         Label labelMontantDebit = new Label("Montant débit : ");
         montantDebit = new TextField();
         Label labelMontantCredit = new Label("Montant credit : ");
-        montantCredit = new TextField();
-        Label labelJustificatif = new Label("Numéro du justificatif : ");
-        justificatif = new TextField();
-        line2.getChildren().addAll(labelCompten, account, labelLibelle, libelle, labelMontantDebit,  montantDebit, labelMontantCredit, montantCredit, labelJustificatif, justificatif);
+        montantCredit = new TextField();        
+        line2.getChildren().addAll(labelCompten, account, labelLibelle, libelle, labelMontantDebit,  montantDebit, labelMontantCredit, montantCredit);
 
         Button buttonSaveEntry = new Button("Enregistrer la saisie");
         buttonSaveEntry.setOnAction(e -> saveLineEntry());
 
-        TableColumn<LineEntry,String> entryColumnDate = new TableColumn<LineEntry,String>("Date");        
-        TableColumn<LineEntry,Integer> entryColumnNEntry = new TableColumn<LineEntry,Integer>("Ecriture n°");
+       // TableColumn<LineEntry,String> entryColumnDate = new TableColumn<LineEntry,String>("Date");        
+        //TableColumn<Entry,EntryId> entryColumnNEntry = new TableColumn<Entry,EntryId>("Ecriture n°");
         TableColumn<LineEntry,Integer> entryColumnNLine = new TableColumn<LineEntry,Integer>("Ligne n°");
-        TableColumn<LineEntry,String> entryColumnJournal = new TableColumn<LineEntry,String>("Journal");
+       // TableColumn<LineEntry,String> entryColumnJournal = new TableColumn<LineEntry,String>("Journal");
         TableColumn<LineEntry,String> entryColumnAccount = new TableColumn<LineEntry,String>("Compte");
         TableColumn<LineEntry,String> entryColumnLibelle = new TableColumn<LineEntry,String>("Libelle");
         entryColumnLibelle.setMinWidth(200);
@@ -152,34 +163,48 @@ public class ViewMain {
         entryColumnAmountDebit.setMinWidth(140);
         TableColumn<LineEntry,Float> entryColumnAmountCredit = new TableColumn<LineEntry,Float>("Montant du crédit");
         entryColumnAmountCredit.setMinWidth(140);
-        TableColumn<LineEntry,String> entryColumnJustificatif = new TableColumn<LineEntry,String>("Justificatif");
-        entryColumnJustificatif.setMinWidth(140);
+        //TableColumn<LineEntry,String> entryColumnJustificatif = new TableColumn<LineEntry,String>("Justificatif");
+        //entryColumnJustificatif.setMinWidth(140);
 
         
-        entryColumnNEntry.setCellValueFactory(
+       /* entryColumnNEntry.setCellValueFactory(
+                new PropertyValueFactory<Entry,EntryId>("idEntry")
+        );*/
+        entryColumnNLine.setCellValueFactory(
                 new PropertyValueFactory<LineEntry,Integer>("idLineEntry")
         );
-        entryColumnNLine.setCellValueFactory(
-                new PropertyValueFactory<LineEntry,Integer>("idLine")
+        entryColumnAccount.setCellValueFactory(
+                new PropertyValueFactory<LineEntry, String>("account")
+        );
+        /*entryColumnLibelle.setCellValueFactory(
+                new PropertyValueFactory<LineEntry, String>("libelle")
+        );*/
+        entryColumnAmountDebit.setCellValueFactory(
+                new PropertyValueFactory<LineEntry,Float>("amountDebit")
+        );
+        entryColumnAmountCredit.setCellValueFactory(
+                new PropertyValueFactory<LineEntry,Float>("amountCredit")
         );
 
-        this.entryLines.getColumns().addAll(entryColumnDate, entryColumnNEntry, entryColumnNLine, entryColumnJournal, entryColumnAccount, entryColumnLibelle, entryColumnAmountDebit,  entryColumnAmountCredit, entryColumnJustificatif);
+        this.tableViewLinesEntry.getColumns().addAll(entryColumnNLine, entryColumnAccount, entryColumnLibelle, entryColumnAmountDebit,  entryColumnAmountCredit);
                 
 
         HBox line3 = new HBox(5);
         Button newEntry = new Button("Nouvelle écriture");
         newEntry.setOnAction(e -> controller.computeIdNewEntry());
+        Button saveEntry = new Button("Enregistrer l'écriture");
+        saveEntry.setOnAction(e -> saveNewEntry());
         Button modifyLine  = new Button("Modifier une ligne");
         Button delLine = new Button("Supprimer une ligne");
         Button addLine = new Button("Ajouter une ligne");
         Label labelTotalDebit = new Label("Total débit : ");
-        Label totalDebit = new Label("0");
+        totalDebit = new Label("0");
         Label labelTotalCredit = new Label("Total crédit : ");
-        Label totalCredit = new Label("0");
+        totalCredit = new Label("0");
         Label labelSolde = new Label("Solde : ");
-        Label solde = new Label("0");
+        solde = new Label("0");
         Button solderEntry = new Button("Solder l'écriture");
-        line3.getChildren().addAll(newEntry,  modifyLine, delLine, addLine, labelTotalDebit, totalDebit, labelTotalCredit, totalCredit, labelSolde, solde, solderEntry);
+        line3.getChildren().addAll(newEntry, saveEntry, modifyLine, delLine, addLine, labelTotalDebit, totalDebit, labelTotalCredit, totalCredit, labelSolde, solde, solderEntry);
 
         
         TableColumn<Entry,DateEntry> entriesColumnDate = new TableColumn<Entry,DateEntry>("Date");
@@ -220,10 +245,13 @@ public class ViewMain {
         accountsColumnLibelle.setMinWidth(200);
 
         accountsColumnAccount.setCellValueFactory(
-                new PropertyValueFactory<Account,String>("idAccount")
+                new PropertyValueFactory<Account,String>("name")
+        );
+        accountsColumnLibelle.setCellValueFactory(
+                new PropertyValueFactory<Account,String>("description")
         );
 
-        this.accounts.getColumns().addAll(accountsColumnAccount, accountsColumnLibelle);
+        this.tableViewAccounts.getColumns().addAll(accountsColumnAccount, accountsColumnLibelle);
 
 
         HBox line5 = new HBox(5);
@@ -240,8 +268,7 @@ public class ViewMain {
         Button delAccount = new Button("Supprimer un compte");
         line6.getChildren().addAll(addAccount, modifyAccount, delAccount);
 
-        vbox1.getChildren().addAll(line1, line2, buttonSaveEntry, entryLines, line3, tableViewEntries, line4, accounts, line5, line6);
-        //vbox1.getChildren().addAll(line1, line2, buttonSaveEntry, entryLines, line3, line4, line5, line6);
+        vbox1.getChildren().addAll(line1, line2, buttonSaveEntry, tableViewLinesEntry, line3, tableViewEntries, line4, tableViewAccounts, line5, line6);        
         tabSaisieStandard.setContent(vbox1);
 
 
@@ -316,16 +343,51 @@ public class ViewMain {
     }
 
     public void initTabViewEntries() {
-        Collection<Entry> listOfEntries = this.controller.getEntriesInExercice(this.controller.getIdCompany(), this.controller.getIdExercice());
-        this.tableViewEntries.getItems().addAll(listOfEntries);        
+        //Collection<Entry> listOfEntries = this.controller.getEntriesInExercice(this.controller.getIdCompany(), this.controller.getIdExercice());
+       // this.tableViewEntries.getItems().addAll(listOfEntries);
+       listOfEntries = FXCollections.observableArrayList(this.controller.getEntriesInExercice(this.controller.getIdCompany(), this.controller.getIdExercice()));
+       this.tableViewEntries.setItems(listOfEntries);
+       System.out.println("initTabViewEntries listOfEntries.size() = " + listOfEntries.size());
+       System.out.println("initTabViewEntries + this.tableViewEntries.getItems().size() = " + this.tableViewEntries.getItems().size());   
     }
 
-    public void addEntryInTabViewEntries(Entry newEntry) {
-        this.tableViewEntries.getItems().add(newEntry);
+    public void addEntryInTabViewEntries(Entry newEntry) {        
+        this.listOfEntries.add(newEntry);
+        System.out.println("addEntryInTabViewEntries listOfEntries.size() = " + listOfEntries.size());
+        System.out.println("addEntryInTabViewEntries + this.tableViewEntries.getItems().size() = " + this.tableViewEntries.getItems().size());   
     }
 
-    private void majEntryNumber(EntryId idNewEntryId) {       
-        entryNumber.setText(idNewEntryId.toString());        
+    public void initTabViewLinesEntry() {
+        Collection<LineEntry> listOfLinesEntry = this.controller.getLInesEntryInEntry(this.controller.getIdCompany(), this.controller.getIdExercice(), this.controller.getIdEntry());
+        this.tableViewLinesEntry.getItems().addAll(listOfLinesEntry);        
+    }
+
+    public void addLineEntryInTabViewLinesEntry(LineEntry newLineEntry) {        
+        System.out.println("addLineEntryInTabViewLinesEntry " + newLineEntry);
+        this.tableViewLinesEntry.getItems().add(newLineEntry);
+    }
+
+    public void resetTabViewLinesEntry() {
+        this.tableViewLinesEntry.getItems().clear();
+    }
+
+    public void initTabViewAccounts() {
+        listOfAccounts = FXCollections.observableArrayList(this.controller.getAccountsInExercice(this.controller.getIdCompany(), this.controller.getIdExercice()));
+       this.tableViewAccounts.setItems(listOfAccounts);     
+    }
+
+    public void addAccountInTabViewAccounts(Account newAccount) {        
+        System.out.println("addAccountInTabViewLinesAccount " + newAccount);
+        this.tableViewAccounts.getItems().add(newAccount);
+    }
+
+ 
+    private void majEntryNumber(EntryId idNewEntry) {       
+        entryNumber.setText(idNewEntry.toString());        
+    }
+
+    private void majLineEntryNumber(EntryId idNewLineEntry) {       
+        lineNumber.setText(idNewLineEntry.toString());        
     }
 
     private void resetInputTextField(TextField inputTextField, String input) {
@@ -338,16 +400,58 @@ public class ViewMain {
 
     public void newEntryNumber(EntryId idNewEntry) {
         majEntryNumber(idNewEntry);
+        resetEntry();
+        resetLineEntry();        
+    }
+
+    private void resetEntry() {        
+        resetInputTextField(justificatif, "");
+        resetInputLabel(totalDebit, "0");
+        resetInputLabel(totalCredit, "0");
+        resetInputLabel(solde, "0");
+    }
+
+    private void saveNewEntry() {
+        this.controller.saveNewEntry();
+        controller.computeIdNewEntry();
+        resetAfterSaveNewEntry();
+        resetTabViewLinesEntry();
+
+    }
+
+    public void newLineEntryNumber(LineEntryId idNewLineEntry) {
+        lineNumber.setText(idNewLineEntry.toString());            
+    }
+
+    private void resetLineEntry() {
         resetInputTextField(account, "");
         resetInputTextField(libelle, "");
         resetInputTextField(montantDebit, "0");
-        resetInputTextField(montantCredit, "0");
-        resetInputTextField(justificatif, "");
+        resetInputTextField(montantCredit, "0");       
     }
 
-    private void saveLineEntry() {
-        //EntryId newIdEntry = this.controller.createNewEntry(jj, mm, yy, String journal, String voucher);
-        
+    private void updateAfterNewLineEntry() {
+        totalDebit.setText(Double.toString(controller.getEntryTotalDebit()));
+        totalCredit.setText(Double.toString(controller.getEntryTotalCredit()));
+        solde.setText(Double.toString(controller.getEntryTotalDebit() - controller.getEntryTotalCredit()));
     }
+
+    private void resetAfterSaveNewEntry() {
+        totalDebit.setText("0");
+        totalCredit.setText("0");
+        solde.setText("0");
+        lineNumber.setText("0");
+        justificatif.setText("");
+    }
+
+    private void saveLineEntry() {        
+        this.controller.saveLineEntry(this.entryNumber.getText(), jj.getValue(), mm.getValue(), aa.getValue(), journal.getValue(), justificatif.getText(), account.getText(), Double.parseDouble(montantDebit.getText()), Double.parseDouble(montantCredit.getText()));
+        resetLineEntry();
+        updateAfterNewLineEntry();
+        this.controller.computeIdNewLineEntry();
+        account.requestFocus();
+    }
+
+    
     
 }

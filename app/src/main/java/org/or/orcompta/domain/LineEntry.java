@@ -18,7 +18,7 @@ public class LineEntry {
         return this.idLineEntry;
     }
 
-    public Account geAccount() {
+    public Account getAccount() {
         return this.account;
     }
 

@@ -70,6 +70,19 @@ public class CompanyServices {
         return exercice.getEntries();
     }
 
+    public Collection<LineEntry> getLInesEntryInEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntry);
+        return entry.getLinesEntry();
+    }
+
+    public Collection<Account> getAccountsInExercice(CompanyId idCompany, ExerciceId idExercice) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        return exercice.getAccounts();
+    }
+
     public Entry getEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice);
@@ -77,8 +90,42 @@ public class CompanyServices {
         return entry;
     }
 
+    public LineEntry getLineEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry,LineEntryId idLineEntry) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntry);
+        LineEntry lineEntry = entry.getLineEntry(idLineEntry);
+        return lineEntry;
+    }
+
+    public double getEntryTotalDebit(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
+        Entry entry = getEntry(idCompany, idExercice, idEntry);
+        return entry.getAmountDebit();
+    }
+
+    public double getEntryTotalCredit(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
+        Entry entry = getEntry(idCompany, idExercice, idEntry);
+        return entry.getAmountCredit();
+    }    
+
     public EntryId computeIdNewEntry(EntryId idEntry) {
         return idEntry.nextId();
+    }
+
+    public LineEntryId computeIdNewLineEntry(LineEntryId idLineEntry) {
+        return idLineEntry.nextId();
+    }
+
+    public LineEntryId resetIdLineEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
+        Entry entry = getEntry(idCompany, idExercice, idEntry);
+        return entry.resetIdLineEntry();
+    }
+
+    public Account createNewAccount(CompanyId idCompany, ExerciceId idExercice, String account, String description) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Account newAccount = exercice.createNewAccount(account, description);
+        return newAccount;
     }
 
     public String toString() {

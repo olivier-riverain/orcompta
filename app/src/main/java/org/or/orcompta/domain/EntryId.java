@@ -8,6 +8,10 @@ public class EntryId {
         this.idEntry = idEntry;
     }
 
+    public EntryId() {
+        this.idEntry = 0;
+    }
+
     public Integer getId() {
         return this.idEntry;
     }      

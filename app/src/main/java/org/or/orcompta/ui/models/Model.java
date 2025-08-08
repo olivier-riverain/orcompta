@@ -13,7 +13,8 @@ public class Model {
     private LineEntryId idLineEntry;
 
     public Model() {
-        this.idCompany = null;
+        this.idCompany = new CompanyId(0);
+        this.idExercice = new ExerciceId(0);
     }
 
     public CompanyId getIdCompany() {
