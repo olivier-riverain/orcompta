@@ -1,7 +1,7 @@
 package org.or.orcompta.domain;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -27,7 +27,7 @@ public class Entry {
         this.date = date;
         this.journal = journal;
         this.voucher = voucher;
-        linesEntry = new HashMap<>();
+        linesEntry = new LinkedHashMap<>();
         //this.nbLinesEntry = 0;
         this.nbLinesEntry = new SimpleIntegerProperty(0);
         this.amountDebit = 0.0;
@@ -40,6 +40,18 @@ public class Entry {
 
     public DateEntry getDate() {
         return this.date;
+    }
+
+    public String getDateJJEntry() {
+        return this.date.getDay();
+    }
+
+    public String getDateMMEntry() {
+        return this.date.getMonth();
+    }
+
+    public String getDateAAEntry() {
+        return this.date.getYear();
     }
 
     public String getJournal() {

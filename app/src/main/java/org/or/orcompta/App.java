@@ -22,11 +22,12 @@ public class App extends Application{
         controller.run();
         CompanyId idCompany = controller.createNewCompany("entreprise Test", "10", "rue de la Liberte", "", "33000", "Bordeaux", "SARL", "39912704200014", "453A", 10000.0);
         System.out.println("idCompany " + idCompany);
-        ExerciceId idExercice = controller.createNewExercice(idCompany, "01",  "01", "2024", "31", "12", "2024");
+        controller.initForCompany();
+        ExerciceId idExercice = controller.createNewExercice(idCompany, "1",  "1", "2024", "31", "12", "2024");
         System.out.println("idExercice " + idExercice);
         controller.initTabViewEntries();
 
-        EntryId idEntry = controller.createNewEntry("10", "03", "2024", "AC", "20240301");       
+        EntryId idEntry = controller.createNewEntry("10", "3", "2024", "AC", "20240301");       
         System.out.println("idEntry " + idEntry);
         LineEntryId idLineEntry = controller.createNewLineEntry("401or", 0.0, 240.0);
         System.out.println("idLineEntry " + idLineEntry);
@@ -36,7 +37,7 @@ public class App extends Application{
         System.out.println("idLineEntry " + idLineEntry);
         controller.saveNewEntry();
 
-        idEntry = controller.createNewEntry("05", "06", "2024", "AC", "20240610");       
+        idEntry = controller.createNewEntry("5", "6", "2024", "AC", "20240610");       
         System.out.println("idEntry " + idEntry);
         idLineEntry = controller.createNewLineEntry("401or", 0.0, 120.0);
         System.out.println("idLineEntry " + idLineEntry);

@@ -10,6 +10,7 @@ public class Model {
     private CompanyId idCompany;
     private ExerciceId idExercice;
     private EntryId idEntry;
+    private EntryId idEntryLoaded;
     private LineEntryId idLineEntry;
 
     public Model() {
@@ -39,6 +40,14 @@ public class Model {
 
     public void setIdEntry(EntryId idEntry) {
         this.idEntry = idEntry;
+    }
+
+    public EntryId getIdEntryLoaded() {
+        return idEntryLoaded;
+    }    
+
+    public void setIdEntryLoaded(EntryId idEntryLoaded) {
+        this.idEntryLoaded = idEntryLoaded;
     }
 
     public LineEntryId getIdLineEntry() {

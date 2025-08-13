@@ -1,6 +1,7 @@
 package org.or.orcompta.ui.views;
 
-import java.util.Collection;
+
+import java.util.Map;
 import java.util.Vector;
 
 import org.or.orcompta.domain.Account;
@@ -13,6 +14,7 @@ import org.or.orcompta.ui.controls.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 
 import javafx.stage.Stage;
@@ -30,6 +32,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class ViewMain {
 
@@ -40,6 +44,7 @@ public class ViewMain {
     private ComboBox<String> mm;
     private ComboBox<String> aa;
     private ComboBox<String> journal;
+    private ComboBox<String> editJournal;
     private Label entryNumber;
     private Label lineNumber;
     private Label totalDebit;
@@ -55,9 +60,12 @@ public class ViewMain {
     private TextField montantDebit;
     private TextField montantCredit;
     private ObservableList<Entry> listOfEntries;
+    private ObservableList<LineEntry> listOfLinesEntry;
     private ObservableList<Account> listOfAccounts;
 
     private VBox mainVbox;
+
+    Map<String, String> journalList;
 
     private int width = 1300;
     private int height = 700;
@@ -129,11 +137,7 @@ public class ViewMain {
         Label labelLignen = new Label("Ligne n° : ");
         this.lineNumber = new Label("0");
         Label labelJournal = new Label("Journal : ");
-        journal = new ComboBox<>();
-        Vector<String> journalList = controller.retrieveJournal();
-        for(Integer i=0; i<journalList.size(); i++) {
-            journal.getItems().add(journalList.get(i));
-        }
+        journal = new ComboBox<>();       
         Label labelJustificatif = new Label("Numéro du justificatif : ");
         justificatif = new TextField();
         line1.getChildren().addAll(labelDatejj, jj, labelDatemm, mm, labelDateaa, aa, labelEcrituren, this.entryNumber, labelLignen, this.lineNumber, labelJournal, journal, labelJustificatif, justificatif);
@@ -143,6 +147,14 @@ public class ViewMain {
         account = new TextField();
         Label labelLibelle = new Label("Libellé : ");
         libelle = new TextField();
+        account.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {            
+                if(event.getCode() == KeyCode.TAB){                    
+                    libelle.setText(controller.getAccountDescription(account.getText()));
+                }
+            }
+        });
         Label labelMontantDebit = new Label("Montant débit : ");
         montantDebit = new TextField();
         Label labelMontantCredit = new Label("Montant credit : ");
@@ -152,43 +164,23 @@ public class ViewMain {
         Button buttonSaveEntry = new Button("Enregistrer la saisie");
         buttonSaveEntry.setOnAction(e -> saveLineEntry());
 
-       // TableColumn<LineEntry,String> entryColumnDate = new TableColumn<LineEntry,String>("Date");        
-        //TableColumn<Entry,EntryId> entryColumnNEntry = new TableColumn<Entry,EntryId>("Ecriture n°");
-        TableColumn<LineEntry,Integer> entryColumnNLine = new TableColumn<LineEntry,Integer>("Ligne n°");
-       // TableColumn<LineEntry,String> entryColumnJournal = new TableColumn<LineEntry,String>("Journal");
+       
+        TableColumn<LineEntry,Integer> entryColumnNLine = new TableColumn<LineEntry,Integer>("Ligne n°");       
         TableColumn<LineEntry,String> entryColumnAccount = new TableColumn<LineEntry,String>("Compte");
         TableColumn<LineEntry,String> entryColumnLibelle = new TableColumn<LineEntry,String>("Libelle");
         entryColumnLibelle.setMinWidth(200);
         TableColumn<LineEntry,Float> entryColumnAmountDebit = new TableColumn<LineEntry,Float>("Montant du débit");
         entryColumnAmountDebit.setMinWidth(140);
         TableColumn<LineEntry,Float> entryColumnAmountCredit = new TableColumn<LineEntry,Float>("Montant du crédit");
-        entryColumnAmountCredit.setMinWidth(140);
-        //TableColumn<LineEntry,String> entryColumnJustificatif = new TableColumn<LineEntry,String>("Justificatif");
-        //entryColumnJustificatif.setMinWidth(140);
-
+        entryColumnAmountCredit.setMinWidth(140);        
         
-       /* entryColumnNEntry.setCellValueFactory(
-                new PropertyValueFactory<Entry,EntryId>("idEntry")
-        );*/
-        entryColumnNLine.setCellValueFactory(
-                new PropertyValueFactory<LineEntry,Integer>("idLineEntry")
-        );
-        entryColumnAccount.setCellValueFactory(
-                new PropertyValueFactory<LineEntry, String>("account")
-        );
-        /*entryColumnLibelle.setCellValueFactory(
-                new PropertyValueFactory<LineEntry, String>("libelle")
-        );*/
-        entryColumnAmountDebit.setCellValueFactory(
-                new PropertyValueFactory<LineEntry,Float>("amountDebit")
-        );
-        entryColumnAmountCredit.setCellValueFactory(
-                new PropertyValueFactory<LineEntry,Float>("amountCredit")
-        );
+        entryColumnNLine.setCellValueFactory(new PropertyValueFactory<LineEntry,Integer>("idLineEntry"));
+        entryColumnAccount.setCellValueFactory(new PropertyValueFactory<LineEntry, String>("account"));
+        entryColumnAmountDebit.setCellValueFactory(new PropertyValueFactory<LineEntry,Float>("amountDebit"));
+        entryColumnAmountCredit.setCellValueFactory(new PropertyValueFactory<LineEntry,Float>("amountCredit"));
 
         this.tableViewLinesEntry.getColumns().addAll(entryColumnNLine, entryColumnAccount, entryColumnLibelle, entryColumnAmountDebit,  entryColumnAmountCredit);
-                
-
+        
         HBox line3 = new HBox(5);
         Button newEntry = new Button("Nouvelle écriture");
         newEntry.setOnAction(e -> controller.computeIdNewEntry());
@@ -211,10 +203,7 @@ public class ViewMain {
         TableColumn<Entry,EntryId> entriesColumnNEntry = new TableColumn<Entry,EntryId>("Ecriture n°");
         TableColumn<Entry,Integer> entriesColumnNLine = new TableColumn<Entry,Integer>("Nombre de lignes");
         entriesColumnNLine.setMinWidth(140);
-        TableColumn<Entry,String> entriesColumnJournal = new TableColumn<Entry,String>("Journal");
-        //TableColumn<Entry,String> entriesColumnAccount = new TableColumn<Entry,String>("Compte");
-        //TableColumn<Entry,String> entriesColumnLibelle = new TableColumn<Entry,String>("Libelle");
-        //entriesColumnLibelle.setMinWidth(200);
+        TableColumn<Entry,String> entriesColumnJournal = new TableColumn<Entry,String>("Journal");        
         TableColumn<Entry,Float> entriesColumnAmountDebit = new TableColumn<Entry,Float>("Montant du débit");
         entriesColumnAmountDebit.setMinWidth(140);
         TableColumn<Entry,Float> entriesColumnAmountCredit = new TableColumn<Entry,Float>("Montant du crédit");
@@ -225,9 +214,7 @@ public class ViewMain {
         entriesColumnDate.setCellValueFactory(new PropertyValueFactory<Entry,DateEntry>("date"));
         entriesColumnNEntry.setCellValueFactory(new PropertyValueFactory<Entry,EntryId>("idEntry"));
         entriesColumnNLine.setCellValueFactory(new PropertyValueFactory<Entry,Integer>("nbLinesEntry"));
-        entriesColumnJournal.setCellValueFactory(new PropertyValueFactory<Entry,String>("journal"));
-        //entriesColumnAccount.setCellValueFactory(new PropertyValueFactory<Entry,String>("account"));
-        //entriesColumnLibelle.setCellValueFactory(new PropertyValueFactory<Entry,String>("libelle"));
+        entriesColumnJournal.setCellValueFactory(new PropertyValueFactory<Entry,String>("journal"));        
         entriesColumnAmountDebit.setCellValueFactory(new PropertyValueFactory<Entry,Float>("amountDebit"));
         entriesColumnAmountCredit.setCellValueFactory(new PropertyValueFactory<Entry,Float>("amountCredit"));
         entriesColumnJustificatif.setCellValueFactory(new PropertyValueFactory<Entry,String>("voucher"));
@@ -235,10 +222,11 @@ public class ViewMain {
         this.tableViewEntries.getColumns().addAll(entriesColumnDate, entriesColumnNEntry, entriesColumnNLine, entriesColumnJournal, entriesColumnAmountDebit,  entriesColumnAmountCredit, entriesColumnJustificatif);
 
         HBox line4 = new HBox(5);
-        Button loadEntry = new Button("Charger une écriture");
+        Button buttonLoadEntry = new Button("Charger une écriture");
+        buttonLoadEntry.setOnAction(e -> loadEntry());
         Button delEntry = new Button("Supprimer une écriture");
         Button replicateEntry = new Button("Répliquer une écriture");
-        line4.getChildren().addAll(loadEntry, delEntry, replicateEntry);
+        line4.getChildren().addAll(buttonLoadEntry, delEntry, replicateEntry);
 
         TableColumn<Account,String> accountsColumnAccount = new TableColumn<Account,String>("Compte");
         TableColumn<Account,String> accountsColumnLibelle = new TableColumn<Account,String>("Libelle");
@@ -322,10 +310,7 @@ public class ViewMain {
 
         HBox hbox2_4 = new HBox(5);
         Label labelEditJournal = new Label("Journal : ");
-        ComboBox<String> editJournal = new ComboBox<>();       
-        for(Integer i=0; i<journalList.size(); i++) {
-            editJournal.getItems().add(journalList.get(i));
-        }
+        editJournal = new ComboBox<>();        
         Button buttonEditJournal = new Button("Editer le journal");
         hbox2_4.getChildren().addAll(labelEditJournal, editJournal,  buttonEditJournal);
 
@@ -342,9 +327,15 @@ public class ViewMain {
         this.scene = new Scene(this.mainVbox, width, height);
     }
 
-    public void initTabViewEntries() {
-        //Collection<Entry> listOfEntries = this.controller.getEntriesInExercice(this.controller.getIdCompany(), this.controller.getIdExercice());
-       // this.tableViewEntries.getItems().addAll(listOfEntries);
+    public void initForCompany() {
+        journalList = controller.getJournals();
+        for(Map.Entry<String, String> journalItem : journalList.entrySet()) {
+            journal.getItems().add(journalItem.getKey());
+            editJournal.getItems().add(journalItem.getKey());
+        }        
+    }
+
+    public void initTabViewEntries() {        
        listOfEntries = FXCollections.observableArrayList(this.controller.getEntriesInExercice(this.controller.getIdCompany(), this.controller.getIdExercice()));
        this.tableViewEntries.setItems(listOfEntries);
        System.out.println("initTabViewEntries listOfEntries.size() = " + listOfEntries.size());
@@ -357,9 +348,9 @@ public class ViewMain {
         System.out.println("addEntryInTabViewEntries + this.tableViewEntries.getItems().size() = " + this.tableViewEntries.getItems().size());   
     }
 
-    public void initTabViewLinesEntry() {
-        Collection<LineEntry> listOfLinesEntry = this.controller.getLInesEntryInEntry(this.controller.getIdCompany(), this.controller.getIdExercice(), this.controller.getIdEntry());
-        this.tableViewLinesEntry.getItems().addAll(listOfLinesEntry);        
+    public void initTabViewLinesEntry() {       
+        listOfLinesEntry = FXCollections.observableArrayList(this.controller.getLInesEntryInEntry(this.controller.getIdCompany(), this.controller.getIdExercice(), this.controller.getIdEntry()));
+        this.tableViewLinesEntry.setItems(listOfLinesEntry);       
     }
 
     public void addLineEntryInTabViewLinesEntry(LineEntry newLineEntry) {        
@@ -384,10 +375,6 @@ public class ViewMain {
  
     private void majEntryNumber(EntryId idNewEntry) {       
         entryNumber.setText(idNewEntry.toString());        
-    }
-
-    private void majLineEntryNumber(EntryId idNewLineEntry) {       
-        lineNumber.setText(idNewLineEntry.toString());        
     }
 
     private void resetInputTextField(TextField inputTextField, String input) {
@@ -450,6 +437,22 @@ public class ViewMain {
         updateAfterNewLineEntry();
         this.controller.computeIdNewLineEntry();
         account.requestFocus();
+    }
+
+    private void loadEntry() {
+        System.out.println("viewMain loadEntry");
+        Entry entrySelected = tableViewEntries.getSelectionModel().getSelectedItem();
+        System.out.println("viewMain loadEntry entrySelected = " + entrySelected);
+        EntryId idEntryLoaded = tableViewEntries.getSelectionModel().getSelectedItem().getIdEntry();
+        this.controller.setIdEntryLoaded(idEntryLoaded);
+        System.out.println("viewMain loadEntry entrySelected = " + idEntryLoaded);
+        majEntryNumber(idEntryLoaded);
+        jj.setValue(controller.getDateJJEntry(idEntryLoaded));       
+        mm.setValue(controller.getDateMMEntry(idEntryLoaded));
+        aa.setValue(controller.getDateAAEntry(idEntryLoaded));
+        journal.setValue(controller.getJournalEntry(idEntryLoaded));
+        justificatif.setText(controller.getVoucherEntry(idEntryLoaded));
+
     }
 
     

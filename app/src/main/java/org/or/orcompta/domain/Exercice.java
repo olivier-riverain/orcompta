@@ -1,7 +1,7 @@
 package org.or.orcompta.domain;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -22,8 +22,8 @@ public class Exercice {
         this.lastIdEntry = new EntryId(-1);        
         this.beginDate= beginDate;
         this.endDate = endDate;
-        accounts = new HashMap<>();
-        entries = new HashMap<>();
+        accounts = new LinkedHashMap<>();
+        entries = new LinkedHashMap<>();
     }
 
     public ExerciceId getIdExercice() {
@@ -80,6 +80,14 @@ public class Exercice {
 
     public Collection<Account> getAccounts() {
         return this.accounts.values();
+    }
+
+    public String getAccountDescription(String account) {
+        String description = new String("Ce compte n'existe pas dans l'exercice.");
+        if(accounts.containsKey(account)) {
+            return accounts.get(account).getDescription();
+        }
+        return description;
     }
 
     boolean checkBalance() {

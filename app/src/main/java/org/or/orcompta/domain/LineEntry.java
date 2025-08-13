@@ -31,6 +31,6 @@ public class LineEntry {
     }
     
     public String toString() {
-        return  this.idLineEntry + " | " + this.account + " | " + this.amountDebit + " | " +  this.amountCredit;
+        return  " " + this.idLineEntry + " | " + this.account + " | " + this.amountDebit + " | " +  this.amountCredit;
     }
 }

@@ -1,6 +1,7 @@
 package org.or.orcompta.application;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.AddressCompany;
@@ -127,6 +128,54 @@ public class CompanyServices {
         Account newAccount = exercice.createNewAccount(account, description);
         return newAccount;
     }
+
+    public String getAccountDescription(CompanyId idCompany, ExerciceId idExercice, String account) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        return exercice.getAccountDescription(account);
+    }
+
+    public Map<String, String> getJournals(CompanyId idCompany) {
+        Company company = companies.getCompany(idCompany);
+        Map<String, String> journals = company.getJournals();
+        return journals;
+    }
+
+    public String getDateJJEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntryLoaded);
+        return entry.getDateJJEntry();
+    }
+
+    public String getDateMMEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntryLoaded);
+        return entry.getDateMMEntry();
+    }
+
+    public String getDateAAEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntryLoaded);
+        return entry.getDateAAEntry();
+    }
+
+    public String getJournalEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntryLoaded);
+        return entry.getJournal();
+    }
+
+    public String getVoucherEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        Entry entry = exercice.getEntry(idEntryLoaded);
+        return entry.getVoucher();
+    }
+
 
     public String toString() {
         return "companies : " + companies;

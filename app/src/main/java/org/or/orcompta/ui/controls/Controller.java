@@ -1,11 +1,13 @@
 package org.or.orcompta.ui.controls;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Vector;
 
 import org.or.orcompta.application.CompanyServices;
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.CompanyId;
+import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
@@ -37,6 +39,10 @@ public class Controller {
         viewMain.show();
     }
 
+    public void initForCompany() {
+        viewMain.initForCompany();
+    }
+
     public CompanyId getIdCompany() {
         return this.model.getIdCompany();
     }
@@ -65,11 +71,8 @@ public class Controller {
         return years;
     }
 
-    public Vector<String> retrieveJournal() {
-        Vector<String> journals = new Vector<>();
-        // penser à récupérer les journaux d'exercice dans le modèle à partir des info de l'exercice encours
-        journals.add("AC - Achats");
-        journals.add("VT - Ventes"); 
+    public Map<String, String> getJournals() {
+        Map<String, String> journals = companyServices.getJournals(this.model.getIdCompany());       
         return journals;
     }
 
@@ -185,6 +188,35 @@ public class Controller {
     private void addAccountInTabViewAccounts(Account newAccount) {        
         this.viewMain.addAccountInTabViewAccounts(newAccount);
     }
+
+    public String getAccountDescription(String account) {    
+        return companyServices.getAccountDescription(this.model.getIdCompany(), this.model.getIdExercice(), account);
+    }
+
+    public void setIdEntryLoaded(EntryId idEntryLoaded) {
+        this.model.setIdEntryLoaded(idEntryLoaded);
+    }
+
+    public String getDateJJEntry(EntryId idEntry) {
+        return companyServices.getDateJJEntry(this.model.getIdCompany(), this.model.getIdExercice(), this.model.getIdEntryLoaded());
+    }
+
+    public String getDateMMEntry(EntryId idEntry) {
+        return companyServices.getDateMMEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
+    }
+
+    public String getDateAAEntry(EntryId idEntry) {
+        return companyServices.getDateAAEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
+    }
+
+    public String getJournalEntry(EntryId idEntry) {
+        return companyServices.getJournalEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
+    }
+
+    public String getVoucherEntry(EntryId idEntry) {
+        return companyServices.getVoucherEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
+    }
+
 
     
     

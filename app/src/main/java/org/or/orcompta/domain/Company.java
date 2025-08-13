@@ -1,6 +1,7 @@
 package org.or.orcompta.domain;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Company {
@@ -15,6 +16,7 @@ public class Company {
     private ExerciceId newIdExercice;
 
     private Map<ExerciceId, Exercice> exercices;
+    private Map<String, String> journals;
 
     public Company(CompanyId idCompany, String name, AddressCompany address, String legalForm, String siret, String naf, Double shareCapital) {
         this.lastIdExercice = new ExerciceId(-1);
@@ -29,11 +31,25 @@ public class Company {
         // récupérer lastIdExercice dans la bd
         exercices = new HashMap<>();
         // remplir exercices avec les exercices existants de la bd
+        journals = new LinkedHashMap<>();
+        journals.put("AC", "Achats");
+        journals.put("AN", "A nouveau");
+        journals.put("BQ", "Banque");
+        journals.put("CS", "Caisse");
+        journals.put("OD", "Opérations diverses");
+        journals.put("SA", "Salaires");
+        journals.put("VT", "Ventes");
     }
 
     public CompanyId getIdCompany() {
         return idCompany;
     }
+
+    public Map<String, String> getJournals() {
+        return this.journals;
+    }
+
+    
 
     public Exercice getExercice(ExerciceId idExercice) {
         if(exercices.containsKey(idExercice)) {
@@ -52,6 +68,7 @@ public class Company {
         this.lastIdExercice = this.newIdExercice;
     }
 
+    
     @Override
     public String toString() {
         return idCompany + " " + name + " " + address + " " + legalForm + " " + siret + " " + naf + " " + shareCapital + " euros" + "\n" + exercices;
