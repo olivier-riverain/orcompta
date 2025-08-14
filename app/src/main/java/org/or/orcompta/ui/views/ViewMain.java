@@ -175,7 +175,8 @@ public class ViewMain {
         entryColumnAmountCredit.setMinWidth(140);        
         
         entryColumnNLine.setCellValueFactory(new PropertyValueFactory<LineEntry,Integer>("idLineEntry"));
-        entryColumnAccount.setCellValueFactory(new PropertyValueFactory<LineEntry, String>("account"));
+        entryColumnAccount.setCellValueFactory(new PropertyValueFactory<LineEntry, String>("idAccount"));
+        entryColumnLibelle.setCellValueFactory(new PropertyValueFactory<LineEntry, String>("accountLibelle"));
         entryColumnAmountDebit.setCellValueFactory(new PropertyValueFactory<LineEntry,Float>("amountDebit"));
         entryColumnAmountCredit.setCellValueFactory(new PropertyValueFactory<LineEntry,Float>("amountCredit"));
 
@@ -196,6 +197,7 @@ public class ViewMain {
         Label labelSolde = new Label("Solde : ");
         solde = new Label("0");
         Button solderEntry = new Button("Solder l'écriture");
+        solderEntry.setOnAction(e -> solderEntry());
         line3.getChildren().addAll(newEntry, saveEntry, modifyLine, delLine, addLine, labelTotalDebit, totalDebit, labelTotalCredit, totalCredit, labelSolde, solde, solderEntry);
 
         
@@ -399,11 +401,11 @@ public class ViewMain {
     }
 
     private void saveNewEntry() {
-        this.controller.saveNewEntry();
-        controller.computeIdNewEntry();
+        if(this.controller.saveNewEntry()) {
+            controller.computeIdNewEntry();
         resetAfterSaveNewEntry();
         resetTabViewLinesEntry();
-
+        }
     }
 
     public void newLineEntryNumber(LineEntryId idNewLineEntry) {
@@ -452,7 +454,19 @@ public class ViewMain {
         aa.setValue(controller.getDateAAEntry(idEntryLoaded));
         journal.setValue(controller.getJournalEntry(idEntryLoaded));
         justificatif.setText(controller.getVoucherEntry(idEntryLoaded));
+        listOfLinesEntry = FXCollections.observableArrayList(controller.getLInesEntryInEntry(controller.getIdCompany(), controller.getIdExercice(), idEntryLoaded));
+        this.tableViewLinesEntry.setItems(listOfLinesEntry);
+        totalDebit.setText(Double.toString(controller.getEntryLoadedTotalDebit()));
+        totalCredit.setText(Double.toString(controller.getEntryLoadedTotalCredit()));
+        solde.setText(Double.toString(controller.getEntryLoadedTotalDebit() - controller.getEntryLoadedTotalCredit()));
+    }
 
+    private void solderEntry() {
+        if(controller.getEntryTotalDebit() - controller.getEntryTotalCredit() >= 0) {
+            montantCredit.setText(Double.toString(controller.getEntryTotalDebit() - controller.getEntryTotalCredit()));
+        } else {
+            montantDebit.setText(Double.toString(controller.getEntryTotalCredit() - controller.getEntryTotalDebit()));
+        }
     }
 
     

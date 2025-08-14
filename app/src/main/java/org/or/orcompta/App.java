@@ -27,37 +27,39 @@ public class App extends Application{
         System.out.println("idExercice " + idExercice);
         controller.initTabViewEntries();
 
+        controller.initTabViewAccounts();
+        controller.createNewAccount(idCompany, idExercice, "60100000", "fournitures");
+        controller.createNewAccount(idCompany, idExercice, "44566400", "tva deductible 20%");
+        controller.createNewAccount(idCompany, idExercice, "40100000", "fournisseur");
+
         EntryId idEntry = controller.createNewEntry("10", "3", "2024", "AC", "20240301");       
         System.out.println("idEntry " + idEntry);
-        LineEntryId idLineEntry = controller.createNewLineEntry("401or", 0.0, 240.0);
+        LineEntryId idLineEntry = controller.createNewLineEntry("40100000", 0.0, 240.0);
         System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("445664", 40.0, 0.0);
+        idLineEntry = controller.createNewLineEntry("44566400", 40.0, 0.0);
         System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("601000", 200.0, 0.0);
+        idLineEntry = controller.createNewLineEntry("60100000", 200.0, 0.0);
         System.out.println("idLineEntry " + idLineEntry);
         controller.saveNewEntry();
 
         idEntry = controller.createNewEntry("5", "6", "2024", "AC", "20240610");       
         System.out.println("idEntry " + idEntry);
-        idLineEntry = controller.createNewLineEntry("401or", 0.0, 120.0);
+        idLineEntry = controller.createNewLineEntry("40100000", 0.0, 120.0);
         System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("445664", 20.0, 0.0);
+        idLineEntry = controller.createNewLineEntry("44566400", 20.0, 0.0);
         System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("601000", 100.0, 0.0);
+        idLineEntry = controller.createNewLineEntry("60100000", 100.0, 0.0);
         System.out.println("idLineEntry " + idLineEntry);
         controller.saveNewEntry();
         
         idEntry = controller.createNewEntry("17", "11", "2024", "AC", "20241110");       
         System.out.println("idEntry " + idEntry);
-        idLineEntry = controller.createNewLineEntry("512000", 100.0, 0.0);
+        idLineEntry = controller.createNewLineEntry("60100000", 100.0, 0.0);
         System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("455or", 0.0, 100.0);
+        idLineEntry = controller.createNewLineEntry("40100000", 0.0, 100.0);
         controller.saveNewEntry();
 
-        controller.initTabViewAccounts();
-        controller.createNewAccount(idCompany, idExercice, "60100000", "fournitures");
-        controller.createNewAccount(idCompany, idExercice, "44566400", "tva deductible 20%");
-        controller.createNewAccount(idCompany, idExercice, "40100000", "fournisseur");
+        
 
     }
 

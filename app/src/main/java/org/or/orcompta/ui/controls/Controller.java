@@ -7,7 +7,6 @@ import java.util.Vector;
 import org.or.orcompta.application.CompanyServices;
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.CompanyId;
-import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
@@ -15,6 +14,9 @@ import org.or.orcompta.domain.LineEntry;
 import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.ui.models.Model;
 import org.or.orcompta.ui.views.ViewMain;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 
@@ -97,12 +99,21 @@ public class Controller {
         return idEntry;
     }
 
-    public void saveNewEntry() {
+    public Boolean saveNewEntry() {
         CompanyId idCompany = this.model.getIdCompany();
         ExerciceId idExercice = this.model.getIdExercice();
         EntryId idEntry = this.model.getIdEntry();
         Entry newEntry = companyServices.getEntry(idCompany, idExercice, idEntry);
-        this.addEntryInTabViewEntries(newEntry); 
+        if(newEntry.checkAmountsEntry()) {
+            this.addEntryInTabViewEntries(newEntry);
+            return true;
+        } else {
+            Alert error = new Alert(AlertType.ERROR);
+            error.setContentText("L'écriture n'est pas équilibrée et ne peut donc pas être enregistrée.");
+            error.show();
+            return false;
+        }
+         
     }
 
     public void saveLineEntry(String idEntry, String jj, String mm, String yy, String journal, String voucher, String account, double amountDebit, double amountCredit) {
@@ -147,11 +158,7 @@ public class Controller {
 
     private void addEntryInTabViewEntries(Entry newEntry) {        
         this.viewMain.addEntryInTabViewEntries(newEntry);
-    }
-
-    private void updateEntryInTabViewEntries(Entry newEntry, LineEntryId idNewLineEntry) {
-
-    }
+    }    
 
     private void addEntryInTabViewLinesEntry(LineEntry newLineEntry) {        
         this.viewMain.addLineEntryInTabViewLinesEntry(newLineEntry);
@@ -195,6 +202,14 @@ public class Controller {
 
     public void setIdEntryLoaded(EntryId idEntryLoaded) {
         this.model.setIdEntryLoaded(idEntryLoaded);
+    }
+
+    public double getEntryLoadedTotalDebit() {        
+        return this.companyServices.getEntryTotalDebit(this.model.getIdCompany(), this.model.getIdExercice(), this.model.getIdEntryLoaded());
+    }
+
+    public double getEntryLoadedTotalCredit() {
+        return this.companyServices.getEntryTotalCredit(this.model.getIdCompany(), this.model.getIdExercice(), this.model.getIdEntryLoaded());
     }
 
     public String getDateJJEntry(EntryId idEntry) {

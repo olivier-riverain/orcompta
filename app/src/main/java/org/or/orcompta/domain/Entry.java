@@ -97,8 +97,7 @@ public class Entry {
     }
 
     boolean checkEntry() {
-
-        return true;
+        return this.amountDebit == this.amountCredit;
     }
 
     void closeEntry() {

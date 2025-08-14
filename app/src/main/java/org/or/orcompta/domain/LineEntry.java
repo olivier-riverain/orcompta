@@ -22,6 +22,14 @@ public class LineEntry {
         return this.account;
     }
 
+    public String getIdAccount() {
+        return this.account.getName();
+    }
+    
+     public String getAccountLibelle() {
+        return this.account.getDescription();
+    }
+
     public double getAmountDebit() {
         return amountDebit;
     }
