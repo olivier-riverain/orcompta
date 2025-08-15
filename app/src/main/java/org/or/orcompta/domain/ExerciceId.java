@@ -1,7 +1,7 @@
 package org.or.orcompta.domain;
 
 public class ExerciceId {
-     private final Integer idExercice;
+    private final Integer idExercice;
 
     public ExerciceId(Integer idExercice) {
         this.idExercice = idExercice;

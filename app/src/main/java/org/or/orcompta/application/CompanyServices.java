@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.AddressCompany;
+import org.or.orcompta.domain.Balance;
+import org.or.orcompta.domain.BalanceId;
 import org.or.orcompta.domain.FactoryCompanies;
 import org.or.orcompta.domain.LineEntry;
 import org.or.orcompta.domain.LineEntryId;
@@ -30,7 +32,7 @@ public class CompanyServices {
         return idCompany;
     }
 
-    public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm,  String beginyy, String endjj, String endmm, String endyy) {
+    public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
         Company company = companies.getCompany(idCompany);
         ExerciceId idExercice = company.getIdNewExercice();
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
@@ -176,6 +178,16 @@ public class CompanyServices {
         return entry.getVoucher();
     }
 
+    public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice);
+        BalanceId idBalance = new BalanceId(0);
+        DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
+        DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
+        Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
+        balance.computeBalance();
+        return balance.getIdBalance();
+    }
 
     public String toString() {
         return "companies : " + companies;
