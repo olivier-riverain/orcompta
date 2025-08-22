@@ -1,5 +1,7 @@
 package org.or.orcompta.ui.models;
 
+import java.io.File;
+
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
@@ -12,6 +14,8 @@ public class Model {
     private EntryId idEntry;
     private EntryId idEntryLoaded;
     private LineEntryId idLineEntry;
+    private File orcomptaConfigFile;
+    private File companySaveDirectory;
 
     public Model() {
         this.idCompany = new CompanyId(0);
@@ -56,6 +60,22 @@ public class Model {
     
     public void setIdLineEntry(LineEntryId idLineEntry) {
         this.idLineEntry = idLineEntry;
+    }
+
+    public void setConfigFile(File orcomptaConfigFile) {
+        this.orcomptaConfigFile = orcomptaConfigFile;
+    }
+
+    public File getConfigFile() {
+        return this.orcomptaConfigFile;
+    }
+
+    public void setSaveDirectory(File companySaveDirectory) {
+        this.companySaveDirectory = companySaveDirectory;
+    }
+
+    public File getSaveDirectory() {
+        return this.companySaveDirectory;
     }
 
 

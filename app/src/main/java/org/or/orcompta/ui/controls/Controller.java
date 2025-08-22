@@ -1,21 +1,25 @@
 package org.or.orcompta.ui.controls;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Vector;
+
 
 import org.or.orcompta.application.CompanyServices;
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.BalanceId;
 import org.or.orcompta.domain.CompanyId;
-import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
 import org.or.orcompta.domain.LineEntry;
 import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.ui.models.Model;
+import org.or.orcompta.ui.views.View;
 import org.or.orcompta.ui.views.ViewMain;
+import org.or.orcompta.ui.views.ViewNewCompany;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -25,22 +29,32 @@ import javafx.stage.Stage;
 public class Controller {
 
     private ViewMain viewMain;
+    private ViewNewCompany viewNewCompany;
     private CompanyServices companyServices;
     private Model model;
     
     public Controller(Stage stage) {
-        this.companyServices = new CompanyServices(); 
         this.model = new Model();
+        loadFileConfig();
+        this.companyServices = new CompanyServices(this.model.getConfigFile());        
         this.viewMain = new ViewMain();
-        this.initView(stage, this.viewMain);                       
+        this.viewNewCompany = new ViewNewCompany();
+        this.initView(stage, this.viewMain);
+        this.initView(stage, this.viewNewCompany);
+        
+
     }
 
-    private void initView(Stage stage, ViewMain viewMain) {
-        viewMain.initView(stage, this);
+    private void initView(Stage stage, View view) {
+        view.initView(stage, this);
     }
 
     public void run() {
         viewMain.show();
+    }
+
+    public void back() {
+        run();
     }
 
     public void initForCompany() {
@@ -67,6 +81,21 @@ public class Controller {
         return this.companyServices.getEntryTotalCredit(this.model.getIdCompany(), this.model.getIdExercice(), this.model.getIdEntry());
     }
 
+    private void loadFileConfig() {
+        String pwd = System.getProperty("user.dir");        
+        File orcomptaConfigFile = new File(pwd + File.separator + "src" + File.separator +"main" + File.separator + "resources" + File.separator + "configuration" + File.separator + "orcomptaConfig.json");
+        System.out.println("controller loadFileConfig = " + orcomptaConfigFile.getAbsolutePath());
+        if(!orcomptaConfigFile.exists()) {
+            try {
+                orcomptaConfigFile.createNewFile();
+            } catch (IOException e) {            
+                e.printStackTrace();
+            }
+        }
+        this.model.setConfigFile(orcomptaConfigFile);
+                
+    }
+
     public Vector<String> retrieveYears() {
         Vector<String> years = new Vector<>();
         // penser à récupérer les années d'exercice dans le modèle à partir des info de l'exercice encours
@@ -80,8 +109,8 @@ public class Controller {
         return journals;
     }
 
-    public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital) {
-        CompanyId idCompany = companyServices.createNewCompany(name, numero, address, address2, postalCode, city, legalForm, siret, naf, shareCapital);
+    public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {
+        CompanyId idCompany = companyServices.createNewCompany(name, numero, address, address2, postalCode, city, legalForm, siret, naf, shareCapital, saveDirectory);
         model.setIdCompany(idCompany);
         return idCompany; 
     }
@@ -122,9 +151,9 @@ public class Controller {
         System.out.println("saveLineEntry this.model.getIdEntry().toString() = " + this.model.getIdEntry().toString() + " idEntry = " + idEntry);
         if(!(this.model.getIdEntry().toString().equals(idEntry))) {
             System.out.println("saveLineEntry " + this.model.getIdEntry().toString() + " != " + idEntry);
-            EntryId idnewEntry = createNewEntry(jj, mm, yy, journal, voucher);
+            createNewEntry(jj, mm, yy, journal, voucher);
         }
-        LineEntryId idNewLineEntry = createNewLineEntry(account, amountDebit, amountCredit);
+        createNewLineEntry(account, amountDebit, amountCredit);
     }
 
     public LineEntryId createNewLineEntry(String account, double amountDebit, double amountCredit) {
@@ -234,9 +263,18 @@ public class Controller {
         return companyServices.getVoucherEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
     }
 
-    public BalanceId computeBalance(String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        
+    public BalanceId computeBalance(String beginjj, String beginmm, String beginyy, String endjj, String endmm, String endyy) {
         BalanceId idBalance = companyServices.computeBalance(this.model.getIdCompany(), this.model.getIdExercice(), beginjj, beginmm, beginyy, endjj, endmm, endyy);
         return idBalance;
+    }
+
+    public void editBalance(String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
+        companyServices.editBalance(this.model.getIdCompany(), this.model.getIdExercice(), fromjj, frommm, fromaa, tojj, tomm, toaa);
+    }
+
+    public void displayCreateNewCompany() {
+        this.viewNewCompany.show();
     }
     
     

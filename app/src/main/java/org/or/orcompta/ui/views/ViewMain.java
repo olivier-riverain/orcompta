@@ -35,7 +35,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class ViewMain {
+public class ViewMain implements View{
 
     private Stage stage;
     private Scene scene;
@@ -59,6 +59,12 @@ public class ViewMain {
     private TextField justificatif;
     private TextField montantDebit;
     private TextField montantCredit;
+    private TextField fromjj;
+    private TextField frommm;
+    private TextField fromaa;
+    private TextField tojj;
+    private TextField tomm;
+    private TextField toaa;
     private ObservableList<Entry> listOfEntries;
     private ObservableList<LineEntry> listOfLinesEntry;
     private ObservableList<Account> listOfAccounts;
@@ -78,26 +84,31 @@ public class ViewMain {
 
     }
 
+    @Override
     public void initView(Stage stage, Controller controller) {
         this.stage = stage;        
         this.controller = controller;
         this.createView();
     }
 
+    @Override
     public void show() {
         this.stage.setScene(this.scene);
         this.stage.setTitle("ORCOMPTA");        
         this.stage.show();
     }
 
-    private void createView() {
+    @Override
+    public void createView() {
         mainVbox = new VBox(8);
         Menu menuFile = new Menu("Fichier");
+        MenuItem createNewCompany = new MenuItem("Créer une nouvelle entreprise");
+        createNewCompany.setOnAction(_ -> controller.displayCreateNewCompany());
         MenuItem openExercice = new MenuItem("Ouvrir dossier exercice");
         MenuItem saveExercice = new MenuItem("Exporter l'exercice");
         MenuItem importExercice = new MenuItem("Importer un exercice");
         MenuItem quitExercice = new MenuItem("Quitter");
-        menuFile.getItems().addAll(openExercice, saveExercice, importExercice, quitExercice);
+        menuFile.getItems().addAll(createNewCompany, openExercice, saveExercice, importExercice, quitExercice);
         Menu menuTraitement = new Menu("Traitement");
         MenuItem closeExercice = new MenuItem("Clôturer cet exercice");
         MenuItem checkExercice = new MenuItem("Vérifier l'équilibre");
@@ -137,7 +148,7 @@ public class ViewMain {
         Label labelLignen = new Label("Ligne n° : ");
         this.lineNumber = new Label("0");
         Label labelJournal = new Label("Journal : ");
-        journal = new ComboBox<>();       
+        journal = new ComboBox<>();      
         Label labelJustificatif = new Label("Numéro du justificatif : ");
         justificatif = new TextField();
         line1.getChildren().addAll(labelDatejj, jj, labelDatemm, mm, labelDateaa, aa, labelEcrituren, this.entryNumber, labelLignen, this.lineNumber, labelJournal, journal, labelJustificatif, justificatif);
@@ -162,7 +173,7 @@ public class ViewMain {
         line2.getChildren().addAll(labelCompten, account, labelLibelle, libelle, labelMontantDebit,  montantDebit, labelMontantCredit, montantCredit);
 
         Button buttonSaveEntry = new Button("Enregistrer la saisie");
-        buttonSaveEntry.setOnAction(e -> saveLineEntry());
+        buttonSaveEntry.setOnAction(_ -> saveLineEntry());
 
        
         TableColumn<LineEntry,Integer> entryColumnNLine = new TableColumn<LineEntry,Integer>("Ligne n°");       
@@ -184,9 +195,9 @@ public class ViewMain {
         
         HBox line3 = new HBox(5);
         Button newEntry = new Button("Nouvelle écriture");
-        newEntry.setOnAction(e -> controller.computeIdNewEntry());
+        newEntry.setOnAction(_ -> controller.computeIdNewEntry());
         Button saveEntry = new Button("Enregistrer l'écriture");
-        saveEntry.setOnAction(e -> saveNewEntry());
+        saveEntry.setOnAction(_ -> saveNewEntry());
         Button modifyLine  = new Button("Modifier une ligne");
         Button delLine = new Button("Supprimer une ligne");
         Button addLine = new Button("Ajouter une ligne");
@@ -197,7 +208,7 @@ public class ViewMain {
         Label labelSolde = new Label("Solde : ");
         solde = new Label("0");
         Button solderEntry = new Button("Solder l'écriture");
-        solderEntry.setOnAction(e -> solderEntry());
+        solderEntry.setOnAction(_ -> solderEntry());
         line3.getChildren().addAll(newEntry, saveEntry, modifyLine, delLine, addLine, labelTotalDebit, totalDebit, labelTotalCredit, totalCredit, labelSolde, solde, solderEntry);
 
         
@@ -225,7 +236,7 @@ public class ViewMain {
 
         HBox line4 = new HBox(5);
         Button buttonLoadEntry = new Button("Charger une écriture");
-        buttonLoadEntry.setOnAction(e -> loadEntry());
+        buttonLoadEntry.setOnAction(_ -> loadEntry());
         Button delEntry = new Button("Supprimer une écriture");
         Button replicateEntry = new Button("Répliquer une écriture");
         line4.getChildren().addAll(buttonLoadEntry, delEntry, replicateEntry);
@@ -268,21 +279,22 @@ public class ViewMain {
         VBox vbox2 = new VBox(5);
         HBox hbox2_1 = new HBox(5);
         Label labelFromjj = new Label("DU jj ");
-        TextField fromjj = new TextField();
+        fromjj = new TextField();
         Label labelFrommm = new Label("mm ");
-        TextField frommm = new TextField();
+        frommm = new TextField();
         Label labelFromaa = new Label("aa ");
-        TextField fromaa = new TextField();
+        fromaa = new TextField();
         Label labelTojj = new Label("AU jj ");
-        TextField tojj = new TextField();
+        tojj = new TextField();
         Label labelTommm = new Label("mm ");
-        TextField tomm = new TextField();
+        tomm = new TextField();
         Label labelToaa = new Label("aa ");
-        TextField toaa = new TextField();
+        toaa = new TextField();
         hbox2_1.getChildren().addAll(labelFromjj, fromjj, labelFrommm, frommm, labelFromaa, fromaa, labelTojj, tojj, labelTommm, tomm, labelToaa, toaa);
 
         HBox hbox2_2 = new HBox(5);
         Button editBalance = new Button("Editer la balance");
+        editBalance.setOnAction(_ -> editBalance());
         Button editBilanCompteResultat = new Button("Bilan - Compte de résultat");
         hbox2_2.getChildren().addAll(editBalance, editBilanCompteResultat);
 
@@ -467,6 +479,10 @@ public class ViewMain {
         } else {
             montantDebit.setText(Double.toString(controller.getEntryTotalCredit() - controller.getEntryTotalDebit()));
         }
+    }
+
+    private void editBalance() {
+        controller.editBalance(fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(),  tomm.getText(), toaa.getText());
     }
 
     

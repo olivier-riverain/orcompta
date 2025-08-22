@@ -46,7 +46,7 @@ public class DateEntry {
         }
         if(mmBegin > mmEnd) {
             if((yy == yyBegin) && (mm < mmBegin)) return false;
-             if((yy == yyBegin) && (mm == mmBegin) && (jj< jjBegin)) return false;
+            if((yy == yyBegin) && (mm == mmBegin) && (jj< jjBegin)) return false;
             if((yy == yyEnd) && (mm > mmEnd)) return false;
             if((yy == yyEnd) && (mm == mmEnd) && (jj > jjEnd)) return false;
         }        

@@ -12,9 +12,9 @@ public class FactoryCompanies {
         lastIdcompany = new CompanyId(-1);
     }
 
-    public CompanyId addCompany(String name, AddressCompany addressCompany, String legalForm, String siret, String naf, Double shareCapital) {        
+    public CompanyId addCompany(String name, AddressCompany addressCompany, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {        
         CompanyId idNewCompany = getNewIdCompany();
-        Company newCompany = new Company(idNewCompany,name, addressCompany, legalForm, siret, naf, shareCapital);       
+        Company newCompany = new Company(idNewCompany,name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);       
         companies.put(idNewCompany, newCompany);
         lastIdcompany = idNewCompany;
         System.out.println("addCompany " + newCompany);

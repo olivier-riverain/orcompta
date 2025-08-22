@@ -12,13 +12,14 @@ public class Company {
     private String siret;
     private String naf;
     private Double shareCapital;
+    private String saveDirectory;
     private ExerciceId lastIdExercice;
     private ExerciceId newIdExercice;
 
     private Map<ExerciceId, Exercice> exercices;
     private Map<String, String> journals;
 
-    public Company(CompanyId idCompany, String name, AddressCompany address, String legalForm, String siret, String naf, Double shareCapital) {
+    public Company(CompanyId idCompany, String name, AddressCompany address, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {
         this.lastIdExercice = new ExerciceId(-1);
         this.newIdExercice = this.lastIdExercice;
         this.idCompany = idCompany;
@@ -28,6 +29,7 @@ public class Company {
         this.siret = siret;
         this.naf = naf;
         this.shareCapital = shareCapital;
+        this.saveDirectory = saveDirectory;
         // récupérer lastIdExercice dans la bd
         exercices = new HashMap<>();
         // remplir exercices avec les exercices existants de la bd
@@ -45,17 +47,23 @@ public class Company {
         return idCompany;
     }
 
-    public Map<String, String> getJournals() {
-        return this.journals;
+    public String getName() {
+        return this.name;
     }
 
-    
+    public Map<String, String> getJournals() {
+        return this.journals;
+    }    
 
     public Exercice getExercice(ExerciceId idExercice) {
         if(exercices.containsKey(idExercice)) {
             return exercices.get(idExercice);
         }        
         return null;
+    }
+
+    public String getSaveDirectory() {
+        return this.saveDirectory;
     }
 
     public ExerciceId getIdNewExercice() {        

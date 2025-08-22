@@ -1,5 +1,6 @@
 package org.or.orcompta.application;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,18 +18,23 @@ import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.Exercice;
 import org.or.orcompta.domain.ExerciceId;
+import org.or.orcompta.infra.CompanyRepositoryWithFileJson;
 
 public class CompanyServices {
 
     private FactoryCompanies companies;
+    private CompanyRepositoryWithFileJson repositoryJson;
     
-    public CompanyServices() {
+    public CompanyServices(File orcomptaConfigFile) {
         companies = new FactoryCompanies();
+        repositoryJson = new CompanyRepositoryWithFileJson(orcomptaConfigFile);
     }
 
-    public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital) {
+    public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {
         AddressCompany addressCompany = new AddressCompany(numero, address, address2, postalCode, city);
-        CompanyId idCompany = companies.addCompany(name, addressCompany, legalForm, siret, naf, shareCapital);        
+        CompanyId idCompany = companies.addCompany(name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);        
+        Company company = companies.getCompany(idCompany);
+        repositoryJson.saveCompany(company);
         return idCompany;
     }
 
@@ -186,7 +192,12 @@ public class CompanyServices {
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
         balance.computeBalance();
+        System.out.println("computeBalance => " + balance);
         return balance.getIdBalance();
+    }
+
+    public void editBalance(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
+        BalanceId idBalance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
     }
 
     public String toString() {

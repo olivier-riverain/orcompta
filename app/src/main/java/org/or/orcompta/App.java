@@ -3,6 +3,7 @@
  */
 package org.or.orcompta;
 
+import org.or.orcompta.domain.BalanceId;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.ExerciceId;
@@ -20,7 +21,7 @@ public class App extends Application{
     public void start(Stage stage) {
         Controller controller = new Controller(stage);
         controller.run();
-        CompanyId idCompany = controller.createNewCompany("entreprise Test", "10", "rue de la Liberte", "", "33000", "Bordeaux", "SARL", "39912704200014", "453A", 10000.0);
+        CompanyId idCompany = controller.createNewCompany("entreprise Test", "10", "rue de la Liberte", "", "33000", "Bordeaux", "SARL", "39912704200014", "453A", 10000.0, "");
         System.out.println("idCompany " + idCompany);
         controller.initForCompany();
         ExerciceId idExercice = controller.createNewExercice(idCompany, "1",  "1", "2024", "31", "12", "2024");
@@ -58,6 +59,8 @@ public class App extends Application{
         System.out.println("idLineEntry " + idLineEntry);
         idLineEntry = controller.createNewLineEntry("40100000", 0.0, 100.0);
         controller.saveNewEntry();
+
+        BalanceId idBalance = controller.computeBalance("1", "1", "2024", "31", "12", "2024");
 
         
 

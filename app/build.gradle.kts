@@ -25,6 +25,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    // json
+    implementation("org.json:json:20250517")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
