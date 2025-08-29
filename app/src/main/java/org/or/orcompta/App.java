@@ -3,6 +3,8 @@
  */
 package org.or.orcompta;
 
+import java.io.IOException;
+
 import org.or.orcompta.domain.BalanceId;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.EntryId;
@@ -20,10 +22,23 @@ public class App extends Application{
     @Override
     public void start(Stage stage) {
         Controller controller = new Controller(stage);
-        controller.run();
-        CompanyId idCompany = controller.createNewCompany("entreprise Test", "10", "rue de la Liberte", "", "33000", "Bordeaux", "SARL", "39912704200014", "453A", 10000.0, "");
+        controller.displayView();
+        /*CompanyId idCompany = new CompanyId();
+        try {
+            idCompany = controller.createNewCompany("entreprise Test", "10", "rue de la Liberte", "", "33000", "Bordeaux", "SARL", "39912704200014", "453A", 10000.0, "C:\\Users\\olivi\\orcompta-test\\test");
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
         System.out.println("idCompany " + idCompany);
-        controller.initForCompany();
+
+         try {
+            idCompany = controller.createNewCompany("entreprise Test2", "15", "rue des Etoiles", "", "33600", "Pessac", "EURL", "123456789", "400A", 20000.0, "C:\\Users\\olivi\\orcompta-test\\test");
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
+        System.out.println("idCompany " + idCompany);
+        */
+        /*controller.initForCompany();
         ExerciceId idExercice = controller.createNewExercice(idCompany, "1",  "1", "2024", "31", "12", "2024");
         System.out.println("idExercice " + idExercice);
         controller.initTabViewEntries();
@@ -61,7 +76,7 @@ public class App extends Application{
         controller.saveNewEntry();
 
         BalanceId idBalance = controller.computeBalance("1", "1", "2024", "31", "12", "2024");
-
+        */
         
 
     }

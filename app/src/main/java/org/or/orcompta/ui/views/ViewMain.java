@@ -105,6 +105,7 @@ public class ViewMain implements View{
         MenuItem createNewCompany = new MenuItem("Créer une nouvelle entreprise");
         createNewCompany.setOnAction(_ -> controller.displayCreateNewCompany());
         MenuItem openExercice = new MenuItem("Ouvrir dossier exercice");
+        openExercice.setOnAction(_ -> controller.displayOpenNewExercice());
         MenuItem saveExercice = new MenuItem("Exporter l'exercice");
         MenuItem importExercice = new MenuItem("Importer un exercice");
         MenuItem quitExercice = new MenuItem("Quitter");

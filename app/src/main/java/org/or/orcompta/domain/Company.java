@@ -51,6 +51,30 @@ public class Company {
         return this.name;
     }
 
+    public AddressCompany getAddress() {
+        return this.address;
+    }
+
+    public String getLegalForm() {
+        return this.legalForm;
+    }
+
+    public String getSiret() {
+        return this.siret;
+    }
+
+    public String getNaf() {
+        return this.naf;
+    }
+
+    public Double getShareCapital() {
+        return this.shareCapital;
+    }
+
+    public String getSaveDirectory() {
+        return this.saveDirectory;
+    }
+
     public Map<String, String> getJournals() {
         return this.journals;
     }    
@@ -62,9 +86,7 @@ public class Company {
         return null;
     }
 
-    public String getSaveDirectory() {
-        return this.saveDirectory;
-    }
+    
 
     public ExerciceId getIdNewExercice() {        
         return lastIdExercice.nextId();

@@ -1,12 +1,19 @@
 package org.or.orcompta.ui.controls;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
 
-
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.or.orcompta.application.CompanyServices;
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.BalanceId;
@@ -18,8 +25,10 @@ import org.or.orcompta.domain.LineEntry;
 import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.ui.models.Model;
 import org.or.orcompta.ui.views.View;
+import org.or.orcompta.ui.views.ViewCreateExercice;
 import org.or.orcompta.ui.views.ViewMain;
 import org.or.orcompta.ui.views.ViewNewCompany;
+import org.or.orcompta.ui.views.ViewOpenExercice;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -30,6 +39,8 @@ public class Controller {
 
     private ViewMain viewMain;
     private ViewNewCompany viewNewCompany;
+    private ViewOpenExercice viewOpenExercice;
+    private ViewCreateExercice viewCreatExercice;
     private CompanyServices companyServices;
     private Model model;
     
@@ -39,9 +50,12 @@ public class Controller {
         this.companyServices = new CompanyServices(this.model.getConfigFile());        
         this.viewMain = new ViewMain();
         this.viewNewCompany = new ViewNewCompany();
+        this.viewOpenExercice = new ViewOpenExercice();
+        this.viewCreatExercice = new ViewCreateExercice(viewOpenExercice);
         this.initView(stage, this.viewMain);
         this.initView(stage, this.viewNewCompany);
-        
+        this.initView(stage, this.viewOpenExercice);
+        this.initView(stage, this.viewCreatExercice);        
 
     }
 
@@ -49,12 +63,12 @@ public class Controller {
         view.initView(stage, this);
     }
 
-    public void run() {
-        viewMain.show();
+    public void displayView(View view) {
+        view.show();
     }
-
-    public void back() {
-        run();
+    
+    public void displayView() {
+       displayView(viewMain);
     }
 
     public void initForCompany() {
@@ -88,12 +102,71 @@ public class Controller {
         if(!orcomptaConfigFile.exists()) {
             try {
                 orcomptaConfigFile.createNewFile();
+                FileWriter file = new FileWriter(orcomptaConfigFile);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", "Fichier de configuration de ORCompta");
+                CompanyId lastIdCompany = new CompanyId();                
+                jsonObject.put("lastIdCompany", lastIdCompany.toString());
+                JSONArray companies = new JSONArray();
+                jsonObject.put("companies", companies);
+                file.write(jsonObject.toString());
+                file.close();
             } catch (IOException e) {            
                 e.printStackTrace();
             }
         }
         this.model.setConfigFile(orcomptaConfigFile);
-                
+        FileReader file;
+        try {
+            file = new FileReader(orcomptaConfigFile);
+            JSONObject configFile = new JSONObject(new JSONTokener(file));
+            String lastIdCompany = configFile.getString("lastIdCompany");
+            this.model.setLastIdCompany(lastIdCompany);         
+            JSONArray companies = configFile.getJSONArray("companies");
+            for(int i=0; i<companies.length(); i++) {
+                JSONObject company = companies.getJSONObject(i);
+                String idCompany = company.getString("idCompany");
+                String name = company.getString("name");
+                String saveDirectory = company.getString("saveDirectory");
+                ArrayList<String> parameters = new ArrayList<>();
+                parameters.add(name);
+                parameters.add(saveDirectory);
+                this.model.addItemInConfigFile(idCompany, parameters);                
+            }
+        } catch (FileNotFoundException e) {            
+            e.printStackTrace();
+        }
+    }
+
+    public void saveFileConfig(String idCompany, String name, String saveDirectory) throws IOException {
+        File orcomptaConfigFile = this.model.getConfigFile();
+        FileReader fileReader;
+        JSONObject configFile;
+        JSONArray companies;
+        FileWriter fileWriter;
+
+        try {
+            fileReader = new FileReader(orcomptaConfigFile);
+            configFile = new JSONObject(new JSONTokener(fileReader));
+            fileReader.close();                   
+            companies = configFile.getJSONArray("companies");
+            JSONObject newCompany = new JSONObject();
+            newCompany.put("idCompany", idCompany);
+            newCompany.put("name", name);
+            newCompany.put("saveDirectory", saveDirectory);
+            companies.put(newCompany);
+            configFile.remove("lastIdCompany");
+            configFile.put("lastIdCompany", idCompany);
+
+            fileWriter = new FileWriter(orcomptaConfigFile);
+            fileWriter.write(configFile.toString());
+            fileWriter.close();
+
+        } catch (FileNotFoundException e) {            
+            e.printStackTrace();
+        }
+        
+
     }
 
     public Vector<String> retrieveYears() {
@@ -109,9 +182,9 @@ public class Controller {
         return journals;
     }
 
-    public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {
-        CompanyId idCompany = companyServices.createNewCompany(name, numero, address, address2, postalCode, city, legalForm, siret, naf, shareCapital, saveDirectory);
-        model.setIdCompany(idCompany);
+    public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) throws IOException {
+        CompanyId idCompany = companyServices.createNewCompany(name, numero, address, address2, postalCode, city, legalForm, siret, naf, shareCapital, saveDirectory + File.separator);
+        saveFileConfig(idCompany.toString(), name, saveDirectory);
         return idCompany; 
     }
 
@@ -276,6 +349,29 @@ public class Controller {
     public void displayCreateNewCompany() {
         this.viewNewCompany.show();
     }
-    
+
+    public void displayOpenNewExercice() {
+        displayView(this.viewOpenExercice);
+    }
+
+    public void displayCreateExercice() {
+        displayView(viewCreatExercice);
+    }
+
+    public Map<String, String> getCompanies() {        
+        return this.model.getIdNameFromConfigFile();
+    }
+
+    public Map<String, String> getExercices(String idCompany) {
+        Map<String, String> exercicesList = new LinkedHashMap<>();
+        loadExercicesFromSaveConfig(idCompany);
+        return exercicesList;
+    }
+
+    private void loadExercicesFromSaveConfig(String idCompany) {
+        
+    }
+
+       
     
 }

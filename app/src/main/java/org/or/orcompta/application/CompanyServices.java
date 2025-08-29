@@ -13,6 +13,7 @@ import org.or.orcompta.domain.LineEntry;
 import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompanyId;
+import org.or.orcompta.domain.CompanyRepository;
 import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
@@ -23,18 +24,18 @@ import org.or.orcompta.infra.CompanyRepositoryWithFileJson;
 public class CompanyServices {
 
     private FactoryCompanies companies;
-    private CompanyRepositoryWithFileJson repositoryJson;
+    private CompanyRepository repository;
     
     public CompanyServices(File orcomptaConfigFile) {
         companies = new FactoryCompanies();
-        repositoryJson = new CompanyRepositoryWithFileJson(orcomptaConfigFile);
+        repository = new CompanyRepositoryWithFileJson(orcomptaConfigFile);
     }
 
     public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {
         AddressCompany addressCompany = new AddressCompany(numero, address, address2, postalCode, city);
         CompanyId idCompany = companies.addCompany(name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);        
         Company company = companies.getCompany(idCompany);
-        repositoryJson.saveCompany(company);
+        repository.saveCompany(company);
         return idCompany;
     }
 
@@ -203,6 +204,8 @@ public class CompanyServices {
     public String toString() {
         return "companies : " + companies;
     }
+
+   
 
     
 }

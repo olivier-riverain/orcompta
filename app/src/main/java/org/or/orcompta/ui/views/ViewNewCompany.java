@@ -1,6 +1,7 @@
 package org.or.orcompta.ui.views;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.or.orcompta.ui.controls.Controller;
 
@@ -128,13 +129,19 @@ public class ViewNewCompany implements View{
         buttonValid.setOnAction(_ -> valid());
         Button buttonCancel = new Button("Annuler");
         grid.add(buttonCancel, 1, 12);
-        buttonCancel.setOnAction(_ -> controller.run());
+        buttonCancel.setOnAction(_ -> controller.displayView());
         this.scene = new Scene(grid, width, height);
     }
 
     private void valid() {
-        controller.createNewCompany(name.getText(), numero.getText(), address.getText(), address2.getText(), postalCode.getText(), city.getText(), legalForm.getValue(), siret.getText(), naf.getText(), Double.parseDouble(shareCapital.getText()), saveDirectory.getText());
-        controller.run();
+        try {
+            controller.createNewCompany(name.getText(), numero.getText(), address.getText(), address2.getText(), postalCode.getText(), city.getText(), legalForm.getValue(), siret.getText(), naf.getText(), Double.parseDouble(shareCapital.getText()), saveDirectory.getText());
+        } catch (NumberFormatException e) {            
+            e.printStackTrace();
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
+        controller.displayView();
     }
 
 

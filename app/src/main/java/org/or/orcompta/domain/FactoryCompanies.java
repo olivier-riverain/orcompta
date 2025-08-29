@@ -1,6 +1,6 @@
 package org.or.orcompta.domain;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class FactoryCompanies {
@@ -8,13 +8,13 @@ public class FactoryCompanies {
     private CompanyId lastIdcompany = null;
 
     public FactoryCompanies() {
-        this.companies = new HashMap<>();
-        lastIdcompany = new CompanyId(-1);
+        this.companies = new LinkedHashMap<>();
+        lastIdcompany = new CompanyId();
     }
 
     public CompanyId addCompany(String name, AddressCompany addressCompany, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {        
         CompanyId idNewCompany = getNewIdCompany();
-        Company newCompany = new Company(idNewCompany,name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);       
+        Company newCompany = new Company(idNewCompany, name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);       
         companies.put(idNewCompany, newCompany);
         lastIdcompany = idNewCompany;
         System.out.println("addCompany " + newCompany);
@@ -34,5 +34,9 @@ public class FactoryCompanies {
             return companies.get(idCompany);
         }        
         return null;
+    }
+
+    public Map<CompanyId, Company> getCompanies() {
+        return companies;
     }
 }

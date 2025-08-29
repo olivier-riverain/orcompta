@@ -7,6 +7,10 @@ public class CompanyId {
         this.idCompany = idCompany;
     }
 
+    public CompanyId() {
+         this.idCompany = -1;
+    }
+
     public Integer getId() {
         return this.idCompany;
     }
