@@ -1,5 +1,8 @@
 package org.or.orcompta.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AddressCompany {
 
     private final String numero;
@@ -19,6 +22,16 @@ public class AddressCompany {
     @Override
     public String toString() {
         return numero + " " + address + " " + address2 + " " + postalCode + " " + city;
+    }
+
+    public Map<String, String> getAddressMap() {
+        Map<String, String> addressMap = new HashMap<>();
+        addressMap.put("numero", numero);
+        addressMap.put("address", address);
+        addressMap.put("address2", address2);
+        addressMap.put("postalCode", postalCode);
+        addressMap.put("city", city);
+        return addressMap;
     }
 
 }

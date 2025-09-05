@@ -28,6 +28,7 @@ import org.or.orcompta.ui.views.View;
 import org.or.orcompta.ui.views.ViewCreateExercice;
 import org.or.orcompta.ui.views.ViewMain;
 import org.or.orcompta.ui.views.ViewNewCompany;
+import org.or.orcompta.ui.views.ViewOpenCompany;
 import org.or.orcompta.ui.views.ViewOpenExercice;
 
 import javafx.scene.control.Alert;
@@ -39,6 +40,7 @@ public class Controller {
 
     private ViewMain viewMain;
     private ViewNewCompany viewNewCompany;
+    private ViewOpenCompany viewOpenCompany;
     private ViewOpenExercice viewOpenExercice;
     private ViewCreateExercice viewCreatExercice;
     private CompanyServices companyServices;
@@ -50,10 +52,12 @@ public class Controller {
         this.companyServices = new CompanyServices(this.model.getConfigFile());        
         this.viewMain = new ViewMain();
         this.viewNewCompany = new ViewNewCompany();
+        this.viewOpenCompany = new ViewOpenCompany();
         this.viewOpenExercice = new ViewOpenExercice();
         this.viewCreatExercice = new ViewCreateExercice(viewOpenExercice);
         this.initView(stage, this.viewMain);
         this.initView(stage, this.viewNewCompany);
+        this.initView(stage, viewOpenCompany);
         this.initView(stage, this.viewOpenExercice);
         this.initView(stage, this.viewCreatExercice);        
 
@@ -189,6 +193,7 @@ public class Controller {
     }
 
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm,  String beginyy, String endjj, String endmm, String endyy) {
+        System.out.println("controller createNewExercice idCompany = " + idCompany);
         ExerciceId idExercice = companyServices.createNewExercice(idCompany, beginjj, beginmm, beginyy, endjj, endmm, endyy);        
         model.setIdExercice(idExercice);
         return idExercice;
@@ -350,17 +355,26 @@ public class Controller {
         this.viewNewCompany.show();
     }
 
+    public void displayOpenCompany() {
+        this.viewOpenCompany.show();
+    }
+    
     public void displayOpenNewExercice() {
         displayView(this.viewOpenExercice);
     }
 
-    public void displayCreateExercice() {
+    public void displayCreateExercice(String idCompany, String company) {
+        this.model.setIdCompanyViewCreateExercice(idCompany, company);
         displayView(viewCreatExercice);
     }
 
-    public Map<String, String> getCompanies() {        
-        return this.model.getIdNameFromConfigFile();
+    public Map<String, ArrayList<String>> getCompanies() {        
+        return this.model.getCompaniesFromConfigFile();
     }
+
+    public ArrayList<String> getCompany(String idCompany) {        
+        return this.model.getCompanyFromConfigFile(new CompanyId(idCompany));
+    }    
 
     public Map<String, String> getExercices(String idCompany) {
         Map<String, String> exercicesList = new LinkedHashMap<>();
@@ -370,6 +384,14 @@ public class Controller {
 
     private void loadExercicesFromSaveConfig(String idCompany) {
         
+    }
+
+    public ArrayList<String> getIdCompanyViewCreateExercice() {
+        return this.model.getIdCompanyViewCreateExercice();
+    }
+
+    public void loadCompany(String idCompany) {
+        companyServices.loadCompany(idCompany);
     }
 
        

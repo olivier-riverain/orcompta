@@ -1,6 +1,9 @@
 package org.or.orcompta.ui.views;
 
 
+import java.util.ArrayList;
+
+import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.ui.controls.Controller;
 
 import javafx.scene.Scene;
@@ -23,7 +26,9 @@ public class ViewCreateExercice implements View{
 
     private int width = 700;
     private int height = 500;
+    private ArrayList<String> idCompany;
 
+    private Label labelCompany;
     private TextField fromjj;
     private TextField frommm;
     private TextField fromaa;
@@ -42,18 +47,23 @@ public class ViewCreateExercice implements View{
     }
     
     public void show() {
+        idCompany = this.controller.getIdCompanyViewCreateExercice();
+        labelCompany.setText("Entreprise: " + idCompany.get(1));
         this.stage.setScene(this.scene);
         this.stage.setTitle("Créer un nouvel exercice.");        
         this.stage.show();
     }
     
     public void createView() {
-        VBox vbox1 = new VBox(10);       
+        VBox vbox1 = new VBox(10);              
         Label labelTitre = new Label("Entrez les informations relatives à l'exercice.");       
         Font font = Font.font(labelTitre.getFont().getName(), FontWeight.BOLD, 20.0);
         labelTitre.setFont(font);
         HBox hbox0 = new HBox();
         hbox0.getChildren().add(labelTitre);        
+        labelCompany = new Label();
+        HBox hbox00 = new HBox();
+        hbox00.getChildren().add(labelCompany);      
         HBox hbox1 = new HBox(5);
         Label labelFromjj = new Label("DU jj ");
         fromjj = new TextField();
@@ -80,12 +90,13 @@ public class ViewCreateExercice implements View{
         Button buttonCancel = new Button("Annuler");        
         buttonCancel.setOnAction(_ -> controller.displayView(viewOpenExercice));
         hboxButton.getChildren().addAll(buttonValid, buttonCancel);
-        vbox1.getChildren().addAll(hbox0, hbox1, hbox2, hbox3, hboxButton);
+        vbox1.getChildren().addAll(hbox0, hbox00, hbox1, hbox2, hbox3, hboxButton);
         this.scene = new Scene(vbox1, width, height);
     }
 
     private void valid() {
-        
+        System.err.println("viewCreateExercice valid idCompany.get(0) = " + idCompany.get(0));
+        controller.createNewExercice(new CompanyId(Integer.parseInt(idCompany.get(0))), fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(), tomm.getText(), toaa.getText());
         controller.displayView(viewOpenExercice);
     }
 

@@ -21,11 +21,13 @@ public class Model {
     private File companySaveDirectory;
     private Map<String, ArrayList<String>> configFile;
     private CompanyId lastIdCompany;
+    private ArrayList<String> idCompanyViewCreateExercice;
 
     public Model() {
         this.idCompany = new CompanyId(0);
         this.idExercice = new ExerciceId(0);
         this.configFile = new LinkedHashMap<>();
+        this.idCompanyViewCreateExercice = new ArrayList<String>();
     }
 
     public CompanyId getIdCompany() {
@@ -88,12 +90,20 @@ public class Model {
         configFile.put(id, parameters);
     }
 
-    public Map<String, String> getIdNameFromConfigFile() {
-        Map<String, String> idName = new LinkedHashMap<>();
+    public Map<String, ArrayList<String>> getCompaniesFromConfigFile() {
+        return configFile;
+    }       
+
+    public ArrayList<String> getCompanyFromConfigFile(CompanyId idCompany) {
+        ArrayList<String> parameters = new ArrayList<>();
         for(Map.Entry<String, ArrayList<String>> item: configFile.entrySet()) {           
-            idName.put(item.getKey(), item.getValue().get(0));
+            if(item.getKey().equals(idCompany.toString())) {
+                parameters.add(item.getKey());
+                parameters.add(item.getValue().get(0));
+                parameters.add(item.getValue().get(1));
+            }
         }
-        return idName;
+        return parameters;
     }
 
     public CompanyId getLastIdCompany() {
@@ -106,6 +116,16 @@ public class Model {
 
     public void setLastIdCompany(CompanyId lastIdCompany) {
         this.lastIdCompany = lastIdCompany;
+    }
+
+    public void setIdCompanyViewCreateExercice(String idCompany, String company) {
+        this.idCompanyViewCreateExercice.clear();
+        this.idCompanyViewCreateExercice.add(0, idCompany);
+        this.idCompanyViewCreateExercice.add(1, company);
+    }
+
+    public ArrayList<String> getIdCompanyViewCreateExercice() {
+        return this.idCompanyViewCreateExercice;
     }
 
 

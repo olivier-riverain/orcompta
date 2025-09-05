@@ -21,6 +21,10 @@ public class FactoryCompanies {
         return idNewCompany;
     }
 
+    public void addCompany(Company company) {
+        companies.put(company.getIdCompany(), company);
+    }
+
     public CompanyId getLastCompanyId() {
         return lastIdcompany;
     }
@@ -39,4 +43,6 @@ public class FactoryCompanies {
     public Map<CompanyId, Company> getCompanies() {
         return companies;
     }
+
+    
 }

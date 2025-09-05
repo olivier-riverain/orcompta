@@ -1,11 +1,12 @@
 package org.or.orcompta.infra;
 
 import org.or.orcompta.domain.Company;
+import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.CompanyRepository;
 
 public class CompanyRepositoryWithFileXml implements CompanyRepository{
 
-    public Company findCompanyById(Integer idCompany) {
+    public Company findCompanyById(CompanyId idCompany) {
         return null;
     }
 
@@ -16,5 +17,9 @@ public class CompanyRepositoryWithFileXml implements CompanyRepository{
     public void updateCompany(Company company) {
 
     }
+
+    
+    
+    
     
 }

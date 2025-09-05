@@ -104,12 +104,14 @@ public class ViewMain implements View{
         Menu menuFile = new Menu("Fichier");
         MenuItem createNewCompany = new MenuItem("Créer une nouvelle entreprise");
         createNewCompany.setOnAction(_ -> controller.displayCreateNewCompany());
-        MenuItem openExercice = new MenuItem("Ouvrir dossier exercice");
+        MenuItem openCompany = new MenuItem("Ouvrir une entreprise");
+        openCompany.setOnAction(_ -> controller.displayOpenCompany());
+        MenuItem openExercice = new MenuItem("Ouvrir/ créer un exercice");
         openExercice.setOnAction(_ -> controller.displayOpenNewExercice());
         MenuItem saveExercice = new MenuItem("Exporter l'exercice");
         MenuItem importExercice = new MenuItem("Importer un exercice");
         MenuItem quitExercice = new MenuItem("Quitter");
-        menuFile.getItems().addAll(createNewCompany, openExercice, saveExercice, importExercice, quitExercice);
+        menuFile.getItems().addAll(createNewCompany, openCompany, openExercice, saveExercice, importExercice, quitExercice);
         Menu menuTraitement = new Menu("Traitement");
         MenuItem closeExercice = new MenuItem("Clôturer cet exercice");
         MenuItem checkExercice = new MenuItem("Vérifier l'équilibre");

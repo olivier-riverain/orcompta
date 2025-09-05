@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class ViewOpenExercice implements View{
+public class ViewOpenCompany implements View{
 
     private Stage stage;
     private Scene scene;
@@ -24,8 +24,7 @@ public class ViewOpenExercice implements View{
     private int width = 700;
     private int height = 500;
 
-    private ComboBox<String> companies;
-    private ComboBox<String> exercices;
+    private ComboBox<String> companies;   
 
     private Map<String, ArrayList<String>> companyList;
 
@@ -37,7 +36,7 @@ public class ViewOpenExercice implements View{
     
     public void show() {
         this.stage.setScene(this.scene);
-        this.stage.setTitle("Créer/ouvrir un nouvel exercice.");        
+        this.stage.setTitle("Ouvrir une entreprise.");        
         this.stage.show();
     }
     
@@ -51,55 +50,31 @@ public class ViewOpenExercice implements View{
         grid.add(labelName, 0, 1);
         companies = new ComboBox<>();
         initCompanies();
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {                   
-                    initExercices();
-                }
-        };
-        companies.setOnAction(event);
         grid.add(companies, 1, 1);
-        Label labelExercice = new Label("Exercice");
-        grid.add(labelExercice, 0, 2);
-        exercices = new ComboBox<>();        
-        grid.add(exercices, 1, 2);
-        Button buttonCreateExercice = new Button("Créer un exercice");
-        grid.add(buttonCreateExercice, 3, 2);
-        buttonCreateExercice.setOnAction(_ -> displayCreateExercice());
         Button buttonValid = new Button("Valider");
-        grid.add(buttonValid, 0, 12);
+        grid.add(buttonValid, 0, 3);
         buttonValid.setOnAction(_ -> valid());
         Button buttonCancel = new Button("Annuler");
-        grid.add(buttonCancel, 1, 12);
+        grid.add(buttonCancel, 1, 3);
         buttonCancel.setOnAction(_ -> controller.displayView());
         this.scene = new Scene(grid, width, height);
     }
 
-    private void displayCreateExercice() {
-        String [] companySelected = companies.getValue().split("-");
-        String idCompany = companySelected[0];
-        String company = companySelected[1];
-        controller.displayCreateExercice(idCompany, company);
-    }
+    
 
-    private void valid() {
-        
+    private void valid() {        
+        String company = companies.getValue();
+        String[] tab = company.split("-");
+        String idCompany = tab[0];
+        controller.loadCompany(idCompany);
         controller.displayView();
     }
 
     private void initCompanies() {
         companyList = controller.getCompanies();
         for(Map.Entry<String, ArrayList<String>> companyItem : companyList.entrySet()) {
-            companies.getItems().add(companyItem.getKey() + "-" + companyItem.getValue().get(1));            
+            companies.getItems().add(companyItem.getKey() + "-" + companyItem.getValue().get(0));            
         }        
     }
 
-    private void initExercices() {
-        String company = companies.getValue();
-        String[] tab = company.split("-");
-        Map<String, String> exercicesList = this.controller.getExercices(tab[0]);
-        for(Map.Entry<String, String> exerciceItem : exercicesList.entrySet()) {
-            exercices.getItems().add(exerciceItem.getKey() + "-" + exerciceItem.getValue());            
-        } 
-    }
-    
 }

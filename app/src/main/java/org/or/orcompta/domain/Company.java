@@ -98,11 +98,17 @@ public class Company {
         this.lastIdExercice = this.newIdExercice;
     }
 
+    public Map<String, String> getAddressMap() {
+        Map<String, String> addressMap = address.getAddressMap();        
+        return addressMap;
+    }
     
     @Override
     public String toString() {
         return idCompany + " " + name + " " + address + " " + legalForm + " " + siret + " " + naf + " " + shareCapital + " euros" + "\n" + exercices;
     }
+
+    
 
 
 

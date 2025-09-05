@@ -11,6 +11,10 @@ public class CompanyId {
          this.idCompany = -1;
     }
 
+    public CompanyId(String idCompany) {
+         this.idCompany = Integer.parseInt(idCompany);
+    }
+
     public Integer getId() {
         return this.idCompany;
     }

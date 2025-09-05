@@ -40,6 +40,7 @@ public class CompanyServices {
     }
 
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        System.out.println("CompanyServices createNewExercice idCompany = " + idCompany);
         Company company = companies.getCompany(idCompany);
         ExerciceId idExercice = company.getIdNewExercice();
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
@@ -203,6 +204,11 @@ public class CompanyServices {
 
     public String toString() {
         return "companies : " + companies;
+    }
+
+    public void loadCompany(String idCompany) {
+        Company company = repository.findCompanyById(new CompanyId(idCompany));
+        companies.addCompany(company);
     }
 
    
