@@ -45,8 +45,10 @@ public class Controller {
     private ViewCreateExercice viewCreatExercice;
     private CompanyServices companyServices;
     private Model model;
+    private Stage stage;
     
     public Controller(Stage stage) {
+        this.stage = stage;
         this.model = new Model();
         loadFileConfig();
         this.companyServices = new CompanyServices(this.model.getConfigFile());        
@@ -390,9 +392,21 @@ public class Controller {
         return this.model.getIdCompanyViewCreateExercice();
     }
 
-    public void loadCompany(String idCompany) {
+    public void loadCompany(String idCompany, String nameCompany) {
         companyServices.loadCompany(idCompany);
+        this.model.setIdCompany(idCompany);
+        setTitle(idCompany + " - " + nameCompany);
     }
+
+    private void setTitle(String title) {
+        this.model.setTitleNameCompany(title);
+    }
+
+    public String getNameCompany() {
+        return this.model.getTitleNameCompany();
+    }
+
+    
 
        
     

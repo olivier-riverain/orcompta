@@ -7,6 +7,10 @@ public class ExerciceId {
         this.idExercice = idExercice;
     }
 
+    public ExerciceId() {
+        this.idExercice = -1;
+    }
+
     public Integer getId() {
         return this.idExercice;
     }    

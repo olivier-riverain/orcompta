@@ -66,7 +66,8 @@ public class ViewOpenCompany implements View{
         String company = companies.getValue();
         String[] tab = company.split("-");
         String idCompany = tab[0];
-        controller.loadCompany(idCompany);
+        String nameCompany = tab[1];
+        controller.loadCompany(idCompany, nameCompany);
         controller.displayView();
     }
 

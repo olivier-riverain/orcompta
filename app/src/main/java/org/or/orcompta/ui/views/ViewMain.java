@@ -94,7 +94,7 @@ public class ViewMain implements View{
     @Override
     public void show() {
         this.stage.setScene(this.scene);
-        this.stage.setTitle("ORCOMPTA");        
+        this.stage.setTitle("ORCOMPTA " + this.controller.getNameCompany());        
         this.stage.show();
     }
 
