@@ -22,7 +22,8 @@ public class Model {
     private Map<String, ArrayList<String>> configFile;
     private CompanyId lastIdCompany;
     private ArrayList<String> idCompanyViewCreateExercice;
-    private String titleNameCompany;   
+    private String titleNameCompany;
+    private ExerciceId idCreateExercice;   
 
     public Model() {
         this.idCompany = new CompanyId();
@@ -30,6 +31,7 @@ public class Model {
         this.configFile = new LinkedHashMap<>();
         this.idCompanyViewCreateExercice = new ArrayList<String>();
         this.titleNameCompany = new String("");
+        this.idCreateExercice = new ExerciceId();
     }
 
     public CompanyId getIdCompany() {
@@ -136,6 +138,14 @@ public class Model {
 
     public String getTitleNameCompany() {
         return titleNameCompany;
+    }
+
+    public void setIdCreateExercice(ExerciceId idExercice) {
+        this.idCreateExercice = idExercice;
+    }
+
+    public ExerciceId getIdCreateExercice() {
+        return this.idCreateExercice;
     }
 
     

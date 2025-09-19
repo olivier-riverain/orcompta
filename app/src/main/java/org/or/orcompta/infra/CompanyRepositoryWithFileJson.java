@@ -17,10 +17,12 @@ import org.or.orcompta.domain.AddressCompany;
 import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.CompanyRepository;
+import org.or.orcompta.domain.Exercice;
 
 
 public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     private final File orcomptaConfigFile;
+    private Company company;
 
     public CompanyRepositoryWithFileJson(File orcomptaConfigFile) {
         this.orcomptaConfigFile = orcomptaConfigFile;
@@ -28,7 +30,15 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     
     public Company findCompanyById(CompanyId idCompany) {        
         Map<String, String> companyParameters = loadFileCompany(idCompany);
-        Company company = new Company(idCompany, companyParameters.get("name"), new AddressCompany(companyParameters.get("numero"), companyParameters.get("address"), companyParameters.get("address2"), companyParameters.get("postalCode"), companyParameters.get("city")), companyParameters.get("legalForm"), companyParameters.get("siret"), companyParameters.get("naf"), Double.parseDouble(companyParameters.get("shareCapital")), companyParameters.get("saveDirectory"));
+        this.company = new Company(idCompany, companyParameters.get("name"), new AddressCompany(companyParameters.get("numero"), companyParameters.get("address"), companyParameters.get("address2"), companyParameters.get("postalCode"), companyParameters.get("city")), companyParameters.get("legalForm"), companyParameters.get("siret"), companyParameters.get("naf"), Double.parseDouble(companyParameters.get("shareCapital")), companyParameters.get("saveDirectory"));
+        company.setLastIdExercice(companyParameters.get("lastIdExercice"));
+        System.out.println("findCompanyById = " + company);
+        for(Map.Entry<String, String> exerciceItem : companyParameters.entrySet()) {
+            if(exerciceItem.getKey().contains("exercice_")) {
+                String tab[] = exerciceItem.getValue().split("_");
+                company.addExerciceInList(tab[1], exerciceItem.getValue()); 
+            }                                
+        }
         return company;
     }
 
@@ -52,6 +62,8 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         jsonObject.put("shareCapital", company.getShareCapital().toString());
         jsonObject.put("saveDirectory", company.getSaveDirectory());
         JSONArray exercices = new JSONArray();
+        exercices.put("-1");
+        exercices.put("0");
         jsonObject.put("exercices", exercices);
         name = name.replace(' ', '-');
         File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + ".json");
@@ -77,6 +89,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             file = new FileReader(fileCompany);
             JSONObject jsonObjectcompany = new JSONObject(new JSONTokener(file));
             JSONArray addressList = jsonObjectcompany.getJSONArray("address");
+            JSONArray exercices = jsonObjectcompany.getJSONArray("exercices");
             company.put("idCompany", jsonObjectcompany.getString("idCompany"));
             company.put("name", jsonObjectcompany.getString("name"));
             company.put("numero", addressList.get(0).toString());
@@ -89,6 +102,11 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             company.put("naf", jsonObjectcompany.getString("naf"));
             company.put("shareCapital", jsonObjectcompany.getString("shareCapital"));
             company.put("saveDirectory", jsonObjectcompany.getString("saveDirectory"));
+            company.put("lastIdExercice", exercices.get(0).toString());
+            company.put("nbExercice", exercices.get(1).toString());
+            for(int i=2; i<exercices.length(); i=i+2) {
+                company.put("exercice_" + exercices.get(i).toString(), exercices.get(i+1).toString());
+            }
         
         } catch (FileNotFoundException e) {            
             e.printStackTrace();
@@ -121,6 +139,41 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
 
     public void updateCompany(Company company) {
 
+    }
+
+    public void saveExercice(Exercice newExercice) {
+        String name = company.getName();
+        String idCompany = company.getIdCompany().toString();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("idCompany", idCompany);
+        jsonObject.put("name", name);
+        Map<String, String> addressMap = company.getAddressMap();
+        JSONArray address = new JSONArray();
+        address.put(addressMap.get("numero"));
+        address.put(addressMap.get("address"));
+        address.put(addressMap.get("address2"));
+        address.put(addressMap.get("postalCode"));
+        address.put(addressMap.get("city"));        
+        jsonObject.put("address", address);
+        jsonObject.put("legalForm", company.getLegalForm());
+        jsonObject.put("siret", company.getSiret());
+        jsonObject.put("naf", company.getNaf());
+        jsonObject.put("shareCapital", company.getShareCapital().toString());
+        jsonObject.put("saveDirectory", company.getSaveDirectory());
+        JSONArray exercices = new JSONArray();
+        exercices.put("-1");
+        exercices.put("0");
+        jsonObject.put("exercices", exercices);
+        name = name.replace(' ', '-');
+        File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + "-" + newExercice.getIdExercice().toString() + ".json");
+        try {
+            fileName.createNewFile();
+            FileWriter file = new FileWriter(fileName);
+            file.write(jsonObject.toString());        
+            file.close();
+        } catch (IOException e) {         
+         e.printStackTrace();
+      }
     }
 
 }

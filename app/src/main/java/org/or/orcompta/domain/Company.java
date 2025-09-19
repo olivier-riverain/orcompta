@@ -18,6 +18,7 @@ public class Company {
 
     private Map<ExerciceId, Exercice> exercices;
     private Map<String, String> journals;
+    private Map<String, String> listOfExercices;
 
     public Company(CompanyId idCompany, String name, AddressCompany address, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {
         this.lastIdExercice = new ExerciceId(-1);
@@ -29,10 +30,9 @@ public class Company {
         this.siret = siret;
         this.naf = naf;
         this.shareCapital = shareCapital;
-        this.saveDirectory = saveDirectory;
-        // récupérer lastIdExercice dans la bd
+        this.saveDirectory = saveDirectory;        
         exercices = new HashMap<>();
-        // remplir exercices avec les exercices existants de la bd
+        listOfExercices = new LinkedHashMap<>();
         journals = new LinkedHashMap<>();
         journals.put("AC", "Achats");
         journals.put("AN", "A nouveau");
@@ -84,9 +84,7 @@ public class Company {
             return exercices.get(idExercice);
         }        
         return null;
-    }
-
-    
+    }    
 
     public ExerciceId getIdNewExercice() {        
         return lastIdExercice.nextId();
@@ -96,17 +94,32 @@ public class Company {
         this.newIdExercice = newExercice.getIdExercice();
         exercices.put(this.newIdExercice, newExercice);
         this.lastIdExercice = this.newIdExercice;
+        listOfExercices.put(newExercice.getIdExercice().toString(), " du " + newExercice.getBeginDate().toString() + " au " + newExercice.getEndDate().toString());
     }
 
     public Map<String, String> getAddressMap() {
         Map<String, String> addressMap = address.getAddressMap();        
         return addressMap;
     }
+
+    public void setLastIdExercice(String lastIdExercice) {
+        this.lastIdExercice = new ExerciceId(lastIdExercice);
+    }
+
+    public void addExerciceInList(String idExercice, String nameExercice) {
+        listOfExercices.put(idExercice, nameExercice);
+    }
+
+    public Map<String, String> getListOfExercices() {
+        return listOfExercices;
+    }
     
     @Override
     public String toString() {
-        return idCompany + " " + name + " " + address + " " + legalForm + " " + siret + " " + naf + " " + shareCapital + " euros" + "\n" + exercices;
+        return idCompany + " " + name + " " + address + " " + legalForm + " " + siret + " " + naf + " " + shareCapital + " euros " + lastIdExercice + "\n" + exercices;
     }
+
+    
 
     
 

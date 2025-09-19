@@ -197,7 +197,7 @@ public class Controller {
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm,  String beginyy, String endjj, String endmm, String endyy) {
         System.out.println("controller createNewExercice idCompany = " + idCompany);
         ExerciceId idExercice = companyServices.createNewExercice(idCompany, beginjj, beginmm, beginyy, endjj, endmm, endyy);        
-        model.setIdExercice(idExercice);
+        model.setIdCreateExercice(idExercice);
         return idExercice;
     }
     
@@ -379,14 +379,11 @@ public class Controller {
     }    
 
     public Map<String, String> getExercices(String idCompany) {
-        Map<String, String> exercicesList = new LinkedHashMap<>();
-        loadExercicesFromSaveConfig(idCompany);
+        Map<String, String> exercicesList = companyServices.loadListExercicesFromCompany(idCompany);       
         return exercicesList;
     }
 
-    private void loadExercicesFromSaveConfig(String idCompany) {
-        
-    }
+    
 
     public ArrayList<String> getIdCompanyViewCreateExercice() {
         return this.model.getIdCompanyViewCreateExercice();

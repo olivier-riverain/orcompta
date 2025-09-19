@@ -23,7 +23,16 @@ public class CompanyId {
         return getId() + 1;
     }
 
+    @Override
     public String toString() {
         return "" + this.idCompany;
+    }
+
+    @Override
+    public boolean equals(Object o) {        
+        if(o == this) return true;
+        if(!(o instanceof CompanyId)) return false;
+        CompanyId id = (CompanyId) o;        
+        return Integer.compare(idCompany, id.idCompany) == 0;
     }
 }

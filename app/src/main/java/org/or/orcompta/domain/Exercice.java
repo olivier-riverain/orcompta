@@ -45,6 +45,10 @@ public class Exercice {
         return beginDate;
     }
 
+    public DateEntry getEndDate() {
+        return endDate;
+    }
+
     public EntryId getLastIdEntry() {
         return lastIdEntry;
     }

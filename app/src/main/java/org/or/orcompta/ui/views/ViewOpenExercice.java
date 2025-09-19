@@ -74,7 +74,7 @@ public class ViewOpenExercice implements View{
     }
 
     private void displayCreateExercice() {
-        String [] companySelected = companyOpened.getText().split("-");
+        String [] companySelected = companyOpened.getText().split(" - ");
         String idCompany = companySelected[0];
         String company = companySelected[1];
         controller.displayCreateExercice(idCompany, company);
@@ -98,7 +98,7 @@ public class ViewOpenExercice implements View{
 
     private void initExercices() {        
         exercices.getItems().clear();
-        String[] tab = companyOpened.getText().split("-");
+        String[] tab = companyOpened.getText().split(" - ");
         Map<String, String> exercicesList = this.controller.getExercices(tab[0]);
         if(exercicesList.size() > 0) {
             for(Map.Entry<String, String> exerciceItem : exercicesList.entrySet()) {

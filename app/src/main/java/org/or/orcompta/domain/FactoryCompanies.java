@@ -33,10 +33,10 @@ public class FactoryCompanies {
         return new CompanyId(this.lastIdcompany.nextId());    
     }
 
-    public Company getCompany(CompanyId idCompany) {
-        if(companies.containsKey(idCompany)) {
-            return companies.get(idCompany);
-        }        
+    public Company getCompany(CompanyId idCompany) {        
+        for(Map.Entry<CompanyId, Company> companyItem : companies.entrySet()) {
+            if(companyItem.getKey().equals(idCompany)) return companyItem.getValue(); 
+        }
         return null;
     }
 

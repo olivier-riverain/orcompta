@@ -95,7 +95,7 @@ public class ViewCreateExercice implements View{
     }
 
     private void valid() {
-        System.err.println("viewCreateExercice valid idCompany.get(0) = " + idCompany.get(0));
+        System.out.println("viewCreateExercice valid idCompany.get(0) = " + idCompany.get(0));
         controller.createNewExercice(new CompanyId(Integer.parseInt(idCompany.get(0))), fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(), tomm.getText(), toaa.getText());
         controller.displayView(viewOpenExercice);
     }

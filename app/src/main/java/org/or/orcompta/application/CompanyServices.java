@@ -1,6 +1,7 @@
 package org.or.orcompta.application;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class CompanyServices {
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         Exercice newExercice = new Exercice(idExercice, dateBegin, dateEnd);
         company.addExercice(newExercice);
-        // mettre à jour la bd
+        repository.saveExercice(newExercice);
         System.out.println("createNewExercice " + newExercice);
         return idExercice;
     }
@@ -208,9 +209,21 @@ public class CompanyServices {
 
     public void loadCompany(String idCompany) {
         Company company = repository.findCompanyById(new CompanyId(idCompany));
+        System.out.println("CompanyServices loadCompany company = " + company);
         companies.addCompany(company);
+        System.out.println("CompanyServices companies = " + companies.getCompanies());
     }
 
+    public Map<String, String> loadListExercicesFromCompany(String id) {        
+        CompanyId idCompany = new CompanyId(id);
+        System.out.println("CompanyServices loadListExercicesFromCompany idCompany = " + idCompany);
+        Company company = companies.getCompany(idCompany);
+        System.out.println("CompanyServices loadListExercicesFromCompany company = " + company);
+        Map<String, String> listExercices = company.getListOfExercices();
+        return listExercices;
+    }
+
+    
    
 
     
