@@ -94,7 +94,7 @@ public class Company {
         this.newIdExercice = newExercice.getIdExercice();
         exercices.put(this.newIdExercice, newExercice);
         this.lastIdExercice = this.newIdExercice;
-        listOfExercices.put(newExercice.getIdExercice().toString(), " du " + newExercice.getBeginDate().toString() + " au " + newExercice.getEndDate().toString());
+        listOfExercices.put(newExercice.getIdExercice().toString(), "du " + newExercice.getBeginDate().toString() + " au " + newExercice.getEndDate().toString());
     }
 
     public Map<String, String> getAddressMap() {
@@ -106,12 +106,20 @@ public class Company {
         this.lastIdExercice = new ExerciceId(lastIdExercice);
     }
 
+    public ExerciceId getLastIdExercice() {
+        return this.lastIdExercice;
+    }
+
     public void addExerciceInList(String idExercice, String nameExercice) {
         listOfExercices.put(idExercice, nameExercice);
     }
 
     public Map<String, String> getListOfExercices() {
         return listOfExercices;
+    }
+
+    public Integer getNbExercices() {
+        return listOfExercices.size();
     }
     
     @Override

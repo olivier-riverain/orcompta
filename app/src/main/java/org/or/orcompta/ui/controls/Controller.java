@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -87,6 +86,10 @@ public class Controller {
 
     public ExerciceId getIdExercice() {
         return this.model.getIdExercice();
+    }
+
+    public void setIdExercice(String idExercice) {
+        this.model.setIdExercice(new ExerciceId(idExercice));
     }
 
     public EntryId getIdEntry() {
@@ -342,7 +345,6 @@ public class Controller {
     public String getVoucherEntry(EntryId idEntry) {
         return companyServices.getVoucherEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
     }
-
         
     public BalanceId computeBalance(String beginjj, String beginmm, String beginyy, String endjj, String endmm, String endyy) {
         BalanceId idBalance = companyServices.computeBalance(this.model.getIdCompany(), this.model.getIdExercice(), beginjj, beginmm, beginyy, endjj, endmm, endyy);
@@ -381,9 +383,7 @@ public class Controller {
     public Map<String, String> getExercices(String idCompany) {
         Map<String, String> exercicesList = companyServices.loadListExercicesFromCompany(idCompany);       
         return exercicesList;
-    }
-
-    
+    }    
 
     public ArrayList<String> getIdCompanyViewCreateExercice() {
         return this.model.getIdCompanyViewCreateExercice();
@@ -403,7 +403,7 @@ public class Controller {
         return this.model.getTitleNameCompany();
     }
 
-    
+        
 
        
     

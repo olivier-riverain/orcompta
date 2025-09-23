@@ -1,7 +1,6 @@
 package org.or.orcompta.application;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -201,12 +200,10 @@ public class CompanyServices {
 
     public void editBalance(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
         BalanceId idBalance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
+        System.out.println("idBalance = " + idBalance);
     }
 
-    public String toString() {
-        return "companies : " + companies;
-    }
-
+    
     public void loadCompany(String idCompany) {
         Company company = repository.findCompanyById(new CompanyId(idCompany));
         System.out.println("CompanyServices loadCompany company = " + company);
@@ -221,6 +218,11 @@ public class CompanyServices {
         System.out.println("CompanyServices loadListExercicesFromCompany company = " + company);
         Map<String, String> listExercices = company.getListOfExercices();
         return listExercices;
+    }
+
+    @Override
+    public String toString() {
+        return "companies : " + companies;
     }
 
     

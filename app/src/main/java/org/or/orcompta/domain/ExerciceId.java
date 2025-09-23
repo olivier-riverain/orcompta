@@ -11,8 +11,8 @@ public class ExerciceId {
         this.idExercice = -1;
     }
 
-    public ExerciceId(String lastIdExercice) {
-        this.idExercice = Integer.parseInt(lastIdExercice);           
+    public ExerciceId(String idExercice) {
+        this.idExercice = Integer.parseInt(idExercice);           
     }
 
     public Integer getId() {

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.or.orcompta.ui.controls.Controller;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -58,9 +55,7 @@ public class ViewOpenCompany implements View{
         grid.add(buttonCancel, 1, 3);
         buttonCancel.setOnAction(_ -> controller.displayView());
         this.scene = new Scene(grid, width, height);
-    }
-
-    
+    }    
 
     private void valid() {        
         String company = companies.getValue();

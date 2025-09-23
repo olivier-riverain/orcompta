@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -35,7 +34,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         System.out.println("findCompanyById = " + company);
         for(Map.Entry<String, String> exerciceItem : companyParameters.entrySet()) {
             if(exerciceItem.getKey().contains("exercice_")) {
-                String tab[] = exerciceItem.getValue().split("_");
+                String tab[] = exerciceItem.getKey().split("_");                
                 company.addExerciceInList(tab[1], exerciceItem.getValue()); 
             }                                
         }
@@ -62,8 +61,13 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         jsonObject.put("shareCapital", company.getShareCapital().toString());
         jsonObject.put("saveDirectory", company.getSaveDirectory());
         JSONArray exercices = new JSONArray();
-        exercices.put("-1");
-        exercices.put("0");
+        exercices.put(company.getLastIdExercice().toString());
+        exercices.put(company.getNbExercices().toString());
+        Map<String, String> listOfExercices = company.getListOfExercices();
+        for(Map.Entry<String, String> exercice : listOfExercices.entrySet()) {
+            exercices.put("exercice_" + exercice.getKey());
+            exercices.put(exercice.getValue());
+        }
         jsonObject.put("exercices", exercices);
         name = name.replace(' ', '-');
         File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + ".json");
@@ -105,7 +109,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             company.put("lastIdExercice", exercices.get(0).toString());
             company.put("nbExercice", exercices.get(1).toString());
             for(int i=2; i<exercices.length(); i=i+2) {
-                company.put("exercice_" + exercices.get(i).toString(), exercices.get(i+1).toString());
+                company.put(exercices.get(i).toString(), exercices.get(i+1).toString());
             }
         
         } catch (FileNotFoundException e) {            
@@ -141,31 +145,23 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
 
     }
 
-    public void saveExercice(Exercice newExercice) {
+    public void saveExercice(Exercice newExercice) {        
         String name = company.getName();
         String idCompany = company.getIdCompany().toString();
+        saveCompany(company);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("idCompany", idCompany);
-        jsonObject.put("name", name);
-        Map<String, String> addressMap = company.getAddressMap();
-        JSONArray address = new JSONArray();
-        address.put(addressMap.get("numero"));
-        address.put(addressMap.get("address"));
-        address.put(addressMap.get("address2"));
-        address.put(addressMap.get("postalCode"));
-        address.put(addressMap.get("city"));        
-        jsonObject.put("address", address);
-        jsonObject.put("legalForm", company.getLegalForm());
-        jsonObject.put("siret", company.getSiret());
-        jsonObject.put("naf", company.getNaf());
-        jsonObject.put("shareCapital", company.getShareCapital().toString());
-        jsonObject.put("saveDirectory", company.getSaveDirectory());
-        JSONArray exercices = new JSONArray();
-        exercices.put("-1");
-        exercices.put("0");
-        jsonObject.put("exercices", exercices);
+        jsonObject.put("idExercice", newExercice.getIdExercice().toString());
+        jsonObject.put("lastIdEntry", newExercice.getLastIdEntry().toString());
+        jsonObject.put("beginDate", newExercice.getBeginDate().toString());
+        jsonObject.put("endDate", newExercice.getEndDate().toString());
+        JSONArray entries = new JSONArray();
+        jsonObject.put("entries", entries);
+        JSONArray accounts = new JSONArray();
+        jsonObject.put("accounts", accounts);
+        jsonObject.put("exerciceClosed", newExercice.getIsClosed());
+        
         name = name.replace(' ', '-');
-        File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + "-" + newExercice.getIdExercice().toString() + ".json");
+        File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + "-exercice-" + newExercice.getIdExercice().toString() + ".json");
         try {
             fileName.createNewFile();
             FileWriter file = new FileWriter(fileName);

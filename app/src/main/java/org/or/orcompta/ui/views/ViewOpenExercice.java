@@ -1,13 +1,10 @@
 package org.or.orcompta.ui.views;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
 import org.or.orcompta.ui.controls.Controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
+//import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -53,11 +50,11 @@ public class ViewOpenExercice implements View{
         grid.setHgap(10);
         grid.setVgap(10);
 
-        Label labelName = new Label("Entreprise");
+        Label labelName = new Label("Entreprise:");
         grid.add(labelName, 0, 1);
         companyOpened = new Label("");        
         grid.add(companyOpened, 1, 1);
-        Label labelExercice = new Label("Exercice");
+        Label labelExercice = new Label("Exercice:");
         grid.add(labelExercice, 0, 2);
         exercices = new ComboBox<>();        
         grid.add(exercices, 1, 2);
@@ -91,6 +88,9 @@ public class ViewOpenExercice implements View{
                 } 
             });
         } else {
+            String[] exercice = exercices.getSelectionModel().getSelectedItem().split("-");
+            String idExercice = exercice[0];
+            controller.setIdExercice(idExercice);
             controller.displayView();
         }
         
