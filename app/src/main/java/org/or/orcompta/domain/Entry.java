@@ -96,6 +96,10 @@ public class Entry {
         return this.linesEntry.values();
     }
 
+    /*public Map <LineEntryId, LineEntry> getLinesEntry() {
+        return this.linesEntry;
+    }*/
+
     boolean checkEntry() {
         return this.amountDebit == this.amountCredit;
     }

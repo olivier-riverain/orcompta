@@ -16,12 +16,21 @@ import org.or.orcompta.domain.AddressCompany;
 import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.CompanyRepository;
+import org.or.orcompta.domain.Entry;
+import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.Exercice;
+import org.or.orcompta.domain.ExerciceId;
+import org.or.orcompta.domain.LineEntry;
+import org.or.orcompta.domain.LineEntryId;
+
+
 
 
 public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     private final File orcomptaConfigFile;
     private Company company;
+    private Exercice exercice;
+    private ExerciceId idExercice;
 
     public CompanyRepositoryWithFileJson(File orcomptaConfigFile) {
         this.orcomptaConfigFile = orcomptaConfigFile;
@@ -155,8 +164,10 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         jsonObject.put("beginDate", newExercice.getBeginDate().toString());
         jsonObject.put("endDate", newExercice.getEndDate().toString());
         JSONArray entries = new JSONArray();
+
         jsonObject.put("entries", entries);
         JSONArray accounts = new JSONArray();
+        
         jsonObject.put("accounts", accounts);
         jsonObject.put("exerciceClosed", newExercice.getIsClosed());
         
@@ -171,5 +182,68 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
          e.printStackTrace();
       }
     }
+
+    public Exercice findExerciceById(ExerciceId idExercice) {
+        Map<String, String> listOfExercices = company.getListOfExercices();
+        for(Map.Entry<String, String> exercice : listOfExercices.entrySet()) {
+            if(exercice.getKey().equals(idExercice.toString())) {
+                Map<String, String> exerciceParameters = loadFileExercice(idExercice);
+            }
+        }
+        
+        return null;
+    }
+
+    private Map<String, String> loadFileExercice(ExerciceId idExercice) {        
+        Map<String, String> exercice = new HashMap<>();
+        FileReader file;
+        String name = company.getName();        
+        name = name.replace(' ', '-');
+        String fileExercice = new String(company.getIdCompany().toString() + "-" + name + "-" + "exercice" + idExercice.toString() + ".json");
+        System.out.println("loadFileExercice fileExercice = " + fileExercice);
+        try {
+            file = new FileReader(fileExercice);
+            JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));
+            //"lastIdEntry":"-1","beginDate":"1/1/2024","entries":[],"exerciceClosed":false,"idExercice":"0","endDate":"31/12/2024","accounts":[]
+           
+            exercice.put("idExercice", jsonObjectExercice.getString("idExercice"));
+            exercice.put("lastIdEntry", jsonObjectExercice.getString("lastIdEntry"));
+            exercice.put("beginDate", jsonObjectExercice.getString("beginDate"));
+            exercice.put("endDate", jsonObjectExercice.getString("endDate"));
+            exercice.put("exerciceClosed", jsonObjectExercice.getString("exerciceClosed"));
+            JSONArray entries = jsonObjectExercice.getJSONArray("entries");
+
+            JSONArray accounts = jsonObjectExercice.getJSONArray("accounts");
+        
+        } catch (FileNotFoundException e) {            
+            e.printStackTrace();
+        }
+        return exercice;
+    }
+
+    public void saveEntry(Entry newEntry) {        
+        JSONObject jsonobjectEntry = new JSONObject();
+        jsonobjectEntry.put("idEntry", newEntry.getIdEntry().toString());
+        jsonobjectEntry.put("date", newEntry.getDate().toString());
+        jsonobjectEntry.put("journal", newEntry.getJournal());
+        jsonobjectEntry.put("justificatif", newEntry.getVoucher());
+        jsonobjectEntry.put("nbLineEntry", newEntry.getNbLinesEntry());
+        jsonobjectEntry.put("amountDebit", newEntry.getAmountDebit());
+        jsonobjectEntry.put("amountCredit", newEntry.getAmountCredit());
+        JSONArray linesEntry = new JSONArray();
+        for(LineEntry lineEntry: newEntry.getLinesEntry() ) {            
+            linesEntry.put(lineEntry.getIdLineEntry().toString());
+            linesEntry.put(lineEntry.getAccount().getName());
+            linesEntry.put(lineEntry.getAmountDebit());
+            linesEntry.put(lineEntry.getAmountCredit());
+        }
+        jsonobjectEntry.put("linesEntry", linesEntry);
+        Map<String, String> exerciceParameters = loadFileExercice(this.idExercice);
+
+        saveExercice(exercice);
+
+    }
+
+
 
 }

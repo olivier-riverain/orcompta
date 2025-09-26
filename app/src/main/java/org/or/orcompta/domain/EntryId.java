@@ -8,16 +8,20 @@ public class EntryId {
         this.idEntry = idEntry;
     }
 
-    public EntryId() {
-        this.idEntry = 0;
+    public EntryId(String idEntry) {
+        this.idEntry = Integer.parseInt(idEntry);
     }
 
-    public Integer getId() {
-        return this.idEntry;
+    public EntryId() {
+        this.idEntry = -1;
+    }
+
+    public EntryId getId() {
+        return new EntryId(this.idEntry);
     }      
 
     public EntryId nextId() {
-        return new EntryId(getId() + 1);
+        return new EntryId(this.idEntry + 1);
     }
 
     public String toString() {
