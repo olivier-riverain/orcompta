@@ -26,6 +26,18 @@ public class Exercice {
         entries = new LinkedHashMap<>();
     }
 
+    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate, String lastIdEntry, String exerciceClosed) {
+        this.idExercice = idExercice;
+        this.lastIdEntry = new EntryId(-1);        
+        this.beginDate= beginDate;
+        this.endDate = endDate;
+        accounts = new LinkedHashMap<>();
+        entries = new LinkedHashMap<>();
+        this.lastIdEntry = new EntryId(lastIdEntry);
+        if(exerciceClosed.equals("true")) this.exerciceClosed = true; else this.exerciceClosed = false;
+        
+    }
+
     public ExerciceId getIdExercice() {
         return this.idExercice;
     }
@@ -51,6 +63,10 @@ public class Exercice {
 
     public EntryId getLastIdEntry() {
         return lastIdEntry;
+    }
+
+    public void setLastIdEntry(String idEntry) {
+        this.lastIdEntry = new EntryId(idEntry);
     }
 
     public EntryId resetIdEntry() {

@@ -11,6 +11,13 @@ public class DateEntry {
         this.year = year;        
     }
 
+    public DateEntry(String dateString) {
+        String[] date = dateString.split("/");
+        this.day = date[0];
+        this.month = date[1];
+        this.year = date[2]; 
+    }
+
     public String getDay() {
         return this.day;
     }

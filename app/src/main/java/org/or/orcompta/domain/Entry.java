@@ -34,6 +34,19 @@ public class Entry {
         this.amountCredit = 0.0;
     }
 
+    public Entry(EntryId idEntry, DateEntry date, String journal, String voucher, String amountDebit, String amountCredit) {
+        this.idEntry = idEntry;
+        this.lastIdLineEntry = new LineEntryId(-1);
+        this.date = date;
+        this.journal = journal;
+        this.voucher = voucher;
+        linesEntry = new LinkedHashMap<>();        
+        this.nbLinesEntry = new SimpleIntegerProperty(0);
+        this.amountDebit = Double.parseDouble(amountDebit);
+        this.amountCredit = Double.parseDouble(amountCredit);
+    }
+
+
     public EntryId getIdEntry() {
         return this.idEntry;
     }

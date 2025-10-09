@@ -12,10 +12,12 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.AddressCompany;
 import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.CompanyRepository;
+import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.Exercice;
@@ -159,20 +161,43 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         String idCompany = company.getIdCompany().toString();
         saveCompany(company);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("idExercice", newExercice.getIdExercice().toString());
-        jsonObject.put("lastIdEntry", newExercice.getLastIdEntry().toString());
-        jsonObject.put("beginDate", newExercice.getBeginDate().toString());
-        jsonObject.put("endDate", newExercice.getEndDate().toString());
+        jsonObject.put("idExercice", this.exercice.getIdExercice().toString());
+        jsonObject.put("lastIdEntry", this.exercice.getLastIdEntry().toString());
+        jsonObject.put("beginDate", this.exercice.getBeginDate().toString());
+        jsonObject.put("endDate", this.exercice.getEndDate().toString());
         JSONArray entries = new JSONArray();
-
+        for(Entry entry: newExercice.getEntries()) {
+            JSONObject jsonobjectEntry = new JSONObject();
+            jsonobjectEntry.put("idEntry", entry.getIdEntry().toString());
+            jsonobjectEntry.put("date", entry.getDate().toString());
+            jsonobjectEntry.put("journal", entry.getJournal());
+            jsonobjectEntry.put("justificatif", entry.getVoucher());
+            jsonobjectEntry.put("nbLineEntry", entry.getNbLinesEntry());
+            jsonobjectEntry.put("amountDebit", entry.getAmountDebit());
+            jsonobjectEntry.put("amountCredit", entry.getAmountCredit());
+            JSONArray linesEntry = new JSONArray();
+            for(LineEntry lineEntry: entry.getLinesEntry() ) {            
+                JSONObject jsonobjectLineEntry = new JSONObject();
+                jsonobjectLineEntry.put("idLineEntry", lineEntry.getIdLineEntry().toString());
+                jsonobjectLineEntry.put("accountLineEntry", lineEntry.getAccount().getName());
+                jsonobjectLineEntry.put("amountDebitLineEntry", lineEntry.getAmountDebit());
+                jsonobjectLineEntry.put("amountDebitLineEntry", lineEntry.getAmountCredit());
+                linesEntry.put(jsonobjectLineEntry);
+            }
+            jsonobjectEntry.put("linesEntry", linesEntry);
+        entries.put(jsonobjectEntry);
+        }
         jsonObject.put("entries", entries);
         JSONArray accounts = new JSONArray();
-        
+        for(Account account: newExercice.getAccounts()) {
+            accounts.put(account.getName());
+            accounts.put(account.getDescription());
+        }        
         jsonObject.put("accounts", accounts);
-        jsonObject.put("exerciceClosed", newExercice.getIsClosed());
+        jsonObject.put("exerciceClosed", this.exercice.getIsClosed());
         
         name = name.replace(' ', '-');
-        File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + "-exercice-" + newExercice.getIdExercice().toString() + ".json");
+        File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + "-exercice-" + this.exercice.getIdExercice().toString() + ".json");
         try {
             fileName.createNewFile();
             FileWriter file = new FileWriter(fileName);
@@ -184,18 +209,19 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     }
 
     public Exercice findExerciceById(ExerciceId idExercice) {
+        Exercice exerciceLoaded = null;
         Map<String, String> listOfExercices = company.getListOfExercices();
         for(Map.Entry<String, String> exercice : listOfExercices.entrySet()) {
             if(exercice.getKey().equals(idExercice.toString())) {
-                Map<String, String> exerciceParameters = loadFileExercice(idExercice);
+                exerciceLoaded = loadFileExercice(idExercice);
             }
         }
         
-        return null;
+        return exerciceLoaded;
     }
 
-    private Map<String, String> loadFileExercice(ExerciceId idExercice) {        
-        Map<String, String> exercice = new HashMap<>();
+    private Exercice loadFileExercice(ExerciceId idExercice) {        
+        Exercice exercice = null;
         FileReader file;
         String name = company.getName();        
         name = name.replace(' ', '-');
@@ -205,14 +231,22 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             file = new FileReader(fileExercice);
             JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));
             //"lastIdEntry":"-1","beginDate":"1/1/2024","entries":[],"exerciceClosed":false,"idExercice":"0","endDate":"31/12/2024","accounts":[]
-           
-            exercice.put("idExercice", jsonObjectExercice.getString("idExercice"));
-            exercice.put("lastIdEntry", jsonObjectExercice.getString("lastIdEntry"));
-            exercice.put("beginDate", jsonObjectExercice.getString("beginDate"));
-            exercice.put("endDate", jsonObjectExercice.getString("endDate"));
-            exercice.put("exerciceClosed", jsonObjectExercice.getString("exerciceClosed"));
+            DateEntry beginDate = new DateEntry(jsonObjectExercice.getString("beginDate"));
+            DateEntry endDate = new DateEntry(jsonObjectExercice.getString("endDate"));
+            exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getString("exerciceClosed"));
             JSONArray entries = jsonObjectExercice.getJSONArray("entries");
+            for(int i=0; i<entries.length(); i++) {
+                JSONObject jsonobjectEntry = entries.getJSONObject(i);
+                DateEntry date = new DateEntry(jsonobjectEntry.getString("idEntry"));
+                Entry entry = new Entry(new EntryId(jsonobjectEntry.getString("idEntry")), date, jsonobjectEntry.getString("journal"), jsonobjectEntry.getString("justificatif"), jsonobjectEntry.getString("amountDebit"), jsonobjectEntry.getString("amountCredit"));
+                JSONArray jsonarrayLineEntry = jsonobjectEntry.getJSONArray("linesEntry");
+                for(int j=0; j<jsonarrayLineEntry.length(); j++) {
+                    
+                }
+                exercice.addEntry(entry);
 
+            }
+            
             JSONArray accounts = jsonObjectExercice.getJSONArray("accounts");
         
         } catch (FileNotFoundException e) {            
@@ -222,7 +256,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     }
 
     public void saveEntry(Entry newEntry) {        
-        JSONObject jsonobjectEntry = new JSONObject();
+        /*JSONObject jsonobjectEntry = new JSONObject();
         jsonobjectEntry.put("idEntry", newEntry.getIdEntry().toString());
         jsonobjectEntry.put("date", newEntry.getDate().toString());
         jsonobjectEntry.put("journal", newEntry.getJournal());
@@ -239,8 +273,8 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         }
         jsonobjectEntry.put("linesEntry", linesEntry);
         Map<String, String> exerciceParameters = loadFileExercice(this.idExercice);
-
-        saveExercice(exercice);
+        */
+        saveExercice(this.exercice);
 
     }
 
