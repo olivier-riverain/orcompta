@@ -180,6 +180,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
                 JSONObject jsonobjectLineEntry = new JSONObject();
                 jsonobjectLineEntry.put("idLineEntry", lineEntry.getIdLineEntry().toString());
                 jsonobjectLineEntry.put("accountLineEntry", lineEntry.getAccount().getName());
+                jsonobjectLineEntry.put("accountDescriptionLineEntry", lineEntry.getAccount().getDescription());
                 jsonobjectLineEntry.put("amountDebitLineEntry", lineEntry.getAmountDebit());
                 jsonobjectLineEntry.put("amountDebitLineEntry", lineEntry.getAmountCredit());
                 linesEntry.put(jsonobjectLineEntry);
@@ -239,9 +240,11 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
                 JSONObject jsonobjectEntry = entries.getJSONObject(i);
                 DateEntry date = new DateEntry(jsonobjectEntry.getString("idEntry"));
                 Entry entry = new Entry(new EntryId(jsonobjectEntry.getString("idEntry")), date, jsonobjectEntry.getString("journal"), jsonobjectEntry.getString("justificatif"), jsonobjectEntry.getString("amountDebit"), jsonobjectEntry.getString("amountCredit"));
-                JSONArray jsonarrayLineEntry = jsonobjectEntry.getJSONArray("linesEntry");
-                for(int j=0; j<jsonarrayLineEntry.length(); j++) {
-                    
+                JSONArray linesEntry =  jsonobjectEntry.getJSONArray("linesEntry");
+                for(int j=0; j<linesEntry.length(); j++) {
+                    JSONObject jsonobjectLineEntry = jsonobjectEntry.getJSONObject("linesEntry");                
+                    LineEntry lineEntry = new LineEntry(new LineEntryId(jsonobjectLineEntry.getString("idLineEntry")), new Account(jsonobjectLineEntry.getString("accountLineEntry"), jsonobjectLineEntry.getString("accountDescriptionLineEntry")), jsonobjectLineEntry.getDouble("amountDebitLineEntry"), jsonobjectLineEntry.getDouble("amountCreditLineEntry"));
+                    entry.addLineEntry(lineEntry);
                 }
                 exercice.addEntry(entry);
 

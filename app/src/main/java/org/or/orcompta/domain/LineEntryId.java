@@ -11,6 +11,10 @@ public class LineEntryId {
         this.idLineEntry = 0;
     }
 
+    public LineEntryId(String idLineEntry) {        
+        this.idLineEntry = Integer.parseInt(idLineEntry);    
+    }
+
     public Integer getId() {
         return this.idLineEntry;
     }
