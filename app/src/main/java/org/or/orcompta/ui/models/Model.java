@@ -23,6 +23,7 @@ public class Model {
     private CompanyId lastIdCompany;
     private ArrayList<String> idCompanyViewCreateExercice;
     private String titleNameCompany;
+    private String titleNameExercice;
     private ExerciceId idCreateExercice;   
 
     public Model() {
@@ -31,6 +32,7 @@ public class Model {
         this.configFile = new LinkedHashMap<>();
         this.idCompanyViewCreateExercice = new ArrayList<String>();
         this.titleNameCompany = new String("");
+        this.titleNameExercice = new String("");
         this.idCreateExercice = new ExerciceId();
     }
 
@@ -46,8 +48,8 @@ public class Model {
         return idExercice;
     }
 
-    public void setIdExercice(ExerciceId idExercice) {
-        this.idExercice = idExercice;
+    public void setIdExercice(String idExercice) {
+        this.idExercice = new ExerciceId(idExercice);
     }
 
     public EntryId getIdEntry() {
@@ -140,6 +142,14 @@ public class Model {
         return titleNameCompany;
     }
 
+    public void setTitleNameExercice(String titleNameExercice) {
+        this.titleNameExercice = titleNameExercice;
+    }
+
+    public String getTitleNameExercice() {
+        return titleNameExercice;
+    }
+
     public void setIdCreateExercice(ExerciceId idExercice) {
         this.idCreateExercice = idExercice;
     }
@@ -147,6 +157,8 @@ public class Model {
     public ExerciceId getIdCreateExercice() {
         return this.idCreateExercice;
     }
+
+    
 
     
 

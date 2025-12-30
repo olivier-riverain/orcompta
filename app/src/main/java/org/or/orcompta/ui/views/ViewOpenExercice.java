@@ -90,7 +90,10 @@ public class ViewOpenExercice implements View{
         } else {
             String[] exercice = exercices.getSelectionModel().getSelectedItem().split("-");
             String idExercice = exercice[0];
-            controller.setIdExercice(idExercice);
+            String nameExercice = exercice[1];
+            String [] companySelected = companyOpened.getText().split(" - ");
+            String idCompany = companySelected[0];            
+            controller.loadExercice(idCompany, idExercice, nameExercice);            
             controller.displayView();
         }
         

@@ -220,6 +220,13 @@ public class CompanyServices {
         return listExercices;
     }
 
+    public void loadExercice(String idCompany, String idExercice) {
+        Company company = repository.findCompanyById(new CompanyId(idCompany));
+        
+        //System.out.println("CompanyServices loadExercice exercice = " + company);
+        
+    }
+
     @Override
     public String toString() {
         return "companies : " + companies;

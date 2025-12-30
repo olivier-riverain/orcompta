@@ -89,7 +89,7 @@ public class Controller {
     }
 
     public void setIdExercice(String idExercice) {
-        this.model.setIdExercice(new ExerciceId(idExercice));
+        this.model.setIdExercice(idExercice);
     }
 
     public EntryId getIdEntry() {
@@ -392,10 +392,10 @@ public class Controller {
     public void loadCompany(String idCompany, String nameCompany) {
         companyServices.loadCompany(idCompany);
         this.model.setIdCompany(idCompany);
-        setTitle(idCompany + " - " + nameCompany);
+        setTitleNameCompany(idCompany + " - " + nameCompany);
     }
 
-    private void setTitle(String title) {
+    private void setTitleNameCompany(String title) {
         this.model.setTitleNameCompany(title);
     }
 
@@ -403,7 +403,19 @@ public class Controller {
         return this.model.getTitleNameCompany();
     }
 
-        
+    public void setTitleNameExercice(String title) {
+        this.model.setTitleNameExercice(title);
+    }
+
+    public String getNameExercice() {
+        return this.model.getTitleNameExercice();
+    }
+
+    public void loadExercice(String idCompany, String idExercice, String nameExercice) {
+        companyServices.loadExercice(idCompany, idExercice);
+        this.model.setIdExercice(idExercice);        
+        setTitleNameExercice(idExercice + " - " + nameExercice);
+    }  
 
        
     

@@ -191,9 +191,11 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         jsonObject.put("entries", entries);
         JSONArray accounts = new JSONArray();
         for(Account account: newExercice.getAccounts()) {
-            accounts.put(account.getName());
-            accounts.put(account.getDescription());
-        }        
+            JSONObject jsonObjectAccount = new JSONObject();
+            jsonObjectAccount.put("nameAccount", account.getName());
+            jsonObjectAccount.put("descriptionAccount", account.getDescription());
+            accounts.put(jsonObjectAccount);
+        }            
         jsonObject.put("accounts", accounts);
         jsonObject.put("exerciceClosed", this.exercice.getIsClosed());
         
@@ -206,7 +208,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             file.close();
         } catch (IOException e) {         
          e.printStackTrace();
-      }
+        }
     }
 
     public Exercice findExerciceById(ExerciceId idExercice) {
@@ -230,8 +232,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         System.out.println("loadFileExercice fileExercice = " + fileExercice);
         try {
             file = new FileReader(fileExercice);
-            JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));
-            //"lastIdEntry":"-1","beginDate":"1/1/2024","entries":[],"exerciceClosed":false,"idExercice":"0","endDate":"31/12/2024","accounts":[]
+            JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));           
             DateEntry beginDate = new DateEntry(jsonObjectExercice.getString("beginDate"));
             DateEntry endDate = new DateEntry(jsonObjectExercice.getString("endDate"));
             exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getString("exerciceClosed"));
@@ -242,7 +243,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
                 Entry entry = new Entry(new EntryId(jsonobjectEntry.getString("idEntry")), date, jsonobjectEntry.getString("journal"), jsonobjectEntry.getString("justificatif"), jsonobjectEntry.getString("amountDebit"), jsonobjectEntry.getString("amountCredit"));
                 JSONArray linesEntry =  jsonobjectEntry.getJSONArray("linesEntry");
                 for(int j=0; j<linesEntry.length(); j++) {
-                    JSONObject jsonobjectLineEntry = jsonobjectEntry.getJSONObject("linesEntry");                
+                    JSONObject jsonobjectLineEntry = linesEntry.getJSONObject(j);                
                     LineEntry lineEntry = new LineEntry(new LineEntryId(jsonobjectLineEntry.getString("idLineEntry")), new Account(jsonobjectLineEntry.getString("accountLineEntry"), jsonobjectLineEntry.getString("accountDescriptionLineEntry")), jsonobjectLineEntry.getDouble("amountDebitLineEntry"), jsonobjectLineEntry.getDouble("amountCreditLineEntry"));
                     entry.addLineEntry(lineEntry);
                 }
@@ -251,6 +252,9 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             }
             
             JSONArray accounts = jsonObjectExercice.getJSONArray("accounts");
+            for(int i=0; i< accounts.length(); i++) {
+                //JSONObject jsonObjectAccount = 
+            }
         
         } catch (FileNotFoundException e) {            
             e.printStackTrace();
@@ -259,26 +263,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     }
 
     public void saveEntry(Entry newEntry) {        
-        /*JSONObject jsonobjectEntry = new JSONObject();
-        jsonobjectEntry.put("idEntry", newEntry.getIdEntry().toString());
-        jsonobjectEntry.put("date", newEntry.getDate().toString());
-        jsonobjectEntry.put("journal", newEntry.getJournal());
-        jsonobjectEntry.put("justificatif", newEntry.getVoucher());
-        jsonobjectEntry.put("nbLineEntry", newEntry.getNbLinesEntry());
-        jsonobjectEntry.put("amountDebit", newEntry.getAmountDebit());
-        jsonobjectEntry.put("amountCredit", newEntry.getAmountCredit());
-        JSONArray linesEntry = new JSONArray();
-        for(LineEntry lineEntry: newEntry.getLinesEntry() ) {            
-            linesEntry.put(lineEntry.getIdLineEntry().toString());
-            linesEntry.put(lineEntry.getAccount().getName());
-            linesEntry.put(lineEntry.getAmountDebit());
-            linesEntry.put(lineEntry.getAmountCredit());
-        }
-        jsonobjectEntry.put("linesEntry", linesEntry);
-        Map<String, String> exerciceParameters = loadFileExercice(this.idExercice);
-        */
         saveExercice(this.exercice);
-
     }
 
 
