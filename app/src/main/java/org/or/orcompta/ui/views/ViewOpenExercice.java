@@ -29,6 +29,7 @@ public class ViewOpenExercice implements View{
     
     private ComboBox<String> exercices;
     private Label companyOpened;
+    private Button buttonValid;
 
     public void initView(Stage stage, Controller controller) {
         this.stage = stage;        
@@ -38,9 +39,15 @@ public class ViewOpenExercice implements View{
     
     public void show() {
         this.stage.setScene(this.scene);
-        this.stage.setTitle("Créer/ouvrir un nouvel exercice.");
-        companyOpened.setText(controller.getNameCompany());
-        initExercices();
+        this.stage.setTitle("Créer/ouvrir un nouvel exercice.");        
+        if(!controller.getNameCompany().equals("")) {
+            companyOpened.setText(controller.getNameCompany());
+            initExercices();
+            buttonValid.setDisable(false); 
+        } else {
+            companyOpened.setText("Vous devez d'abord ouvrir une entreprise.");
+            buttonValid.setDisable(true);  
+        }
         this.stage.show();
     }
     
@@ -61,7 +68,7 @@ public class ViewOpenExercice implements View{
         Button buttonCreateExercice = new Button("Créer un exercice");
         grid.add(buttonCreateExercice, 3, 2);
         buttonCreateExercice.setOnAction(_ -> displayCreateExercice());
-        Button buttonValid = new Button("Valider");
+        buttonValid = new Button("Valider");
         grid.add(buttonValid, 0, 12);
         buttonValid.setOnAction(_ -> valid());
         Button buttonCancel = new Button("Annuler");

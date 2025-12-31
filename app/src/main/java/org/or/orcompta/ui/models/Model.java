@@ -52,6 +52,10 @@ public class Model {
         this.idExercice = new ExerciceId(idExercice);
     }
 
+    public void setIdExercice() {
+        this.idExercice = new ExerciceId();
+    }    
+
     public EntryId getIdEntry() {
         return idEntry;
     }    

@@ -393,6 +393,8 @@ public class Controller {
         companyServices.loadCompany(idCompany);
         this.model.setIdCompany(idCompany);
         setTitleNameCompany(idCompany + " - " + nameCompany);
+        this.model.setIdExercice();
+        setTitleNameExercice("");
     }
 
     private void setTitleNameCompany(String title) {

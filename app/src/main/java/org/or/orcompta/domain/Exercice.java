@@ -26,7 +26,7 @@ public class Exercice {
         entries = new LinkedHashMap<>();
     }
 
-    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate, String lastIdEntry, String exerciceClosed) {
+    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate, String lastIdEntry, boolean exerciceClosed) {
         this.idExercice = idExercice;
         this.lastIdEntry = new EntryId(-1);        
         this.beginDate= beginDate;
@@ -34,7 +34,7 @@ public class Exercice {
         accounts = new LinkedHashMap<>();
         entries = new LinkedHashMap<>();
         this.lastIdEntry = new EntryId(lastIdEntry);
-        if(exerciceClosed.equals("true")) this.exerciceClosed = true; else this.exerciceClosed = false;
+        //if(exerciceClosed.equals("true")) this.exerciceClosed = true; else this.exerciceClosed = false;
         
     }
 

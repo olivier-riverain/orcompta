@@ -4,6 +4,7 @@ import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.CompanyRepository;
 import org.or.orcompta.domain.Exercice;
+import org.or.orcompta.domain.ExerciceId;
 
 public class CompanyRepositoryWithFileXml implements CompanyRepository{
 
@@ -17,6 +18,10 @@ public class CompanyRepositoryWithFileXml implements CompanyRepository{
 
     public void updateCompany(Company company) {
 
+    }
+
+    public Exercice findExerciceById(CompanyId idCompany, ExerciceId idExercice) {
+        return null;
     }
 
     public void saveExercice(Exercice newExercice) {

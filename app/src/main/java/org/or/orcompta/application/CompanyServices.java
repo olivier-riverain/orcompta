@@ -207,7 +207,7 @@ public class CompanyServices {
     public void loadCompany(String idCompany) {
         Company company = repository.findCompanyById(new CompanyId(idCompany));
         System.out.println("CompanyServices loadCompany company = " + company);
-        companies.addCompany(company);
+        if(companies.getCompany(company.getIdCompany()) == null) companies.addCompany(company);
         System.out.println("CompanyServices companies = " + companies.getCompanies());
     }
 
@@ -221,9 +221,13 @@ public class CompanyServices {
     }
 
     public void loadExercice(String idCompany, String idExercice) {
-        Company company = repository.findCompanyById(new CompanyId(idCompany));
+        Company company = repository.findCompanyById(new CompanyId(idCompany));        
+        if(company.getExercice(new ExerciceId(idExercice)) == null) {
+            Exercice exercice = repository.findExerciceById(company.getIdCompany(), new ExerciceId(idExercice));
+            company.addExercice(exercice);
+        }
         
-        //System.out.println("CompanyServices loadExercice exercice = " + company);
+        //System.out.println("CompanyServices loadExercice exercice = " + exercice);
         
     }
 

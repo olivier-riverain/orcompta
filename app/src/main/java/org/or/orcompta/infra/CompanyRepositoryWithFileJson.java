@@ -211,7 +211,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         }
     }
 
-    public Exercice findExerciceById(ExerciceId idExercice) {
+    public Exercice findExerciceById(CompanyId idCompany, ExerciceId idExercice) {
         Exercice exerciceLoaded = null;
         Map<String, String> listOfExercices = company.getListOfExercices();
         for(Map.Entry<String, String> exercice : listOfExercices.entrySet()) {
@@ -228,14 +228,15 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         FileReader file;
         String name = company.getName();        
         name = name.replace(' ', '-');
-        String fileExercice = new String(company.getIdCompany().toString() + "-" + name + "-" + "exercice" + idExercice.toString() + ".json");
+        String fileExercice = new String(company.getSaveDirectory() + company.getIdCompany().toString() + "-" + name + "-" + "exercice-" + idExercice.toString() + ".json");
         System.out.println("loadFileExercice fileExercice = " + fileExercice);
         try {
             file = new FileReader(fileExercice);
             JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));           
             DateEntry beginDate = new DateEntry(jsonObjectExercice.getString("beginDate"));
-            DateEntry endDate = new DateEntry(jsonObjectExercice.getString("endDate"));
-            exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getString("exerciceClosed"));
+            DateEntry endDate = new DateEntry(jsonObjectExercice.getString("endDate"));                      
+            exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getBoolean("exerciceClosed"));
+            System.out.println("loadFileExercice exerciceId = " + exercice.getIdExercice());
             JSONArray entries = jsonObjectExercice.getJSONArray("entries");
             for(int i=0; i<entries.length(); i++) {
                 JSONObject jsonobjectEntry = entries.getJSONObject(i);
