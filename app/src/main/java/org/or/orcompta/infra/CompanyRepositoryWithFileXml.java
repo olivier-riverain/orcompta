@@ -29,7 +29,9 @@ public class CompanyRepositoryWithFileXml implements CompanyRepository{
     }
 
     
-    
+    public void importExercice() {
+        
+    }
     
     
 }

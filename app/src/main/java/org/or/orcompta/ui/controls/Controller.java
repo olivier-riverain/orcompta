@@ -417,6 +417,10 @@ public class Controller {
         companyServices.loadExercice(idCompany, idExercice);
         this.model.setIdExercice(idExercice);        
         setTitleNameExercice(idExercice + " - " + nameExercice);
+    }
+
+    public void importExercice() {
+        companyServices.importExercice();
     }  
 
        

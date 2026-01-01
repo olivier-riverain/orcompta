@@ -231,6 +231,11 @@ public class CompanyServices {
         
     }
 
+    public void importExercice() {
+        repository.importExercice();
+          
+    }
+
     @Override
     public String toString() {
         return "companies : " + companies;
@@ -238,6 +243,4 @@ public class CompanyServices {
 
     
    
-
-    
 }

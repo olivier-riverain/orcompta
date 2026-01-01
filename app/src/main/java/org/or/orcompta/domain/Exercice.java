@@ -147,7 +147,7 @@ public class Exercice {
 
     @Override
     public String toString() {
-        return this.idExercice + " "  +  this.beginDate + " -> " + this.endDate + "\n" + entries;        
+        return this.idExercice + " "  +  this.beginDate + " -> " + this.endDate + "\n" + entries + "\n" + accounts;        
     }
 
 }

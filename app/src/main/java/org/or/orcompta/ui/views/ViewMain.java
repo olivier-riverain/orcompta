@@ -110,6 +110,7 @@ public class ViewMain implements View{
         openExercice.setOnAction(_ -> controller.displayOpenNewExercice());
         MenuItem saveExercice = new MenuItem("Exporter l'exercice");
         MenuItem importExercice = new MenuItem("Importer un exercice");
+        importExercice.setOnAction(_ -> controller.importExercice());
         MenuItem quitExercice = new MenuItem("Quitter");
         menuFile.getItems().addAll(createNewCompany, openCompany, openExercice, saveExercice, importExercice, quitExercice);
         Menu menuTraitement = new Menu("Traitement");

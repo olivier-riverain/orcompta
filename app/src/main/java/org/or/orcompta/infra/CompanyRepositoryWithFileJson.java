@@ -12,6 +12,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.json.XML;
 import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.AddressCompany;
 import org.or.orcompta.domain.Company;
@@ -85,7 +86,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         try {
             fileName.createNewFile();
             FileWriter file = new FileWriter(fileName);
-            file.write(jsonObject.toString());        
+            file.write(jsonObject.toString(4));        
             file.close();
         } catch (IOException e) {         
          e.printStackTrace();
@@ -204,7 +205,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         try {
             fileName.createNewFile();
             FileWriter file = new FileWriter(fileName);
-            file.write(jsonObject.toString());        
+            file.write(jsonObject.toString(4));        
             file.close();
         } catch (IOException e) {         
          e.printStackTrace();
@@ -267,6 +268,62 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         saveExercice(this.exercice);
     }
 
+    public void importExercice_first_version() {
+        FileReader file;
+        JSONObject jsonObject = null;
+        String fileExercice = new String(company.getSaveDirectory() + "ORCOMPTA_alterelec_01012024-31122024.xml");
+        try {
+            file = new FileReader(fileExercice);
+            jsonObject = XML.toJSONObject(file);            
+            File fileName = new File(company.getSaveDirectory() + "ORCOMPTA_alterelec_01012024-31122024.json");
+            FileWriter fileWriter = new FileWriter(fileName);
+            fileWriter.write(jsonObject.toString(4));        
+            fileWriter.close();
+        } catch (FileNotFoundException e) {            
+            e.printStackTrace();
+        } catch (IOException e) {           
+            e.printStackTrace();
+        }
+        
+    }
+
+    public void importExercice() {
+        Exercice exercice = null;
+        JSONObject jsonObjectRead = null;
+        JSONObject jsonObjectWrite = new JSONObject();
+        String fileExercice = new String(company.getSaveDirectory() + "ORCOMPTA_alterelec_01012024-31122024.json");
+        FileReader file;
+        try {
+            file = new FileReader(fileExercice);
+            jsonObjectRead = new JSONObject(new JSONTokener(file));
+            DateEntry beginDate = new DateEntry("1/1/2024");
+            DateEntry endDate = new DateEntry("31/12/2024"); 
+            ExerciceId idExercice = new ExerciceId(0);                     
+            exercice = new Exercice(idExercice, beginDate, endDate, "-1", false);      
+            JSONObject orcompta = jsonObjectRead.getJSONObject("ORCOMPTA");
+            JSONObject compte = orcompta.getJSONObject("COMPTE");
+            JSONArray ligne = compte.getJSONArray("LIGNE");
+            for(int i=0; i<ligne.length(); i++) {
+                JSONObject jsonObjectAccount = ligne.getJSONObject(i);
+                String numCompte = jsonObjectAccount.getString("num_compte");
+                String libelle = jsonObjectAccount.getString("libelle");
+                Account account = exercice.createNewAccount(numCompte, libelle);               
+            }
+            JSONObject ecriture = orcompta.getJSONObject("ECRITURE");
+            ligne = ecriture.getJSONArray("LIGNE");
+            for(int i=0; i<ligne.length(); i++) {
+                JSONObject jsonObjectEcriture = ligne.getJSONObject(i);
+                Integer  numEcriture = jsonObjectEcriture.getInt( "num_ecriture");
+                Integer numLigne = jsonObjectEcriture.getInt("num_ligne");
+                          
+            }
+
+        } catch (FileNotFoundException e) {            
+            e.printStackTrace();
+        }
+        System.out.println("exercice = " + exercice);
+
+    }
 
 
 }
