@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -157,7 +159,9 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
 
     }
 
-    public void saveExercice(Exercice newExercice) {        
+    public void saveExercice(Exercice newExercice) {
+        this.exercice = newExercice;
+        this.idExercice = newExercice.getIdExercice();              
         String name = company.getName();
         String idCompany = company.getIdCompany().toString();
         saveCompany(company);
@@ -183,7 +187,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
                 jsonobjectLineEntry.put("accountLineEntry", lineEntry.getAccount().getName());
                 jsonobjectLineEntry.put("accountDescriptionLineEntry", lineEntry.getAccount().getDescription());
                 jsonobjectLineEntry.put("amountDebitLineEntry", lineEntry.getAmountDebit());
-                jsonobjectLineEntry.put("amountDebitLineEntry", lineEntry.getAmountCredit());
+                jsonobjectLineEntry.put("amountCreditLineEntry", lineEntry.getAmountCredit());
                 linesEntry.put(jsonobjectLineEntry);
             }
             jsonobjectEntry.put("linesEntry", linesEntry);
@@ -289,8 +293,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
 
     public void importExercice() {
         Exercice exercice = null;
-        JSONObject jsonObjectRead = null;
-        JSONObject jsonObjectWrite = new JSONObject();
+        JSONObject jsonObjectRead = null;        
         String fileExercice = new String(company.getSaveDirectory() + "ORCOMPTA_alterelec_01012024-31122024.json");
         FileReader file;
         try {
@@ -311,17 +314,39 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             }
             JSONObject ecriture = orcompta.getJSONObject("ECRITURE");
             ligne = ecriture.getJSONArray("LIGNE");
-            for(int i=0; i<ligne.length(); i++) {
+            Integer numEcritureP = 0;
+             Entry entry = null;
+            for(int i=0; i<ligne.length(); i++) {            
                 JSONObject jsonObjectEcriture = ligne.getJSONObject(i);
                 Integer  numEcriture = jsonObjectEcriture.getInt( "num_ecriture");
                 Integer numLigne = jsonObjectEcriture.getInt("num_ligne");
-                          
+                Integer dateEcriture = jsonObjectEcriture.getInt("date_ecriture");
+                String journal = jsonObjectEcriture.getString("code_journal");
+                String justificatif = jsonObjectEcriture.getString("num_piece");
+                Double amountDebit = jsonObjectEcriture.getDouble("montant_debit");
+                Double amountCredit = jsonObjectEcriture.getDouble("montant_credit");
+                String numCompte = jsonObjectEcriture.getString("num_compte");
+                String libelleCompte = jsonObjectEcriture.getString("libelle");
+                Date date = new Date(dateEcriture*1000L);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String dateEcritureFormat = dateFormat.format(date);
+                DateEntry dateEntry = new DateEntry(dateEcritureFormat);
+                if(numEcriture != numEcritureP) {
+                    entry = new Entry(new EntryId(numEcriture), dateEntry, journal, justificatif, "0.0", "0.0");
+                    numEcritureP = numEcriture;
+                    exercice.addEntry(entry);
+                }
+                LineEntry lineEntry = new LineEntry(new LineEntryId(numLigne), new Account(numCompte, libelleCompte), amountDebit, amountCredit);
+                entry.addLineEntry(lineEntry);
+                //System.out.println("entry = " + entry);
             }
 
         } catch (FileNotFoundException e) {            
             e.printStackTrace();
         }
         System.out.println("exercice = " + exercice);
+        System.out.println("idExercice = " + exercice.getIdExercice());
+        saveExercice(exercice);
 
     }
 
