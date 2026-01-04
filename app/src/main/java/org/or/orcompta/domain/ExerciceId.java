@@ -25,5 +25,9 @@ public class ExerciceId {
 
     public String toString() {
         return "" + this.idExercice;
-    }    
+    }
+    
+    public boolean exerciceNotNull() {
+        return this.getId() != -1;
+    }
 }

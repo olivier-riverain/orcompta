@@ -95,6 +95,10 @@ public class ViewMain implements View{
     public void show() {
         this.stage.setScene(this.scene);
         this.stage.setTitle("ORCOMPTA " + this.controller.getNameCompany() + " Exercice " + this.controller.getNameExercice());        
+        if(this.controller.getIdExercice().exerciceNotNull()) {
+            System.err.println("ViewMain show exercice not null");
+            this.controller.initTabViewEntries();
+        } 
         this.stage.show();
     }
 
