@@ -98,6 +98,7 @@ public class ViewMain implements View{
         if(this.controller.getIdExercice().exerciceNotNull()) {
             System.err.println("ViewMain show exercice not null");
             this.controller.initTabViewEntries();
+            this.controller.initTabViewAccounts();
         } 
         this.stage.show();
     }
@@ -386,7 +387,9 @@ public class ViewMain implements View{
 
     public void initTabViewAccounts() {
         listOfAccounts = FXCollections.observableArrayList(this.controller.getAccountsInExercice(this.controller.getIdCompany(), this.controller.getIdExercice()));
-       this.tableViewAccounts.setItems(listOfAccounts);     
+       this.tableViewAccounts.setItems(listOfAccounts);
+       System.out.println("initTabViewAccounts listOfAccounts.size() = " + listOfAccounts.size());
+       System.out.println("initTabViewAccounts + this.tableViewAccounts.getItems().size() = " + this.tableViewAccounts.getItems().size());        
     }
 
     public void addAccountInTabViewAccounts(Account newAccount) {        

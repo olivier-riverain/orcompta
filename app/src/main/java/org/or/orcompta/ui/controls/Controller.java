@@ -414,8 +414,9 @@ public class Controller {
     }
 
     public void loadExercice(String idCompany, String idExercice, String nameExercice) {
-        companyServices.loadExercice(idCompany, idExercice);
-        this.model.setIdExercice(idExercice);        
+        String idEntry = companyServices.loadExercice(idCompany, idExercice);
+        this.model.setIdExercice(idExercice);
+        this.model.setIdEntry(new EntryId(idEntry));       
         setTitleNameExercice(idExercice + " - " + nameExercice);
     }
 

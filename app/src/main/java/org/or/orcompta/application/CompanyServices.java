@@ -54,7 +54,7 @@ public class CompanyServices {
     
     public EntryId createNewEntry(CompanyId idCompany, ExerciceId idExercice, String jj, String mm, String yy, String journal, String voucher) {       
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         EntryId idEntry = exercice.getIdNewEntry();
         DateEntry date = new DateEntry(jj, mm, yy);
         Entry newEntry = new Entry(idEntry, date, journal, voucher);
@@ -65,7 +65,7 @@ public class CompanyServices {
 
     public LineEntryId createNewLineEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry, String account, double amountDebit, double amountCredit) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntry);
         LineEntryId idLineEntry = entry.getIdNewLineEntry();
         Account newAccount = exercice.getAccount(account);
@@ -77,33 +77,35 @@ public class CompanyServices {
 
     public Collection<Entry> getEntriesInExercice(CompanyId idCompany, ExerciceId idExercice) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        //System.out.println("CompanySercices getEntriesInExercice company = " + company);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        System.out.println("CompanySercices getEntriesInExercice exercice = " + exercice);
         return exercice.getEntries();
     }
 
     public Collection<LineEntry> getLInesEntryInEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntry);
         return entry.getLinesEntry();
     }
 
     public Collection<Account> getAccountsInExercice(CompanyId idCompany, ExerciceId idExercice) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         return exercice.getAccounts();
     }
 
     public Entry getEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntry);
         return entry;
     }
 
     public LineEntry getLineEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntry,LineEntryId idLineEntry) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntry);
         LineEntry lineEntry = entry.getLineEntry(idLineEntry);
         return lineEntry;
@@ -134,14 +136,14 @@ public class CompanyServices {
 
     public Account createNewAccount(CompanyId idCompany, ExerciceId idExercice, String account, String description) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Account newAccount = exercice.createNewAccount(account, description);
         return newAccount;
     }
 
     public String getAccountDescription(CompanyId idCompany, ExerciceId idExercice, String account) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         return exercice.getAccountDescription(account);
     }
 
@@ -153,42 +155,42 @@ public class CompanyServices {
 
     public String getDateJJEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntryLoaded);
         return entry.getDateJJEntry();
     }
 
     public String getDateMMEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntryLoaded);
         return entry.getDateMMEntry();
     }
 
     public String getDateAAEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntryLoaded);
         return entry.getDateAAEntry();
     }
 
     public String getJournalEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntryLoaded);
         return entry.getJournal();
     }
 
     public String getVoucherEntry(CompanyId idCompany, ExerciceId idExercice, EntryId idEntryLoaded) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         Entry entry = exercice.getEntry(idEntryLoaded);
         return entry.getVoucher();
     }
 
     public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice);
+        Exercice exercice = company.getExercice(idExercice.toString());
         BalanceId idBalance = new BalanceId(0);
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
@@ -220,15 +222,15 @@ public class CompanyServices {
         return listExercices;
     }
 
-    public void loadExercice(String idCompany, String idExercice) {
-        Company company = repository.findCompanyById(new CompanyId(idCompany));        
-        if(company.getExercice(new ExerciceId(idExercice)) == null) {
+    public String loadExercice(String idCompany, String idExercice) {
+        String idEntry = "";
+        Company company = companies.getCompany(new CompanyId(idCompany));        
+        if(company.getExercice(idExercice) == null) {
             Exercice exercice = repository.findExerciceById(company.getIdCompany(), new ExerciceId(idExercice));
+            idEntry = exercice.getLastIdEntry().toString();
             company.addExercice(exercice);
         }
-        
-        //System.out.println("CompanyServices loadExercice exercice = " + exercice);
-        
+        return idEntry;       
     }
 
     public void importExercice() {

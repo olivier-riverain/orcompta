@@ -16,7 +16,7 @@ public class Company {
     private ExerciceId lastIdExercice;
     private ExerciceId newIdExercice;
 
-    private Map<ExerciceId, Exercice> exercices;
+    private Map<String, Exercice> exercices;
     private Map<String, String> journals;
     private Map<String, String> listOfExercices;
 
@@ -79,7 +79,7 @@ public class Company {
         return this.journals;
     }    
 
-    public Exercice getExercice(ExerciceId idExercice) {
+    public Exercice getExercice(String idExercice) {
         if(exercices.containsKey(idExercice)) {
             return exercices.get(idExercice);
         }        
@@ -92,9 +92,9 @@ public class Company {
 
     public void addExercice(Exercice newExercice) {
         this.newIdExercice = newExercice.getIdExercice();
-        exercices.put(this.newIdExercice, newExercice);
+        exercices.put(this.newIdExercice.toString(), newExercice);
         this.lastIdExercice = this.newIdExercice;
-        listOfExercices.put(newExercice.getIdExercice().toString(), "du " + newExercice.getBeginDate().toString() + " au " + newExercice.getEndDate().toString());
+        listOfExercices.put(this.newIdExercice.toString(), "du " + newExercice.getBeginDate().toString() + " au " + newExercice.getEndDate().toString());
     }
 
     public Map<String, String> getAddressMap() {

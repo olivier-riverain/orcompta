@@ -246,7 +246,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             for(int i=0; i<entries.length(); i++) {
                 JSONObject jsonobjectEntry = entries.getJSONObject(i);
                 DateEntry date = new DateEntry(jsonobjectEntry.getString("date"));
-                Entry entry = new Entry(new EntryId(jsonobjectEntry.getString("idEntry")), date, jsonobjectEntry.getString("journal"), jsonobjectEntry.getString("justificatif"), Double.toString(jsonobjectEntry.getDouble("amountDebit")), Double.toString(jsonobjectEntry.getDouble("amountCredit")));
+                Entry entry = new Entry(new EntryId(jsonobjectEntry.getString("idEntry")), date, jsonobjectEntry.getString("journal"), jsonobjectEntry.getString("justificatif"), "0", "0");
                 JSONArray linesEntry =  jsonobjectEntry.getJSONArray("linesEntry");
                 for(int j=0; j<linesEntry.length(); j++) {
                     JSONObject jsonobjectLineEntry = linesEntry.getJSONObject(j);                
