@@ -259,7 +259,10 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             
             JSONArray accounts = jsonObjectExercice.getJSONArray("accounts");
             for(int i=0; i< accounts.length(); i++) {
-                //JSONObject jsonObjectAccount = 
+                JSONObject jsonObjectAccount = accounts.getJSONObject(i);
+                String nameAccount = jsonObjectAccount.getString("nameAccount");
+                String descriptionAccount = jsonObjectAccount.getString("descriptionAccount");
+                exercice.addAccount(nameAccount, descriptionAccount);
             }
         
         } catch (FileNotFoundException e) {            

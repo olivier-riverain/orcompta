@@ -114,15 +114,15 @@ public class Exercice {
         return true;
     }
 
-    void closeExercice() {
+    public void closeExercice() {
         exerciceClosed = true;
     }
 
-    void editDocument() {
+    public void editDocument() {
 
     }
 
-    void addAccount(String name, String description) {
+    public void addAccount(String name, String description) {
         Account newAccount = new Account(name, description);
         accounts.put(name, newAccount);
     }
@@ -141,7 +141,7 @@ public class Exercice {
 
     }
 
-    void replicateEntry() {
+    public void replicateEntry() {
 
     }
 

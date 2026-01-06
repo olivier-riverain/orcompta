@@ -93,6 +93,7 @@ public class CompanyServices {
     public Collection<Account> getAccountsInExercice(CompanyId idCompany, ExerciceId idExercice) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
+        System.out.println("CompanySercices getAccountsInExercice = " + exercice);
         return exercice.getAccounts();
     }
 
