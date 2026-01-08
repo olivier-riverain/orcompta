@@ -124,7 +124,7 @@ public class Company {
     
     @Override
     public String toString() {
-        return idCompany + " " + name + " " + address + " " + legalForm + " " + siret + " " + naf + " " + shareCapital + " euros " + lastIdExercice + "\n" + exercices;
+        return idCompany + " " + name + " " + address + " " + legalForm + " " + siret + " " + naf + " " + shareCapital + " euros " + lastIdExercice + "\n" + exercices + "\n" + journals;
     }
 
     

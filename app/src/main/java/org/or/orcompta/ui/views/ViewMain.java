@@ -95,6 +95,9 @@ public class ViewMain implements View{
     public void show() {
         this.stage.setScene(this.scene);
         this.stage.setTitle("ORCOMPTA " + this.controller.getNameCompany() + " Exercice " + this.controller.getNameExercice());        
+        if(!this.controller.getNameCompany().equals("")) {
+            initForCompany();
+        }
         if(this.controller.getIdExercice().exerciceNotNull()) {
             System.err.println("ViewMain show exercice not null");
             this.controller.initTabViewEntries();
@@ -351,11 +354,17 @@ public class ViewMain implements View{
     }
 
     public void initForCompany() {
+        resetJournals(journal);
+        resetJournals(editJournal);
         journalList = controller.getJournals();
         for(Map.Entry<String, String> journalItem : journalList.entrySet()) {
             journal.getItems().add(journalItem.getKey());
             editJournal.getItems().add(journalItem.getKey());
         }        
+    }
+
+    public void resetJournals(ComboBox<String> journal) {
+        journal.getItems().clear();
     }
 
     public void initTabViewEntries() {        

@@ -230,6 +230,9 @@ public class CompanyServices {
             Exercice exercice = repository.findExerciceById(company.getIdCompany(), new ExerciceId(idExercice));
             idEntry = exercice.getLastIdEntry().toString();
             company.addExercice(exercice);
+        } else {
+            Exercice exercice = company.getExercice(idExercice);
+            idEntry = exercice.getLastIdEntry().toString();
         }
         return idEntry;       
     }
