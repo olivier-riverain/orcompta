@@ -231,21 +231,41 @@ public class CompanyServices {
             idEntry = exercice.getLastIdEntry().toString();
             company.addExercice(exercice);
         } else {
-            Exercice exercice = company.getExercice(idExercice);
+            Exercice exercice = company.
+            getExercice(idExercice);
             idEntry = exercice.getLastIdEntry().toString();
         }
         return idEntry;       
     }
 
     public void importExercice() {
-        repository.importExercice();
-          
+        repository.importExercice();          
+    }
+
+    public boolean closeExercice(String idCompany, String idExercice) {
+        Company company = companies.getCompany(new CompanyId(idCompany));
+        Exercice exercice = company.getExercice(idExercice);
+        if(exercice.exerciceIsClosed()) return true;        
+        String idExerciceAfter = getExerciceAfter(idExercice);
+        Exercice exerciceAfter = company.getExercice(idExerciceAfter);        
+        Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry());        
+        exerciceAfter.addEntry(entry);
+        exercice.setExerciceClosed();
+        return false;
+    }
+
+    public String getExerciceAfter(String idExercice) {
+        String idExerciceAfter = "";
+
+        return idExerciceAfter;
     }
 
     @Override
     public String toString() {
         return "companies : " + companies;
     }
+
+    
 
     
    

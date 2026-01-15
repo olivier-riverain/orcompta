@@ -202,7 +202,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             accounts.put(jsonObjectAccount);
         }            
         jsonObject.put("accounts", accounts);
-        jsonObject.put("exerciceClosed", this.exercice.getIsClosed());
+        jsonObject.put("exerciceClosed", this.exercice.exerciceIsClosed());
         
         name = name.replace(' ', '-');
         File fileName = new File(company.getSaveDirectory() + idCompany + "-" + name  + "-exercice-" + this.exercice.getIdExercice().toString() + ".json");

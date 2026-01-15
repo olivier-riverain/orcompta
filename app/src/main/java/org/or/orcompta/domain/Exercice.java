@@ -1,5 +1,6 @@
 package org.or.orcompta.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,9 +34,7 @@ public class Exercice {
         this.endDate = endDate;
         accounts = new LinkedHashMap<>();
         entries = new LinkedHashMap<>();
-        this.lastIdEntry = new EntryId(lastIdEntry);
-        //if(exerciceClosed.equals("true")) this.exerciceClosed = true; else this.exerciceClosed = false;
-        
+        this.lastIdEntry = new EntryId(lastIdEntry);        
     }
 
     public ExerciceId getIdExercice() {
@@ -90,9 +89,13 @@ public class Exercice {
         return newAccount;       
     }
 
-    public boolean getIsClosed() {
+    public boolean exerciceIsClosed() {
         return this.exerciceClosed;
     }
+
+    public void setExerciceClosed() {
+        this.exerciceClosed = true;
+     }
 
     public Collection<Entry> getEntries() {
         return this.entries.values();
@@ -114,8 +117,41 @@ public class Exercice {
         return true;
     }
 
-    public void closeExercice() {
-        exerciceClosed = true;
+    public Entry closeExercice(EntryId newIdEntry, DateEntry dateEntry) {
+        String journal = "OD";
+        String justificatif = "Clôture exercice précédent";
+        Entry entry = new Entry(newIdEntry, dateEntry, journal, justificatif);
+        Map <String, ArrayList<Double>> accounts =  new LinkedHashMap<>();
+        Collection<Entry> entriesInExercice = getEntries();
+        for(Entry entryItem : entriesInExercice) {                  
+            Collection<LineEntry> linesEntryInEntry = entryItem.getLinesEntry();
+            for(LineEntry lineEntry : linesEntryInEntry) {                
+                Double newAmountDebit = 0.0;
+                Double newAmountCredit = 0.0;
+                Account account = lineEntry.getAccount();                
+                Double amountDebit = lineEntry.getAmountDebit();                
+                Double amountCredit = lineEntry.getAmountCredit();
+                if(amountDebit >= amountCredit) {
+                    newAmountDebit = amountDebit - amountCredit;
+                } else {
+                    newAmountCredit = amountCredit - amountDebit;
+                }
+                ArrayList<Double> array = new ArrayList<Double>(2);
+                array.add(newAmountDebit);
+                array.add(newAmountCredit);
+                if(accounts.get(account.toString()) == null) {
+                    accounts.put(account.toString(), array);
+                } else {
+                    //accounts[account.toString()] = accounts.get(account.toString()) +
+                }
+                
+                                 
+
+            }
+
+            //LineEntry newLineEntry = new LineEntry(null, account, newAmountDebit, newAmountCredit);
+        }
+        return entry;
     }
 
     public void editDocument() {

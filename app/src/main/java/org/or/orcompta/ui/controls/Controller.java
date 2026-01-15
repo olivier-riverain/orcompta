@@ -422,7 +422,11 @@ public class Controller {
 
     public void importExercice() {
         companyServices.importExercice();
-    }  
+    }
+    
+    public boolean closeExercice() {
+         return companyServices.closeExercice(this.model.getIdCompany().toString(), this.model.getIdExercice().toString());
+    }
 
        
     

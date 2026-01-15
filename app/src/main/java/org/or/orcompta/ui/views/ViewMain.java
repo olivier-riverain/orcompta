@@ -123,6 +123,7 @@ public class ViewMain implements View{
         menuFile.getItems().addAll(createNewCompany, openCompany, openExercice, saveExercice, importExercice, quitExercice);
         Menu menuTraitement = new Menu("Traitement");
         MenuItem closeExercice = new MenuItem("Clôturer cet exercice");
+        closeExercice.setOnAction(_ -> controller.closeExercice());
         MenuItem checkExercice = new MenuItem("Vérifier l'équilibre");
         menuTraitement.getItems().addAll(closeExercice, checkExercice);
         Menu menuConfiguration = new Menu("Configuration");
