@@ -121,35 +121,39 @@ public class Exercice {
         String journal = "OD";
         String justificatif = "Clôture exercice précédent";
         Entry entry = new Entry(newIdEntry, dateEntry, journal, justificatif);
-        Map <String, ArrayList<Double>> accounts =  new LinkedHashMap<>();
+        Map <String, Double> accounts =  new LinkedHashMap<>();
         Collection<Entry> entriesInExercice = getEntries();
         for(Entry entryItem : entriesInExercice) {                  
             Collection<LineEntry> linesEntryInEntry = entryItem.getLinesEntry();
             for(LineEntry lineEntry : linesEntryInEntry) {                
-                Double newAmountDebit = 0.0;
-                Double newAmountCredit = 0.0;
+                Double newAmount = 0.0;                
                 Account account = lineEntry.getAccount();                
                 Double amountDebit = lineEntry.getAmountDebit();                
                 Double amountCredit = lineEntry.getAmountCredit();
                 if(amountDebit >= amountCredit) {
-                    newAmountDebit = amountDebit - amountCredit;
+                    newAmount = amountDebit - amountCredit;
                 } else {
-                    newAmountCredit = amountCredit - amountDebit;
+                    newAmount = amountCredit - amountDebit;
+                }                               
+                if(accounts.containsKey(account.toString())) {                
+                    newAmount +=  accounts.get(account.toString());                    
                 }
-                ArrayList<Double> array = new ArrayList<Double>(2);
-                array.add(newAmountDebit);
-                array.add(newAmountCredit);
-                if(accounts.get(account.toString()) == null) {
-                    accounts.put(account.toString(), array);
-                } else {
-                    //accounts[account.toString()] = accounts.get(account.toString()) +
-                }
-                
-                                 
-
+                accounts.put(account.toString(), newAmount);
+            }           
+        }
+        LineEntryId idLineEntry = new LineEntryId();
+        for(Map.Entry<String, Double> accountItem: accounts.entrySet()) {
+            Double amountDebit = 0.0;
+            Double amountCredit = 0.0;
+            Account account = getAccount(accountItem.getKey());
+            if(accountItem.getValue() >= 0) {
+                amountDebit = accountItem.getValue();
+            } else {
+                amountCredit = accountItem.getValue();
             }
-
-            //LineEntry newLineEntry = new LineEntry(null, account, newAmountDebit, newAmountCredit);
+            LineEntry lineEntry = new LineEntry(idLineEntry, account, amountDebit, amountCredit);
+            entry.addLineEntry(lineEntry);
+            idLineEntry = idLineEntry.nextId();
         }
         return entry;
     }

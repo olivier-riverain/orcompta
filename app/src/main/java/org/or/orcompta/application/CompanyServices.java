@@ -247,8 +247,9 @@ public class CompanyServices {
         Exercice exercice = company.getExercice(idExercice);
         if(exercice.exerciceIsClosed()) return true;        
         String idExerciceAfter = getExerciceAfter(idExercice);
-        Exercice exerciceAfter = company.getExercice(idExerciceAfter);        
-        Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry());        
+        Exercice exerciceAfter = company.getExercice(idExerciceAfter);
+        DateEntry newDateEntry = exerciceAfter.getBeginDate();        
+        Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry(), newDateEntry);        
         exerciceAfter.addEntry(entry);
         exercice.setExerciceClosed();
         return false;
