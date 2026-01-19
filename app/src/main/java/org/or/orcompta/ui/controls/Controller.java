@@ -197,9 +197,9 @@ public class Controller {
         return idCompany; 
     }
 
-    public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm,  String beginyy, String endjj, String endmm, String endyy) {
+    public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm,  String beginyy, String endjj, String endmm, String endyy, String idExerciceBefore) {
         System.out.println("controller createNewExercice idCompany = " + idCompany);
-        ExerciceId idExercice = companyServices.createNewExercice(idCompany, beginjj, beginmm, beginyy, endjj, endmm, endyy);        
+        ExerciceId idExercice = companyServices.createNewExercice(idCompany, beginjj, beginmm, beginyy, endjj, endmm, endyy, idExerciceBefore);        
         model.setIdCreateExercice(idExercice);
         return idExercice;
     }

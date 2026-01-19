@@ -2,6 +2,7 @@ package org.or.orcompta.ui.views;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.ui.controls.Controller;
@@ -36,6 +37,9 @@ public class ViewCreateExercice implements View{
     private TextField tomm;
     private TextField toaa;
 
+    private ComboBox<String> exercices;
+    private final String noExercice = new String("Aucun exercice");
+
     public ViewCreateExercice(View view) {
         this.viewOpenExercice = view;
     }
@@ -49,6 +53,7 @@ public class ViewCreateExercice implements View{
     public void show() {
         idCompany = this.controller.getIdCompanyViewCreateExercice();
         labelCompany.setText("Entreprise: " + idCompany.get(1));
+        initExercices();
         this.stage.setScene(this.scene);
         this.stage.setTitle("Créer un nouvel exercice.");        
         this.stage.show();
@@ -81,9 +86,9 @@ public class ViewCreateExercice implements View{
         toaa = new TextField();
         hbox2.getChildren().addAll(labelTojj, tojj, labelTommm, tomm, labelToaa, toaa);
         Label labelExercicePrecedent = new Label("Exercice précédent");
-        ComboBox<String> exercicePrecedent = new ComboBox<>();
+        exercices = new ComboBox<>();
         HBox hbox3 = new HBox(5);
-        hbox3.getChildren().addAll(labelExercicePrecedent, exercicePrecedent);
+        hbox3.getChildren().addAll(labelExercicePrecedent, exercices);
         HBox hboxButton = new HBox(5);
         Button buttonValid = new Button("Valider");        
         buttonValid.setOnAction(_ -> valid());
@@ -96,8 +101,23 @@ public class ViewCreateExercice implements View{
 
     private void valid() {
         System.out.println("viewCreateExercice valid idCompany.get(0) = " + idCompany.get(0));
-        controller.createNewExercice(new CompanyId(Integer.parseInt(idCompany.get(0))), fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(), tomm.getText(), toaa.getText());
+        String idExerciceBefore = "";
+        controller.createNewExercice(new CompanyId(Integer.parseInt(idCompany.get(0))), fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(), tomm.getText(), toaa.getText(), idExerciceBefore);
         controller.displayView(viewOpenExercice);
+    }
+
+    private void initExercices() {        
+        exercices.getItems().clear();        
+        ArrayList<String> companyOpened = this.controller.getIdCompanyViewCreateExercice();
+        Map<String, String> exercicesList = this.controller.getExercices(companyOpened.get(0));
+        if(exercicesList.size() > 0) {
+            for(Map.Entry<String, String> exerciceItem : exercicesList.entrySet()) {
+                exercices.getItems().add(exerciceItem.getKey() + "-" + exerciceItem.getValue());            
+            }
+        } else {
+            exercices.getItems().add(noExercice);
+        }
+        exercices.getSelectionModel().select(0);
     }
 
     

@@ -16,22 +16,25 @@ public class Exercice {
     private Map<EntryId, Entry> entries;    
     private Map <String, Account> accounts;
     private boolean exerciceClosed = false;
+    private ExerciceId idExerciceBefore;
     
 
-    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate) {
+    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate, ExerciceId idExerciceBefore) {
         this.idExercice = idExercice;
         this.lastIdEntry = new EntryId(-1);        
         this.beginDate= beginDate;
         this.endDate = endDate;
+        this.idExerciceBefore = idExerciceBefore;
         accounts = new LinkedHashMap<>();
         entries = new LinkedHashMap<>();
     }
 
-    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate, String lastIdEntry, boolean exerciceClosed) {
+    public Exercice(ExerciceId idExercice, DateEntry beginDate, DateEntry endDate, String lastIdEntry, boolean exerciceClosed, ExerciceId idExerciceBefore) {
         this.idExercice = idExercice;
         this.lastIdEntry = new EntryId(-1);        
         this.beginDate= beginDate;
         this.endDate = endDate;
+        this.idExerciceBefore = idExerciceBefore;
         accounts = new LinkedHashMap<>();
         entries = new LinkedHashMap<>();
         this.lastIdEntry = new EntryId(lastIdEntry);        
@@ -70,6 +73,10 @@ public class Exercice {
 
     public EntryId resetIdEntry() {
         return new EntryId();
+    }
+
+    public ExerciceId getIdExerciceBefore() {
+        return this.idExerciceBefore;
     }
 
     public Account getAccount(String account) {

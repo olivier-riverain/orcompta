@@ -10,7 +10,7 @@ public class ExerciceId {
     public ExerciceId() {
         this.idExercice = -1;
     }
-
+    
     public ExerciceId(String idExercice) {
         this.idExercice = Integer.parseInt(idExercice);           
     }

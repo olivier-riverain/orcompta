@@ -240,7 +240,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));           
             DateEntry beginDate = new DateEntry(jsonObjectExercice.getString("beginDate"));
             DateEntry endDate = new DateEntry(jsonObjectExercice.getString("endDate"));                      
-            exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getBoolean("exerciceClosed"));
+            exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getBoolean("exerciceClosed"), new ExerciceId(jsonObjectExercice.getString("idExerciceBefore")));
             System.out.println("loadFileExercice exerciceId = " + exercice.getIdExercice());
             JSONArray entries = jsonObjectExercice.getJSONArray("entries");
             for(int i=0; i<entries.length(); i++) {
@@ -305,7 +305,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             DateEntry beginDate = new DateEntry("1/1/2024");
             DateEntry endDate = new DateEntry("31/12/2024"); 
             ExerciceId idExercice = new ExerciceId(0);                     
-            exercice = new Exercice(idExercice, beginDate, endDate, "-1", false);      
+            exercice = new Exercice(idExercice, beginDate, endDate, "-1", false, new ExerciceId());      
             JSONObject orcompta = jsonObjectRead.getJSONObject("ORCOMPTA");
             JSONObject compte = orcompta.getJSONObject("COMPTE");
             JSONArray ligne = compte.getJSONArray("LIGNE");

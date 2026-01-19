@@ -39,13 +39,13 @@ public class CompanyServices {
         return idCompany;
     }
 
-    public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+    public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy, String idExerciceBefore) {
         System.out.println("CompanyServices createNewExercice idCompany = " + idCompany);
         Company company = companies.getCompany(idCompany);
         ExerciceId idExercice = company.getIdNewExercice();
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
-        Exercice newExercice = new Exercice(idExercice, dateBegin, dateEnd);
+        Exercice newExercice = new Exercice(idExercice, dateBegin, dateEnd, new ExerciceId(idExerciceBefore));
         company.addExercice(newExercice);
         repository.saveExercice(newExercice);
         System.out.println("createNewExercice " + newExercice);
