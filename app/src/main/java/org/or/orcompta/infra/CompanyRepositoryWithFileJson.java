@@ -170,6 +170,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         jsonObject.put("lastIdEntry", this.exercice.getLastIdEntry().toString());
         jsonObject.put("beginDate", this.exercice.getBeginDate().toString());
         jsonObject.put("endDate", this.exercice.getEndDate().toString());
+        jsonObject.put("idExerciceBefore", this.exercice.getIdExerciceBefore().toString());
         JSONArray entries = new JSONArray();
         for(Entry entry: newExercice.getEntries()) {
             JSONObject jsonobjectEntry = new JSONObject();

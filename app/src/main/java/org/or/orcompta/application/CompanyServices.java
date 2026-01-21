@@ -250,8 +250,10 @@ public class CompanyServices {
         Exercice exerciceAfter = company.getExercice(idExerciceAfter);
         DateEntry newDateEntry = exerciceAfter.getBeginDate();        
         Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry(), newDateEntry);        
-        exerciceAfter.addEntry(entry);
+        exerciceAfter.addEntry(entry);        
         exercice.setExerciceClosed();
+        repository.saveExercice(exerciceAfter);
+        repository.saveExercice(exercice);
         return false;
     }
 
