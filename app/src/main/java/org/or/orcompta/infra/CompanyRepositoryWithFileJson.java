@@ -351,7 +351,25 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         System.out.println("idExercice = " + exercice.getIdExercice());
         company.addExercice(exercice);
         saveExercice(exercice);
+    }
 
+    public String getIdExerciceBefore(String idExercice) {
+        String idExerciceBefore = "";        
+        FileReader file;
+        String name = company.getName();        
+        name = name.replace(' ', '-');
+        String fileExercice = new String(company.getSaveDirectory() + company.getIdCompany().toString() + "-" + name + "-" + "exercice-" + idExercice + ".json");
+            System.out.println("getIdExerciceBefore fileExercice = " + fileExercice);
+            try {
+                file = new FileReader(fileExercice);
+                JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));
+                String exerciceBefore = jsonObjectExercice.getString("idExerciceBefore");
+                idExerciceBefore = exerciceBefore; 
+            }
+            catch (IOException e) {         
+            e.printStackTrace();        
+            }        
+        return idExerciceBefore;
     }
 
 

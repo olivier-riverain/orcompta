@@ -32,6 +32,10 @@ public class CompanyRepositoryWithFileXml implements CompanyRepository{
     public void importExercice() {
         
     }
+
+    public String getIdExerciceBefore(String idExercice) {
+        return "";
+    }
     
     
 }

@@ -7,5 +7,6 @@ public interface CompanyRepository {
     public Exercice findExerciceById(CompanyId idCompany, ExerciceId idExercice);
     public void saveExercice(Exercice newExercice);
     public void importExercice();
+    public String getIdExerciceBefore(String idExercice);
       
 }

@@ -231,8 +231,7 @@ public class CompanyServices {
             idEntry = exercice.getLastIdEntry().toString();
             company.addExercice(exercice);
         } else {
-            Exercice exercice = company.
-            getExercice(idExercice);
+            Exercice exercice = company.getExercice(idExercice);
             idEntry = exercice.getLastIdEntry().toString();
         }
         return idEntry;       
@@ -243,23 +242,37 @@ public class CompanyServices {
     }
 
     public boolean closeExercice(String idCompany, String idExercice) {
+        System.err.println("CompanyServices closeExercice");
         Company company = companies.getCompany(new CompanyId(idCompany));
         Exercice exercice = company.getExercice(idExercice);
         if(exercice.exerciceIsClosed()) return true;        
-        String idExerciceAfter = getExerciceAfter(idExercice);
+        String idExerciceAfter = getExerciceAfter(company, idExercice);
+        System.out.println("idExerciceAfter = " + idExerciceAfter);
+        loadExercice(idCompany, idExerciceAfter);
         Exercice exerciceAfter = company.getExercice(idExerciceAfter);
         DateEntry newDateEntry = exerciceAfter.getBeginDate();        
-        Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry(), newDateEntry);        
-        exerciceAfter.addEntry(entry);        
+        Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry(), newDateEntry);
+        System.out.println("entry.getIdEntry() = " + entry.getIdEntry());
+        System.out.println("entry = " + entry);     
+        exerciceAfter.addEntry(entry);
+        System.out.println("exerciceAfter = " + exerciceAfter);        
         exercice.setExerciceClosed();
         repository.saveExercice(exerciceAfter);
         repository.saveExercice(exercice);
         return false;
     }
 
-    public String getExerciceAfter(String idExercice) {
+    public String getExerciceAfter(Company company, String idExercice) {
         String idExerciceAfter = "";
-
+        Map<String, String> listOfExercices = company.getListOfExercices();
+        for(Map.Entry<String, String> exerciceItem: listOfExercices.entrySet()) {
+            String idExerciceItem = exerciceItem.getKey();
+            String idExerciceBefore = repository.getIdExerciceBefore(idExerciceItem);
+            if(idExerciceBefore.equals(idExercice)) {
+                idExerciceAfter = idExerciceItem;
+                break;
+            }
+        }
         return idExerciceAfter;
     }
 
