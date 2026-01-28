@@ -81,6 +81,7 @@ public class Exercice {
 
     public Account getAccount(String account) {
         if(accounts.containsKey(account)) {
+            //System.out.println("Exercice getAccount find account = " + account);
             return accounts.get(account);
         }        
         return null;
@@ -136,28 +137,28 @@ public class Exercice {
                 Double newAmount = 0.0;                
                 Account account = lineEntry.getAccount();                
                 Double amountDebit = lineEntry.getAmountDebit();                
-                Double amountCredit = lineEntry.getAmountCredit();
-                if(amountDebit >= amountCredit) {
-                    newAmount = amountDebit - amountCredit;
-                } else {
-                    newAmount = amountCredit - amountDebit;
-                }                               
-                if(accounts.containsKey(account.toString())) {                
-                    newAmount +=  accounts.get(account.toString());                    
+                Double amountCredit = lineEntry.getAmountCredit();                
+                newAmount = amountDebit - amountCredit;                                             
+                if(accounts.containsKey(account.getName())) {                
+                    newAmount +=  accounts.get(account.getName());                    
                 }
-                accounts.put(account.toString(), newAmount);
+                accounts.put(account.getName(), newAmount);
             }           
         }
         LineEntryId idLineEntry = new LineEntryId();
+        System.out.println("acoounts.size() = " + accounts.size());
         for(Map.Entry<String, Double> accountItem: accounts.entrySet()) {
             Double amountDebit = 0.0;
             Double amountCredit = 0.0;
-            Account account = getAccount(accountItem.getKey());
+            Account account = getAccount(accountItem.getKey());            
             if(accountItem.getValue() >= 0) {
                 amountDebit = accountItem.getValue();
+                if(amountDebit<0.1) amountDebit = 0.0;
             } else {
-                amountCredit = accountItem.getValue();
+                amountCredit = -1.0 * accountItem.getValue();
+                if(amountCredit<0.1) amountCredit = 0.0;
             }
+            
             LineEntry lineEntry = new LineEntry(idLineEntry, account, amountDebit, amountCredit);
             entry.addLineEntry(lineEntry);
             idLineEntry = idLineEntry.nextId();
