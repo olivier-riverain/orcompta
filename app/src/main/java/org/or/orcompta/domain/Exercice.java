@@ -138,7 +138,7 @@ public class Exercice {
                 Account account = lineEntry.getAccount();                
                 Double amountDebit = lineEntry.getAmountDebit();                
                 Double amountCredit = lineEntry.getAmountCredit();                
-                newAmount = amountDebit - amountCredit;                                             
+                newAmount = amountDebit - amountCredit;                
                 if(accounts.containsKey(account.getName())) {                
                     newAmount +=  accounts.get(account.getName());                    
                 }
@@ -153,10 +153,10 @@ public class Exercice {
             Account account = getAccount(accountItem.getKey());            
             if(accountItem.getValue() >= 0) {
                 amountDebit = accountItem.getValue();
-                if(amountDebit<0.1) amountDebit = 0.0;
+                if(amountDebit<0.01) amountDebit = 0.0;
             } else {
                 amountCredit = -1.0 * accountItem.getValue();
-                if(amountCredit<0.1) amountCredit = 0.0;
+                if(amountCredit<0.01) amountCredit = 0.0;
             }
             
             LineEntry lineEntry = new LineEntry(idLineEntry, account, amountDebit, amountCredit);
