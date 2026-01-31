@@ -16,8 +16,7 @@ public class FactoryCompanies {
         CompanyId idNewCompany = getNewIdCompany();
         Company newCompany = new Company(idNewCompany, name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);       
         companies.put(idNewCompany, newCompany);
-        lastIdcompany = idNewCompany;
-        System.out.println("addCompany " + newCompany);
+        lastIdcompany = idNewCompany;        
         return idNewCompany;
     }
 

@@ -3,13 +3,6 @@
  */
 package org.or.orcompta;
 
-import java.io.IOException;
-
-import org.or.orcompta.domain.BalanceId;
-import org.or.orcompta.domain.CompanyId;
-import org.or.orcompta.domain.EntryId;
-import org.or.orcompta.domain.ExerciceId;
-import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.ui.controls.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -22,63 +15,7 @@ public class App extends Application{
     @Override
     public void start(Stage stage) {
         Controller controller = new Controller(stage);
-        controller.displayView();
-        CompanyId idCompany = new CompanyId();
-        /*try {
-            idCompany = controller.createNewCompany("entreprise Test", "10", "rue de la Liberte", "", "33000", "Bordeaux", "SARL", "39912704200014", "453A", 10000.0, "C:\\Users\\olivi\\orcompta-test\\test\\");
-        } catch (IOException e) {            
-            e.printStackTrace();
-        }
-        System.out.println("idCompany " + idCompany);
-
-         try {
-            idCompany = controller.createNewCompany("entreprise Test2", "15", "rue des Etoiles", "", "33600", "Pessac", "EURL", "123456789", "400A", 20000.0, "C:\\Users\\olivi\\orcompta-test\\test\\");
-        } catch (IOException e) {            
-            e.printStackTrace();
-        }*/
-        System.out.println("idCompany " + idCompany);
-        
-        /*controller.initForCompany();
-        ExerciceId idExercice = controller.createNewExercice(idCompany, "1",  "1", "2024", "31", "12", "2024");
-        System.out.println("idExercice " + idExercice);
-        controller.initTabViewEntries();
-
-        controller.initTabViewAccounts();
-        controller.createNewAccount(idCompany, idExercice, "60100000", "fournitures");
-        controller.createNewAccount(idCompany, idExercice, "44566400", "tva deductible 20%");
-        controller.createNewAccount(idCompany, idExercice, "40100000", "fournisseur");
-
-        EntryId idEntry = controller.createNewEntry("10", "3", "2024", "AC", "20240301");       
-        System.out.println("idEntry " + idEntry);
-        LineEntryId idLineEntry = controller.createNewLineEntry("40100000", 0.0, 240.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("44566400", 40.0, 0.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("60100000", 200.0, 0.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        controller.saveNewEntry();
-
-        idEntry = controller.createNewEntry("5", "6", "2024", "AC", "20240610");       
-        System.out.println("idEntry " + idEntry);
-        idLineEntry = controller.createNewLineEntry("40100000", 0.0, 120.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("44566400", 20.0, 0.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("60100000", 100.0, 0.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        controller.saveNewEntry();
-        
-        idEntry = controller.createNewEntry("17", "11", "2024", "AC", "20241110");       
-        System.out.println("idEntry " + idEntry);
-        idLineEntry = controller.createNewLineEntry("60100000", 100.0, 0.0);
-        System.out.println("idLineEntry " + idLineEntry);
-        idLineEntry = controller.createNewLineEntry("40100000", 0.0, 100.0);
-        controller.saveNewEntry();
-
-        BalanceId idBalance = controller.computeBalance("1", "1", "2024", "31", "12", "2024");
-        */
-        
-
+        controller.displayView();        
     }
 
     public static void main(String[] args) {

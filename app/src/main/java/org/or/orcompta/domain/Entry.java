@@ -126,8 +126,7 @@ public class Entry {
         linesEntry.put(this.newIdLineEntry, newLineEntry);
         this.lastIdLineEntry = this.newIdLineEntry;
         //this.nbLinesEntry++;
-        this.nbLinesEntry.set(this.nbLinesEntry.get()+1);
-        System.out.println("Entry addLineEntry this.nbLinesEntry = " + getNbLinesEntry());
+        this.nbLinesEntry.set(this.nbLinesEntry.get()+1);        
         this.amountDebit += newLineEntry.getAmountDebit();
         this.amountCredit += newLineEntry.getAmountCredit();
     }

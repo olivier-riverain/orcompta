@@ -1,6 +1,5 @@
 package org.or.orcompta.domain;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -81,7 +80,6 @@ public class Exercice {
 
     public Account getAccount(String account) {
         if(accounts.containsKey(account)) {
-            //System.out.println("Exercice getAccount find account = " + account);
             return accounts.get(account);
         }        
         return null;
@@ -145,8 +143,7 @@ public class Exercice {
                 accounts.put(account.getName(), newAmount);
             }           
         }
-        LineEntryId idLineEntry = new LineEntryId();
-        System.out.println("acoounts.size() = " + accounts.size());
+        LineEntryId idLineEntry = new LineEntryId();        
         for(Map.Entry<String, Double> accountItem: accounts.entrySet()) {
             Double amountDebit = 0.0;
             Double amountCredit = 0.0;

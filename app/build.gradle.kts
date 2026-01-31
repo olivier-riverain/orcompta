@@ -28,6 +28,9 @@ dependencies {
 
     // json
     implementation("org.json:json:20250517")
+
+    // openpdf
+    implementation("com.github.librepdf:openpdf:3.0.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

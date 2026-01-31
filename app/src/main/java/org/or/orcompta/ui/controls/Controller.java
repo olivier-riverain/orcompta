@@ -355,6 +355,12 @@ public class Controller {
         companyServices.editBalance(this.model.getIdCompany(), this.model.getIdExercice(), fromjj, frommm, fromaa, tojj, tomm, toaa);
     }
 
+    public void editBalance() {
+        companyServices.editBalance(this.model.getIdCompany(), this.model.getIdExercice());
+    }    
+
+
+
     public void displayCreateNewCompany() {
         this.viewNewCompany.show();
     }

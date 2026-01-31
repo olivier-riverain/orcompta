@@ -45,7 +45,6 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         Map<String, String> companyParameters = loadFileCompany(idCompany);
         this.company = new Company(idCompany, companyParameters.get("name"), new AddressCompany(companyParameters.get("numero"), companyParameters.get("address"), companyParameters.get("address2"), companyParameters.get("postalCode"), companyParameters.get("city")), companyParameters.get("legalForm"), companyParameters.get("siret"), companyParameters.get("naf"), Double.parseDouble(companyParameters.get("shareCapital")), companyParameters.get("saveDirectory"));
         company.setLastIdExercice(companyParameters.get("lastIdExercice"));
-        System.out.println("findCompanyById = " + company);
         for(Map.Entry<String, String> exerciceItem : companyParameters.entrySet()) {
             if(exerciceItem.getKey().contains("exercice_")) {
                 String tab[] = exerciceItem.getKey().split("_");                
@@ -102,7 +101,6 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         String name = new String(companyParameters.get(1));
         name = name.replace(' ', '-');
         String fileCompany = new String(companyParameters.get(2) + companyParameters.get(0) + "-" + name + ".json");
-        System.out.println("loadFileCompany fileCompany = " + fileCompany);
         try {
             file = new FileReader(fileCompany);
             JSONObject jsonObjectcompany = new JSONObject(new JSONTokener(file));
@@ -235,14 +233,12 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         String name = company.getName();        
         name = name.replace(' ', '-');
         String fileExercice = new String(company.getSaveDirectory() + company.getIdCompany().toString() + "-" + name + "-" + "exercice-" + idExercice.toString() + ".json");
-        System.out.println("loadFileExercice fileExercice = " + fileExercice);
         try {
             file = new FileReader(fileExercice);
             JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));           
             DateEntry beginDate = new DateEntry(jsonObjectExercice.getString("beginDate"));
             DateEntry endDate = new DateEntry(jsonObjectExercice.getString("endDate"));                      
             exercice = new Exercice(idExercice, beginDate, endDate, jsonObjectExercice.getString("lastIdEntry"), jsonObjectExercice.getBoolean("exerciceClosed"), new ExerciceId(jsonObjectExercice.getString("idExerciceBefore")));
-            System.out.println("loadFileExercice exerciceId = " + exercice.getIdExercice());
             JSONArray entries = jsonObjectExercice.getJSONArray("entries");
             for(int i=0; i<entries.length(); i++) {
                 JSONObject jsonobjectEntry = entries.getJSONObject(i);
@@ -347,8 +343,6 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         } catch (FileNotFoundException e) {            
             e.printStackTrace();
         }
-        System.out.println("exercice = " + exercice);
-        System.out.println("idExercice = " + exercice.getIdExercice());
         company.addExercice(exercice);
         saveExercice(exercice);
     }
@@ -359,7 +353,6 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
         String name = company.getName();        
         name = name.replace(' ', '-');
         String fileExercice = new String(company.getSaveDirectory() + company.getIdCompany().toString() + "-" + name + "-" + "exercice-" + idExercice + ".json");
-            System.out.println("getIdExerciceBefore fileExercice = " + fileExercice);
             try {
                 file = new FileReader(fileExercice);
                 JSONObject jsonObjectExercice = new JSONObject(new JSONTokener(file));

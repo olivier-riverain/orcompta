@@ -1,7 +1,10 @@
 package org.or.orcompta.application;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.or.orcompta.domain.Account;
@@ -40,15 +43,13 @@ public class CompanyServices {
     }
 
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy, String idExerciceBefore) {
-        System.out.println("CompanyServices createNewExercice idCompany = " + idCompany);
         Company company = companies.getCompany(idCompany);
         ExerciceId idExercice = company.getIdNewExercice();
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         Exercice newExercice = new Exercice(idExercice, dateBegin, dateEnd, new ExerciceId(idExerciceBefore));
         company.addExercice(newExercice);
-        repository.saveExercice(newExercice);
-        System.out.println("createNewExercice " + newExercice);
+        repository.saveExercice(newExercice);        
         return idExercice;
     }
     
@@ -58,8 +59,7 @@ public class CompanyServices {
         EntryId idEntry = exercice.getIdNewEntry();
         DateEntry date = new DateEntry(jj, mm, yy);
         Entry newEntry = new Entry(idEntry, date, journal, voucher);
-        exercice.addEntry(newEntry);
-        System.out.println("createNewEntry " + newEntry);        
+        exercice.addEntry(newEntry);              
         return idEntry;
     }
 
@@ -70,16 +70,13 @@ public class CompanyServices {
         LineEntryId idLineEntry = entry.getIdNewLineEntry();
         Account newAccount = exercice.getAccount(account);
         LineEntry newLineEntry = new LineEntry(idLineEntry, newAccount, amountDebit, amountCredit);
-        entry.addLineEntry(newLineEntry);
-        System.out.println("createNewLineEntry " + newLineEntry);
+        entry.addLineEntry(newLineEntry);        
         return idLineEntry;
     }
 
     public Collection<Entry> getEntriesInExercice(CompanyId idCompany, ExerciceId idExercice) {
-        Company company = companies.getCompany(idCompany);
-        //System.out.println("CompanySercices getEntriesInExercice company = " + company);
-        Exercice exercice = company.getExercice(idExercice.toString());
-        System.out.println("CompanySercices getEntriesInExercice exercice = " + exercice);
+        Company company = companies.getCompany(idCompany);        
+        Exercice exercice = company.getExercice(idExercice.toString());        
         return exercice.getEntries();
     }
 
@@ -92,8 +89,7 @@ public class CompanyServices {
 
     public Collection<Account> getAccountsInExercice(CompanyId idCompany, ExerciceId idExercice) {
         Company company = companies.getCompany(idCompany);
-        Exercice exercice = company.getExercice(idExercice.toString());
-        System.out.println("CompanySercices getAccountsInExercice = " + exercice);
+        Exercice exercice = company.getExercice(idExercice.toString());        
         return exercice.getAccounts();
     }
 
@@ -190,35 +186,50 @@ public class CompanyServices {
     }
 
     public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
+        DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
+        return computeBalance(idCompany, idExercice, dateBegin, dateEnd);        
+    }
+
+    public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        DateEntry dateBegin = exercice.getBeginDate();
+        DateEntry dateEnd = exercice.getEndDate();
+        return computeBalance(idCompany, idExercice, dateBegin, dateEnd);
+    }
+
+    public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
         BalanceId idBalance = new BalanceId(0);
-        DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
-        DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
         balance.computeBalance();
         System.out.println("computeBalance => " + balance);
         return balance.getIdBalance();
     }
 
+
+
     public void editBalance(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
         BalanceId idBalance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
         System.out.println("idBalance = " + idBalance);
     }
 
+    public void editBalance(CompanyId idCompany, ExerciceId idExercice) {
+        BalanceId idBalance = computeBalance(idCompany, idExercice);
+        System.out.println("idBalance = " + idBalance);    
+    }
+
     
     public void loadCompany(String idCompany) {
-        Company company = repository.findCompanyById(new CompanyId(idCompany));
-        System.out.println("CompanyServices loadCompany company = " + company);
-        if(companies.getCompany(company.getIdCompany()) == null) companies.addCompany(company);
-        System.out.println("CompanyServices companies = " + companies.getCompanies());
+        Company company = repository.findCompanyById(new CompanyId(idCompany));        
+        if(companies.getCompany(company.getIdCompany()) == null) companies.addCompany(company);        
     }
 
     public Map<String, String> loadListExercicesFromCompany(String id) {        
-        CompanyId idCompany = new CompanyId(id);
-        System.out.println("CompanyServices loadListExercicesFromCompany idCompany = " + idCompany);
-        Company company = companies.getCompany(idCompany);
-        System.out.println("CompanyServices loadListExercicesFromCompany company = " + company);
+        CompanyId idCompany = new CompanyId(id);        
+        Company company = companies.getCompany(idCompany);        
         Map<String, String> listExercices = company.getListOfExercices();
         return listExercices;
     }
@@ -247,14 +258,25 @@ public class CompanyServices {
         Exercice exercice = company.getExercice(idExercice);
         if(exercice.exerciceIsClosed()) return true;        
         String idExerciceAfter = getExerciceAfter(company, idExercice);
-        //System.out.println("idExerciceAfter = " + idExerciceAfter);
         loadExercice(idCompany, idExerciceAfter);
         Exercice exerciceAfter = company.getExercice(idExerciceAfter);
         DateEntry newDateEntry = exerciceAfter.getBeginDate();        
         Entry entry = exercice.closeExercice(exerciceAfter.getIdNewEntry(), newDateEntry);
-        //System.out.println("entry.getIdEntry() = " + entry.getIdEntry());
-        //System.out.println("entry = " + entry);     
-        exerciceAfter.addEntry(entry);               
+        exerciceAfter.addEntry(entry);
+        Collection<Account> accounts = exercice.getAccounts();
+        Collection<Account> accountsExerciceAfter = exerciceAfter.getAccounts();
+        Iterator<Account> iterator = accounts.iterator();
+        Iterator<Account> iteratorAfter = accountsExerciceAfter.iterator();
+        ArrayList<String> list = new ArrayList<>();        
+        while (iteratorAfter.hasNext()) {
+            Account accountItem = iteratorAfter.next();
+            list.add(accountItem.getName());            
+        }              
+        while (iterator.hasNext()) {
+            Account accountItem = iterator.next();
+            if(!list.contains(accountItem.getName())) 
+                exerciceAfter.addAccount(accountItem.getName(), accountItem.getDescription());
+        }              
         exercice.setExerciceClosed();
         repository.saveExercice(exerciceAfter);
         repository.saveExercice(exercice);
