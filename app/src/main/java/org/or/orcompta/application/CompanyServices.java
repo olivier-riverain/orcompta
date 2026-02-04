@@ -22,6 +22,7 @@ import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.Exercice;
 import org.or.orcompta.domain.ExerciceId;
+import org.or.orcompta.infra.BalancePdf;
 import org.or.orcompta.infra.CompanyRepositoryWithFileJson;
 
 public class CompanyServices {
@@ -185,13 +186,13 @@ public class CompanyServices {
         return entry.getVoucher();
     }
 
-    public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+    public Balance computeBalance(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         return computeBalance(idCompany, idExercice, dateBegin, dateEnd);        
     }
 
-    public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice) {
+    public Balance computeBalance(CompanyId idCompany, ExerciceId idExercice) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
         DateEntry dateBegin = exercice.getBeginDate();
@@ -199,26 +200,31 @@ public class CompanyServices {
         return computeBalance(idCompany, idExercice, dateBegin, dateEnd);
     }
 
-    public BalanceId computeBalance(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
+    public Balance computeBalance(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
         BalanceId idBalance = new BalanceId(0);
         Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
         balance.computeBalance();
         System.out.println("computeBalance => " + balance);
-        return balance.getIdBalance();
+        return balance;
     }
 
 
 
     public void editBalance(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
-        BalanceId idBalance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
-        System.out.println("idBalance = " + idBalance);
+        Balance balance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
+        Company company = companies.getCompany(idCompany);
+        BalancePdf balancePdf = new BalancePdf(company, balance);
+        balancePdf.createPdf();
+
     }
 
     public void editBalance(CompanyId idCompany, ExerciceId idExercice) {
-        BalanceId idBalance = computeBalance(idCompany, idExercice);
-        System.out.println("idBalance = " + idBalance);    
+        Balance balance = computeBalance(idCompany, idExercice);
+        Company company = companies.getCompany(idCompany);
+        BalancePdf balancePdf = new BalancePdf(company, balance);
+        balancePdf.createPdf();  
     }
 
     

@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.or.orcompta.application.CompanyServices;
 import org.or.orcompta.domain.Account;
+import org.or.orcompta.domain.Balance;
 import org.or.orcompta.domain.BalanceId;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.Entry;
@@ -346,9 +347,8 @@ public class Controller {
         return companyServices.getVoucherEntry(this.model.getIdCompany(), this.model.getIdExercice(),  this.model.getIdEntryLoaded());
     }
         
-    public BalanceId computeBalance(String beginjj, String beginmm, String beginyy, String endjj, String endmm, String endyy) {
-        BalanceId idBalance = companyServices.computeBalance(this.model.getIdCompany(), this.model.getIdExercice(), beginjj, beginmm, beginyy, endjj, endmm, endyy);
-        return idBalance;
+    public void computeBalance(String beginjj, String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        companyServices.editBalance(this.model.getIdCompany(), this.model.getIdExercice(), beginjj, beginmm, beginyy, endjj, endmm, endyy);
     }
 
     public void editBalance(String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
