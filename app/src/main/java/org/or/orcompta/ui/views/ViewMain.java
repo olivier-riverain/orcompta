@@ -506,8 +506,9 @@ public class ViewMain implements View{
         if(fromjj.getText().equals("") || frommm.getText().equals("") || fromaa.getText().equals("") 
             || tojj.getText().equals("") || tomm.getText().equals("") ||  toaa.getText().equals("")) {
                 controller.editBalance();
-            }
-        controller.editBalance(fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(),  tomm.getText(), toaa.getText());
+        } else {
+            controller.editBalance(fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(),  tomm.getText(), toaa.getText());
+        }
     }
 
     

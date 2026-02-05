@@ -44,6 +44,7 @@ public void computeBalance() {
     Collection<Entry> entriesInExercice = exercice.getEntries();
     for(Entry entry : entriesInExercice) {        
         DateEntry date = entry.getDate();
+        System.out.println("Balance computeBalance" + " dateBegin = " + dateBegin + " dateEnd = " + dateEnd + " date = " + date);
         if(date.between(dateBegin, dateEnd)) {
             Collection<LineEntry> linesEntryInEntry = entry.getLinesEntry();
             for(LineEntry lineEntry : linesEntryInEntry) {
@@ -55,7 +56,7 @@ public void computeBalance() {
                 if(account.getName().substring(0,1).compareTo("6") == 0) {                    
                     soldeCharge += amountDebit - amountCredit;                    
                 }
-                if(account.getName().substring(0,0).compareTo("7") == 0) {
+                if(account.getName().substring(0,1).compareTo("7") == 0) {
                     soldeProduit += amountCredit - amountDebit;
                 }
                 if(accounts.containsKey(account.getName())) {

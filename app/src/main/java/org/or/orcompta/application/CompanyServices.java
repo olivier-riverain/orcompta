@@ -196,7 +196,7 @@ public class CompanyServices {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
         DateEntry dateBegin = exercice.getBeginDate();
-        DateEntry dateEnd = exercice.getEndDate();
+        DateEntry dateEnd = exercice.getEndDate();        
         return computeBalance(idCompany, idExercice, dateBegin, dateEnd);
     }
 

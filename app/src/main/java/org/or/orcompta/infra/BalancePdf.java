@@ -23,10 +23,14 @@ public class BalancePdf {
         this.balance = balance;
         this.company = company;
         String companyName = this.company.getName().replace(" ", "-");
-        fileName = this.company.getSaveDirectory() + this.company.getIdCompany() + "-" + companyName + "_balance_" + balance.getDateBegin() + "_" + balance.getDateEnd() + ".pdf";
+        String dateBegin = balance.getDateBegin().toString().replace("/", "-");
+        String dateEnd = balance.getDateEnd().toString().replace("/", "-");
+        System.out.println("BalancePdf " + " dateBegin = " + dateBegin + " dateEnd = " + dateEnd);
+        fileName = this.company.getSaveDirectory() + this.company.getIdCompany() + "-" + companyName + "_balance_" + dateBegin + "_" + dateEnd + ".pdf";
     }
 
     public void createPdf() {
+        System.out.println("BalancePdf createPdf");
         Document document = new Document();
         try {            
             final PdfWriter instance = PdfWriter.getInstance(document, new FileOutputStream(this.fileName));           
