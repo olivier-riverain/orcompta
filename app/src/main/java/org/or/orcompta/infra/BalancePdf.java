@@ -3,6 +3,7 @@ package org.or.orcompta.infra;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import org.openpdf.text.Document;
 import org.openpdf.text.DocumentException;
@@ -10,6 +11,7 @@ import org.openpdf.text.Element;
 import org.openpdf.text.Font;
 import org.openpdf.text.PageSize;
 import org.openpdf.text.Paragraph;
+import org.openpdf.text.Phrase;
 import org.openpdf.text.Rectangle;
 import org.openpdf.text.pdf.PdfName;
 import org.openpdf.text.pdf.PdfPCell;
@@ -28,6 +30,7 @@ public class BalancePdf  extends PdfPageEventHelper{
     private String fileName;
     private float width;
     private float height;
+    private float yPos;
 
     public BalancePdf(Company company, Balance balance){        
         this.balance = balance;
@@ -46,6 +49,7 @@ public class BalancePdf  extends PdfPageEventHelper{
         System.out.println("BalancePdf createPdf width = " + width);
         height = document.getPageSize().getHeight();
         System.out.println("BalancePdf createPdf height = " + height);
+        yPos = height;
         PdfWriter writer = null;;
         try {            
             writer = PdfWriter.getInstance(document, new FileOutputStream(this.fileName));           
@@ -54,7 +58,50 @@ public class BalancePdf  extends PdfPageEventHelper{
             writer.setPageEvent(this); 
             document.open();
             writer.getInfo().put(PdfName.CREATOR, new PdfString(Document.getVersion()));            
-            //document.add(new Paragraph("Hello World"));
+            PdfPTable tableTitle = new PdfPTable(5);        
+            tableTitle.setTotalWidth(width);
+            tableTitle.setWidths(new float[]{15.0F, 40.0F, 15.0F, 15.0F, 15.0F});
+            tableTitle.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableTitle.getDefaultCell().setPaddingBottom(5);
+            tableTitle.getDefaultCell().setBorder(Rectangle.BOX);
+            Font fontTitle = new Font(Font.HELVETICA, 8, Font.BOLD);
+            Phrase compteName = new Phrase("COMPTE", fontTitle);
+            PdfPCell compteCell = new PdfPCell(compteName);
+            tableTitle.addCell(compteCell);
+            Phrase libelleName = new Phrase("LIBELLE", fontTitle);
+            PdfPCell libelleCell = new PdfPCell(libelleName);
+            tableTitle.addCell(libelleCell);                       
+            Phrase debitName = new Phrase("DEBIT", fontTitle);
+            PdfPCell debitCell = new PdfPCell(debitName);
+            tableTitle.addCell(debitCell);
+            Phrase creditName = new Phrase("DEBIT", fontTitle);
+            PdfPCell creditCell = new PdfPCell(creditName);
+            tableTitle.addCell(creditCell);
+            Phrase soldeName = new Phrase("SOLDE", fontTitle);
+            PdfPCell soldeCell = new PdfPCell(soldeName);
+            tableTitle.addCell(soldeCell);
+            Font fontItem = new Font(Font.HELVETICA, 8);
+            Map<String, Double[]> accounts = balance.getAccounts();
+            for(Map.Entry<String, Double[]> accountItem: accounts.entrySet()) {
+                compteName = new Phrase(accountItem.getKey(), fontItem);
+                compteCell = new PdfPCell(compteName);
+                tableTitle.addCell(compteCell);
+                String libelle = balance.getAccountLibelle(accountItem.getKey());
+                libelleName = new Phrase(libelle, fontItem);
+                libelleCell = new PdfPCell(libelleName);
+                tableTitle.addCell(libelleCell);                       
+                debitName = new Phrase(accountItem.getValue()[0].toString(), fontItem);
+                debitCell = new PdfPCell(debitName);
+                tableTitle.addCell(debitCell);
+                creditName = new Phrase(accountItem.getValue()[1].toString(), fontItem);
+                creditCell = new PdfPCell(creditName);
+                tableTitle.addCell(creditCell);
+                Double solde = accountItem.getValue()[0] - accountItem.getValue()[1];
+                soldeName = new Phrase(solde.toString(), fontItem);
+                soldeCell = new PdfPCell(soldeName);
+                tableTitle.addCell(soldeCell);
+            }
+            document.add(tableTitle);
 
         } catch (DocumentException | IOException de) {
             System.err.println(de.getMessage());
@@ -66,40 +113,37 @@ public class BalancePdf  extends PdfPageEventHelper{
 
     @Override
     public void onStartPage(PdfWriter writer, Document document) {
-        // create a header
-        PdfPTable tableTitle = new PdfPTable(1);
+        // create a header                
+        PdfPTable tableTitle = new PdfPTable(2);        
         tableTitle.setTotalWidth(width);
-        //tableTitle.setWidths(new float[]{38, 38});
+        tableTitle.setWidths(new float[]{50.0F, 50.0F});
         tableTitle.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-        tableTitle.getDefaultCell().setPaddingBottom(5);
-        tableTitle.getDefaultCell().setBorder(Rectangle.BOX);
-        Paragraph title =  new Paragraph("Balance du " + balance.getDateBegin() + " au " + balance.getDateEnd(), new Font(Font.COURIER, 20, Font.BOLD));
+        tableTitle.getDefaultCell().setPaddingBottom(40);
+        tableTitle.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+        Font fontTitle = new Font(Font.HELVETICA, 20, Font.BOLD);
+        Phrase title =  new Phrase("Balance du " + balance.getDateBegin() + " au " + balance.getDateEnd(), fontTitle);
         PdfPCell titleCell = new PdfPCell(title);
-        titleCell.setPaddingBottom(10);
+        titleCell.setPaddingTop(20);
+        titleCell.setPaddingBottom(20);
         titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        titleCell.setBorder(Rectangle.NO_BORDER);
-        tableTitle.addCell(titleCell);
-        tableTitle.writeSelectedRows(0, -1, 34, 828, writer.getDirectContent());
-        
-        Font cellFont = new Font(Font.HELVETICA, 8);
-        PdfPTable tableInfo = new PdfPTable(2);
-        tableInfo.setTotalWidth(width);
-        tableInfo.setWidths(new float[]{38, 38});
-        tableInfo.setWidths(new float[]{38, 38});
-        tableInfo.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-        tableInfo.getDefaultCell().setPaddingBottom(5);
-        tableInfo.getDefaultCell().setBorder(Rectangle.BOX);
-        Paragraph companyName = new Paragraph(company.getName() + " " + company.getAddress(), cellFont);
+        titleCell.setBorder(Rectangle.SECTION);        
+        titleCell.setColspan(800);        
+        tableTitle.addCell(titleCell);                        
+        Font cellFont = new Font(Font.HELVETICA, 8);        
+        Phrase companyName = new Phrase(company.getName() + " " + company.getAddress(), cellFont);
         PdfPCell companyCell = new PdfPCell(companyName);
-        companyCell.setBorder(Rectangle.NO_BORDER);
-        tableInfo.addCell(companyCell);
-        Paragraph siret = new Paragraph(company.getSiret(), cellFont);
+        companyCell.setBorder(Rectangle.LIST);        
+        companyCell.setPaddingTop(5);
+        companyCell.setPaddingBottom(5);              
+        tableTitle.addCell(companyCell);
+        Phrase siret = new Phrase(company.getSiret(), cellFont);
         PdfPCell siretCell = new PdfPCell(siret);
-        siretCell.setBorder(Rectangle.NO_BORDER);
-        tableInfo.addCell(siretCell);
-        
-
-        tableInfo.writeSelectedRows(0, -1, 34, 828, writer.getDirectContent());
+        siretCell.setBorder(Rectangle.LIST);                
+        siretCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        siretCell.setPaddingTop(5);
+        siretCell.setPaddingBottom(5);        
+        tableTitle.addCell(siretCell);            
+        document.add(tableTitle);
     }
 
     @Override

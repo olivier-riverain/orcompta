@@ -1,6 +1,7 @@
 package org.or.orcompta.domain;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -11,6 +12,7 @@ private Exercice exercice;
 private DateEntry dateBegin;
 private DateEntry dateEnd;
 private Map<String, Double[]> accounts;
+private Map<String, String> accountsLibelle;
 private Double totalAmountDebit;
 private Double totalAmountCredit;
 private Double soldeProduit;
@@ -22,6 +24,7 @@ public Balance(BalanceId idBalance, Exercice exercice, DateEntry dateBegin, Date
     this.dateBegin = dateBegin;
     this.dateEnd = dateEnd;
     accounts = new TreeMap<>();
+    accountsLibelle = new LinkedHashMap<>();
     totalAmountDebit = 0.0;
     totalAmountCredit = 0.0;
     soldeProduit = 0.0;
@@ -38,6 +41,24 @@ public DateEntry getDateBegin() {
 
 public DateEntry getDateEnd() {
     return this.dateEnd;
+}
+
+public Map<String, Double[]> getAccounts() {
+    return accounts;
+}
+
+public Map<String, String> getAccountsLibelle() {
+    return accountsLibelle;
+}
+
+public String getAccountLibelle(String key) {
+    String libelle = "";
+    for(Map.Entry<String, String> libelleItem: accountsLibelle.entrySet()) {
+        if(libelleItem.getKey().equals(key)) {
+            libelle = libelleItem.getValue();
+        }
+    }
+    return libelle;
 }
 
 public void computeBalance() {    
@@ -64,7 +85,8 @@ public void computeBalance() {
                     amountCredit +=  accounts.get(account.getName())[1];
                 }
                 Double [] amounts = {amountDebit, amountCredit};
-                accounts.put(account.getName(), amounts);                
+                accounts.put(account.getName(), amounts);
+                accountsLibelle.put(account.getName(), account.getDescription());                
             }        
         }
     }
