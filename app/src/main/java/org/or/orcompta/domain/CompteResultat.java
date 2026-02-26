@@ -8,4 +8,6 @@ public class CompteResultat {
         this.idCompteResultat = idCompteResultat;
     }
 
+
+    
 }

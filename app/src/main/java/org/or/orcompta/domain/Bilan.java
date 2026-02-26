@@ -163,45 +163,37 @@ public class Bilan {
                         } else {
                             bilan.put("DY",  bilan.get("DY") + credit - debit);
                         }
-                    } 
+                    }
                     
+                    if ((cpte.substring(0,3).equals("462")) || (cpte.substring(0,3).equals("465")) || (cpte.substring(0,4).equals("4687")) || (cpte.substring(0,4).equals("4096")) || (cpte.substring(0,4).equals("4097"))  || (cpte.substring(0,4).equals("4098"))) {
+                        if(debit-credit>=0) {
+                            bilan.put("BZ",  bilan.get("BZ") + debit - credit);       
+                        } else {
+                            bilan.put("EA",  bilan.get("EA") + credit - debit);
+                        }
+                    }
+
+                    if ((cpte.substring(0,3).equals("495")) || (cpte.substring(0,3).equals("496"))) bilan.put("CA",  bilan.get("CA") + debit - credit); 
+                    bilan.put("BZ_CA", bilan.get("BZ") - bilan.get("CA"));
+
+                    if (cpte.substring(0,4).equals("4562")) bilan.put("CB",  bilan.get("CB") + debit - credit); 
+                    //il n'y a pas de compte provision pour CC
+                    bilan.put("CB_CC", bilan.get("CB") - bilan.get("CC"));
                     
 
 
 
 
-//if ( (substr($_,0,3) eq "425") || (substr($_,0,4) eq "4287") || (substr($_,0,4) eq "4387") || (substr($_,0,3) eq "441") || (substr($_,0,3) eq "442") || (substr($_,0,3) eq "443") || (substr($_,0,4) eq "4456") || (substr($_,0,5) eq "44581") || (substr($_,0,5) eq "44582") || (substr($_,0,5) eq "44583") || (substr($_,0,5) eq "44586") || (substr($_,0,4) eq "4487") )
-//{
-//if ($balancep {$_} {montant_debit} - $balancep {$_} {montant_credit} >= 0)
-//{
-//$bilanp{BZ}{montant} += $balancep {$_} {montant_debit} - $balancep {$_} {montant_credit} ; 
-//} else {
-//$bilanp{DY}{montant} += $balancep {$_} {montant_credit} - $balancep {$_} {montant_debit} ; 
-//}
-//}
-
-//if ((substr($_,0,3) eq "462") || (substr($_,0,3) eq "465") || (substr($_,0,4) eq "4687") || (substr($_,0,4) eq "4096") || (substr($_,0,4) eq "4097") || (substr($_,0,4) eq "4098") )
-//{
-//if ($balancep {$_} {montant_debit} - $balancep {$_} {montant_credit} >= 0)
-//{
-//$bilanp{BZ}{montant} += $balancep {$_} {montant_debit} - $balancep {$_} {montant_credit} ; 
-//} else {
-//$bilanp{EA}{montant} += $balancep {$_} {montant_credit} - $balancep {$_} {montant_debit} ; 
-//}
-//}
-
-
-
-//if ( (substr($_,0,3) eq "495") || (substr($_,0,3) eq "496") )  { $bilanp {CA} {montant} += $balancep {$_} {montant_credit} - $balancep {$_} {montant_debit} ; }
-//$bilanp {BZ_CA} {montant} = $bilanp {BZ} {montant} - $bilanp {CA} {montant} ;
-
-//if (substr($_,0,4) eq "4562") { $bilanp {CB} {montant} += $balancep {$_} {montant_debit} - $balancep {$_} {montant_credit} ; }
-//# il n'y a pas de compte provision pour CC
-//$bilanp {CB_CC} {montant} = $bilanp {CB} {montant} - $bilanp {CC} {montant} ;
 
                     break;
                 case "5":
                     // code block
+                    if (cpte.substring(0,2).equals("50")) bilan.put("CD",  bilan.get("CD") + debit - credit); 
+                    //il n'y a pas de compte provision pour CE
+                    bilan.put("CD_CE", bilan.get("CD") - bilan.get("CE"));
+
+                    if ((cpte.substring(0,2).equals("51")) || (cpte.substring(0,2).equals("52"))  || (cpte.substring(0,2).equals("53")) || (cpte.substring(0,2).equals("54")  || (cpte.substring(0,2).equals("58")))) bilan.put("CF",  bilan.get("CF") + debit - credit); 
+                    bilan.put("CF_CG", bilan.get("CF") - bilan.get("CG"));
 
 
                     break;
