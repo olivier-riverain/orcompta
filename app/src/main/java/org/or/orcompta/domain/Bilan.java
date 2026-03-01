@@ -43,8 +43,58 @@ public class Bilan {
                     if (cpte.substring(0,4).equals("1011") || cpte.substring(0,3).equals("109") ) bilan.put("AA",  bilan.get("AA") + debit - credit); 
                     bilan.put("AA_AAA", bilan.get("AA") - bilan.get("AAA"));
 
+                    if (cpte.substring(0,4).equals("1013")) bilan.put("DA_V",  bilan.get("DA_V") + credit - debit); 
+                    
+                    if (cpte.substring(0,3).equals("101") || cpte.substring(0,3).equals("108") || cpte.substring(0,3).equals("109")) bilan.put("DA",  bilan.get("DA") + credit - debit); 
 
 
+
+
+
+
+//if (substr($_,0,3) eq "104")  { $bilan {DB} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,3) eq "107")  { $bilan {EK} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if ( (substr($_,0,3) eq "105") || (substr($_,0,3) eq "107") )  { $bilan {DC} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,4) eq "1061")  { $bilan {DD} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if ( (substr($_,0,4) eq "1062") || (substr($_,0,4) eq "1063") )  { $bilan {DE} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//# if (substr($_,0,4) eq "106X")  { $bilan {B1} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,4) eq "1064")  { $bilan {DF} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//# if (substr($_,0,4) eq "106X")  { $bilan {EJ} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,4) eq "1068")  { $bilan {DG} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,2) eq "11")  { $bilan {DH} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,2) eq "12")  { $bilan {DI} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,2) eq "13")  { $bilan {DJ} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,2) eq "14")  { $bilan {DK} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//#if (substr($_,0,2) eq "1x")  { $bilan {DM} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//#if (substr($_,0,2) eq "1x")  { $bilan {DN} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,3) eq "151")  { $bilan {DP} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if ( (substr($_,0,3) eq "153") || (substr($_,0,3) eq "154") || (substr($_,0,3) eq "155") || (substr($_,0,3) eq "156") || (substr($_,0,3) eq "157") || (substr($_,0,3) eq "158") )  { $bilan {DP} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,3) eq "161")  { $bilan {DS} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,3) eq "163")  { $bilan {DT} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,3) eq "164")  { $bilan {DU} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if (substr($_,0,4) eq "1675")  { $bilan {EI} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+
+//if ( (substr($_,0,3) eq "165") || (substr($_,0,3) eq "166") || (substr($_,0,3) eq "167") || (substr($_,0,3) eq "168") || (substr($_,0,3) eq "169") || (substr($_,0,3) eq "451") || (substr($_,0,3) eq "455") || (substr($_,0,4) eq "4561") || (substr($_,0,4) eq "4563") || (substr($_,0,4) eq "4564") || (substr($_,0,4) eq "4566") || (substr($_,0,4) eq "4567") || (substr($_,0,3) eq "457") || (substr($_,0,3) eq "458") )  { $bilan {DV} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
 
 
                     break;
@@ -121,6 +171,11 @@ public class Bilan {
                     if ((cpte.substring(0,3).equals("275")) || (cpte.substring(0,3).equals("276")) || (cpte.substring(0,3).equals("277")) || (cpte.substring(0,3).equals("279"))) bilan.put("BH",  bilan.get("BH") + debit - credit); 
                     if ((cpte.substring(0,4).equals("2975")) || (cpte.substring(0,4).equals("2976")) || (cpte.substring(0,4).equals("2973"))) bilan.put("BI",  bilan.get("BI") + credit - debit);
                     bilan.put("BB_BC", bilan.get("BB") - bilan.get("BC"));
+
+                    if (cpte.substring(0,3).equals("206")) bilan.put("DDB",  bilan.get("DDB") + debit - credit); 
+                    
+            //if (substr($_,0,3) eq "206")  { $bilan {DDB} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
+                    
                     break;
                 
                 case "3":
@@ -179,13 +234,27 @@ public class Bilan {
                     if (cpte.substring(0,4).equals("4562")) bilan.put("CB",  bilan.get("CB") + debit - credit); 
                     //il n'y a pas de compte provision pour CC
                     bilan.put("CB_CC", bilan.get("CB") - bilan.get("CC"));
-                    
 
+                    if (cpte.substring(0,3).equals("486")) bilan.put("CH",  bilan.get("CH") + debit - credit); 
+                    //il n'y a pas de compte provision pour CI
+                    bilan.put("CH_CI", bilan.get("CH") - bilan.get("CI"));
+
+                    if (cpte.substring(0,4).equals("4816")) bilan.put("CW",  bilan.get("CW") + debit - credit); 
+                    bilan.put("CW_CWW", bilan.get("CW") - bilan.get("CWW"));
+
+                    if (cpte.substring(0,3).equals("481")) bilan.put("CW",  bilan.get("CW") + debit - credit); 
+                    bilan.put("CW_CWW", bilan.get("CW") - bilan.get("CWW"));
+
+                    bilan.put("CM_CMM", bilan.get("CM") - bilan.get("CMM"));
+
+                    if (cpte.substring(0,3).equals("476")) bilan.put("CN",  bilan.get("CN") + debit - credit); 
+                    bilan.put("CN_CNN", bilan.get("CN") - bilan.get("CNN"));
 
 
 
 
                     break;
+
                 case "5":
                     // code block
                     if (cpte.substring(0,2).equals("50")) bilan.put("CD",  bilan.get("CD") + debit - credit); 
