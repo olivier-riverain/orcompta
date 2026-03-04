@@ -47,26 +47,24 @@ public class Bilan {
                     
                     if (cpte.substring(0,3).equals("101") || cpte.substring(0,3).equals("108") || cpte.substring(0,3).equals("109")) bilan.put("DA",  bilan.get("DA") + credit - debit); 
 
+                    if (cpte.substring(0,3).equals("104")) bilan.put("DB",  bilan.get("DB") + credit - debit); 
 
+                    if (cpte.substring(0,3).equals("107")) bilan.put("EK",  bilan.get("EK") + credit - debit); 
 
+                    if (cpte.substring(0,3).equals("105") || cpte.substring(0,3).equals("107")) bilan.put("DC",  bilan.get("DC") + credit - debit); 
 
+                    if (cpte.substring(0,4).equals("1061")) bilan.put("DD",  bilan.get("EK") + credit - debit); 
 
+                    if (cpte.substring(0,4).equals("1062") || cpte.substring(0,4).equals("1063")) bilan.put("DE",  bilan.get("DE") + credit - debit); 
 
-//if (substr($_,0,3) eq "104")  { $bilan {DB} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1064")) bilan.put("B1",  bilan.get("B1") + credit - debit);
 
-//if (substr($_,0,3) eq "107")  { $bilan {EK} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1064")) bilan.put("DF",  bilan.get("DF") + credit - debit); 
 
-//if ( (substr($_,0,3) eq "105") || (substr($_,0,3) eq "107") )  { $bilan {DC} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("106x")) bilan.put("EJ",  bilan.get("EJ") + credit - debit); 
 
-//if (substr($_,0,4) eq "1061")  { $bilan {DD} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1068")) bilan.put("DG",  bilan.get("DG") + credit - debit); 
 
-//if ( (substr($_,0,4) eq "1062") || (substr($_,0,4) eq "1063") )  { $bilan {DE} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//# if (substr($_,0,4) eq "106X")  { $bilan {B1} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if (substr($_,0,4) eq "1064")  { $bilan {DF} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//# if (substr($_,0,4) eq "106X")  { $bilan {EJ} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
 
 //if (substr($_,0,4) eq "1068")  { $bilan {DG} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
 
