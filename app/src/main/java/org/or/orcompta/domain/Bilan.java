@@ -1,6 +1,5 @@
 package org.or.orcompta.domain;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,17 +28,14 @@ public class Bilan {
 
     }
     
-    public void createBilan(Balance balance) {
-        createActif();
-        createPassif();
+    public void createBilan(Balance balance) {        
         for(Map.Entry<String, Double[]> account : balance.getAccounts().entrySet()) {
             String cpte = account.getKey();
             Double debit = account.getValue()[0];
-             Double credit = account.getValue()[1];
+            Double credit = account.getValue()[1];
             String first = cpte.substring(0, 1);            
             switch(first) {
-                case "1":
-                    // code block
+                case "1":                    
                     if (cpte.substring(0,4).equals("1011") || cpte.substring(0,3).equals("109") ) bilan.put("AA",  bilan.get("AA") + debit - credit); 
                     bilan.put("AA_AAA", bilan.get("AA") - bilan.get("AAA"));
 
@@ -65,39 +61,41 @@ public class Bilan {
 
                     if (cpte.substring(0,4).equals("1068")) bilan.put("DG",  bilan.get("DG") + credit - debit); 
 
+                    if (cpte.substring(0,2).equals("11")) bilan.put("DH",  bilan.get("DH") + credit - debit);                     
 
-//if (substr($_,0,4) eq "1068")  { $bilan {DG} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,2).equals("12")) bilan.put("DI",  bilan.get("DI") + credit - debit); 
 
-//if (substr($_,0,2) eq "11")  { $bilan {DH} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,2).equals("13")) bilan.put("DJ",  bilan.get("DJ") + credit - debit); 
 
-//if (substr($_,0,2) eq "12")  { $bilan {DI} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,2).equals("14")) bilan.put("DK",  bilan.get("DK") + credit - debit); 
 
-//if (substr($_,0,2) eq "13")  { $bilan {DJ} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,2).equals("12")) bilan.put("DI",  bilan.get("DI") + credit - debit); 
 
-//if (substr($_,0,2) eq "14")  { $bilan {DK} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,3).equals("151")) bilan.put("DP",  bilan.get("DP") + credit - debit); 
 
-//#if (substr($_,0,2) eq "1x")  { $bilan {DM} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,3).equals("153") || cpte.substring(0,3).equals("154") || cpte.substring(0,3).equals("155") || cpte.substring(0,3).equals("156") || cpte.substring(0,3).equals("157") || cpte.substring(0,3).equals("158")) bilan.put("DP",  bilan.get("DP") + credit - debit); 
 
-//#if (substr($_,0,2) eq "1x")  { $bilan {DN} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,3).equals("161")) bilan.put("DS",  bilan.get("DS") + credit - debit); 
 
-//if (substr($_,0,3) eq "151")  { $bilan {DP} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,3).equals("163")) bilan.put("DT",  bilan.get("DT") + credit - debit); 
 
-//if ( (substr($_,0,3) eq "153") || (substr($_,0,3) eq "154") || (substr($_,0,3) eq "155") || (substr($_,0,3) eq "156") || (substr($_,0,3) eq "157") || (substr($_,0,3) eq "158") )  { $bilan {DP} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,3).equals("164")) bilan.put("DU",  bilan.get("DU") + credit - debit); 
 
-//if (substr($_,0,3) eq "161")  { $bilan {DS} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1675")) bilan.put("EI",  bilan.get("EI") + credit - debit); 
 
-//if (substr($_,0,3) eq "163")  { $bilan {DT} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,3).equals("165") || cpte.substring(0,3).equals("166") || cpte.substring(0,3).equals("167") || cpte.substring(0,3).equals("168") || cpte.substring(0,3).equals("169") || cpte.substring(0,2).equals("45")) bilan.put("DV",  bilan.get("DV") + credit - debit); 
 
-//if (substr($_,0,3) eq "164")  { $bilan {DU} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1051")) bilan.put("1C",  bilan.get("1C") + credit - debit);
 
-//if (substr($_,0,4) eq "1675")  { $bilan {EI} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1052")) bilan.put("1D",  bilan.get("1D") + credit - debit); 
 
-//if ( (substr($_,0,3) eq "165") || (substr($_,0,3) eq "166") || (substr($_,0,3) eq "167") || (substr($_,0,3) eq "168") || (substr($_,0,3) eq "169") || (substr($_,0,3) eq "451") || (substr($_,0,3) eq "455") || (substr($_,0,4) eq "4561") || (substr($_,0,4) eq "4563") || (substr($_,0,4) eq "4564") || (substr($_,0,4) eq "4566") || (substr($_,0,4) eq "4567") || (substr($_,0,3) eq "457") || (substr($_,0,3) eq "458") )  { $bilan {DV} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
+                    if (cpte.substring(0,4).equals("1053")) bilan.put("1E",  bilan.get("1E") + credit - debit); 
 
+                    if (cpte.substring(0,5).equals("10641")) bilan.put("EF",  bilan.get("EF") + credit - debit); 
 
                     break;
-                case "2":
-                    // code block
+
+                case "2":                    
                     if (cpte.substring(0,3).equals("201")) bilan.put("AB",  bilan.get("AB") + debit - credit); 
                     if (cpte.substring(0,4).equals("2801")) bilan.put("AC",  bilan.get("AC") + credit - debit);
                     bilan.put("AB_AC", bilan.get("AB") - bilan.get("AC"));
@@ -171,13 +169,10 @@ public class Bilan {
                     bilan.put("BB_BC", bilan.get("BB") - bilan.get("BC"));
 
                     if (cpte.substring(0,3).equals("206")) bilan.put("DDB",  bilan.get("DDB") + debit - credit); 
-                    
-            //if (substr($_,0,3) eq "206")  { $bilan {DDB} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-                    
+                                        
                     break;
                 
-                case "3":
-                    // code block
+                case "3":                    
                     if ((cpte.substring(0,2).equals("31")) || (cpte.substring(0,2).equals("32"))) bilan.put("BL",  bilan.get("BL") + debit - credit); 
                     if ((cpte.substring(0,3).equals("391")) || (cpte.substring(0,3).equals("392"))) bilan.put("BI",  bilan.get("BM") + credit - debit);
                     bilan.put("BL_BM", bilan.get("BL") - bilan.get("BM"));
@@ -200,8 +195,7 @@ public class Bilan {
 
                     break;
                 
-                case "4":
-                    // code block
+                case "4":                    
                     if (cpte.substring(0,4).equals("4091")) bilan.put("BV",  bilan.get("BV") + debit - credit); 
                     //il n'y a pas de compte provision pour BW
                     bilan.put("BV_BW", bilan.get("BV") - bilan.get("BW"));
@@ -248,13 +242,35 @@ public class Bilan {
                     if (cpte.substring(0,3).equals("476")) bilan.put("CN",  bilan.get("CN") + debit - credit); 
                     bilan.put("CN_CNN", bilan.get("CN") - bilan.get("CNN"));
 
+                    if (cpte.substring(0,3).equals("419")) bilan.put("DW",  bilan.get("DW") + debit - credit); 
+                                       
+                    if (cpte.substring(0,3).equals("400") || cpte.substring(0,3).equals("401") || cpte.substring(0,3).equals("403") || cpte.substring(0,4).equals("4081") || cpte.substring(0,4).equals("4088")) {
+                        if(credit-debit>=0) {
+                            bilan.put("DX",  bilan.get("DX") + credit - debit);       
+                        } else {
+                            bilan.put("BZ",  bilan.get("BZ") + debit - credit);
+                        }
+                    }
 
+                    if (cpte.substring(0,2).equals("42") || cpte.substring(0,2).equals("43") || cpte.substring(0,2).equals("44")) {
+                        if(credit-debit>=0) {
+                            bilan.put("DY",  bilan.get("DY") + credit - debit);       
+                        } else {
+                            bilan.put("BZ",  bilan.get("BZ") + debit - credit);
+                        }
+                    }
 
+                    if (cpte.substring(0,3).equals("404") || cpte.substring(0,3).equals("405") || cpte.substring(0,4).equals("4084")) bilan.put("DZ",  bilan.get("DZ") + credit - debit); 
+
+                    if (cpte.substring(0,2).equals("46") ) bilan.put("EA",  bilan.get("EA") + credit - debit); 
+
+                    if (cpte.substring(0,3).equals("487") ) bilan.put("EB",  bilan.get("EB") + credit - debit); 
+
+                    if (cpte.substring(0,3).equals("477") ) bilan.put("ED",  bilan.get("ED") + credit - debit); 
 
                     break;
 
-                case "5":
-                    // code block
+                case "5":                    
                     if (cpte.substring(0,2).equals("50")) bilan.put("CD",  bilan.get("CD") + debit - credit); 
                     //il n'y a pas de compte provision pour CE
                     bilan.put("CD_CE", bilan.get("CD") - bilan.get("CE"));
@@ -262,24 +278,13 @@ public class Bilan {
                     if ((cpte.substring(0,2).equals("51")) || (cpte.substring(0,2).equals("52"))  || (cpte.substring(0,2).equals("53")) || (cpte.substring(0,2).equals("54")  || (cpte.substring(0,2).equals("58")))) bilan.put("CF",  bilan.get("CF") + debit - credit); 
                     bilan.put("CF_CG", bilan.get("CF") - bilan.get("CG"));
 
+                    break;
 
-                    break;
                 default:
-                    break;
-                
+                    break;                
             }
 
         }
-    }
-
-    private void createActif() {
-        //codeBilan.put("AA", 0.0);
-        
-
-    }
-
-    private void createPassif() {
-
     }
 
 }
