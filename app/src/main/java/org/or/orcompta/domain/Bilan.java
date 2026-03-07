@@ -278,6 +278,9 @@ public class Bilan {
                     if ((cpte.substring(0,2).equals("51")) || (cpte.substring(0,2).equals("52"))  || (cpte.substring(0,2).equals("53")) || (cpte.substring(0,2).equals("54")  || (cpte.substring(0,2).equals("58")))) bilan.put("CF",  bilan.get("CF") + debit - credit); 
                     bilan.put("CF_CG", bilan.get("CF") - bilan.get("CG"));
 
+                    if (cpte.substring(0,3).equals("519") ) bilan.put("EH",  bilan.get("EH") + debit - credit); 
+                    
+
                     break;
 
                 default:
