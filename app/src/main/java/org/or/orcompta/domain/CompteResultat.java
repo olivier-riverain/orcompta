@@ -40,52 +40,24 @@ public class CompteResultat {
                 break;
 
                 case "7":
-                    if (cpte.substring(0,3).equals("707")) compteResultat.put("FA",  compteResultat.get("FA") + credit - debit);
-                    if (cpte.substring(0,3).equals("707")) compteResultat.put("FC",  compteResultat.get("FC") + credit - debit);      
+                    if (cpte.substring(0,3).equals("707") || cpte.substring(0,4).equals("7097")) compteResultat.put("FA",  compteResultat.get("FA") + credit - debit);
+                    if (cpte.substring(0,3).equals("707") || cpte.substring(0,4).equals("7097")) compteResultat.put("FC",  compteResultat.get("FC") + credit - debit);      
                 
+                    if (cpte.substring(0,3).equals("701")|| cpte.substring(0,3).equals("702") || cpte.substring(0,3).equals("703") || cpte.substring(0,4).equals("7091")) compteResultat.put("FD",  compteResultat.get("FD") + credit - debit);
+                    if (cpte.substring(0,3).equals("701")|| cpte.substring(0,3).equals("702") || cpte.substring(0,3).equals("703") || cpte.substring(0,4).equals("7091")) compteResultat.put("FF",  compteResultat.get("FF") + credit - debit);
 
+                    if (cpte.substring(0,3).equals("704")|| cpte.substring(0,3).equals("705") || cpte.substring(0,3).equals("706")) compteResultat.put("FG",  compteResultat.get("FG") + credit - debit);
+                    if (cpte.substring(0,3).equals("704")|| cpte.substring(0,3).equals("705") || cpte.substring(0,3).equals("706")) compteResultat.put("FI",  compteResultat.get("FI") + credit - debit);
 
+                    if (cpte.substring(0,4).equals("7094")|| cpte.substring(0,4).equals("7095") || cpte.substring(0,4).equals("7096") || cpte.substring(0,4).equals("7098")) compteResultat.put("FG",  compteResultat.get("FG") + credit - debit);
+                    if (cpte.substring(0,4).equals("7094")|| cpte.substring(0,4).equals("7095") || cpte.substring(0,4).equals("7096") || cpte.substring(0,4).equals("7098")) compteResultat.put("FI",  compteResultat.get("FI") + credit - debit);
 
+                    if (cpte.substring(0,2).equals("71")) compteResultat.put("FM",  compteResultat.get("FM") + credit - debit);
+                    if (cpte.substring(0,2).equals("72")) compteResultat.put("FN",  compteResultat.get("FN") + credit - debit);
+                    if (cpte.substring(0,2).equals("74")) compteResultat.put("FO",  compteResultat.get("FO") + credit - debit);
+                    if (cpte.substring(0,3).equals("781") || cpte.substring(0,3).equals("791")) compteResultat.put("FP",  compteResultat.get("FP") + credit - debit);
+                    if (cpte.substring(0,2).equals("75")) compteResultat.put("FQ",  compteResultat.get("FQ") + credit - debit);
 
-//#if ( (substr($_,0,3) eq "701") || (substr($_,0,3) eq "702") || (substr($_,0,3) eq "703") )  { $cr {FD} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//#if ( (substr($_,0,3) eq "701") || (substr($_,0,3) eq "702") || (substr($_,0,3) eq "703") )  { $cr {FE} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if ( (substr($_,0,3) eq "701") || (substr($_,0,3) eq "702") || (substr($_,0,3) eq "703") )  { $cr {FF} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//#if ( (substr($_,0,3) eq "704") || (substr($_,0,3) eq "705") || (substr($_,0,3) eq "706") || (substr($_,0,3) eq "708") )  { $cr {FG} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//#if ( (substr($_,0,3) eq "704") || (substr($_,0,3) eq "705") || (substr($_,0,3) eq "706") || (substr($_,0,3) eq "708") )  { $cr {FH} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if ( (substr($_,0,3) eq "704") || (substr($_,0,3) eq "705") || (substr($_,0,3) eq "706")  || (substr($_,0,3) eq "708") )  { $cr {FI} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//#if (substr($_,0,4) eq "7097")   { $cr {FA} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//#if (substr($_,0,4) eq "7097")   { $cr {FB} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if (substr($_,0,4) eq "7097")   { $cr {FC} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//#if ( (substr($_,0,4) eq "7091") || (substr($_,0,4) eq "7092")  )  { $cr {FD} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//#if ( (substr($_,0,4) eq "7091") || (substr($_,0,4) eq "7092")  )  { $cr {FE} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if ( (substr($_,0,4) eq "7091") || (substr($_,0,4) eq "7092")  )  { $cr {FF} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//#if ( (substr($_,0,4) eq "7094") || (substr($_,0,4) eq "7095") || (substr($_,0,4) eq "7096")  || (substr($_,0,4) eq "7098") )  { $cr {FG} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//#if ( (substr($_,0,4) eq "7094") || (substr($_,0,4) eq "7095") || (substr($_,0,4) eq "7096")  || (substr($_,0,4) eq "7098") )  { $cr {FH} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if ( (substr($_,0,4) eq "7094") || (substr($_,0,4) eq "7095") || (substr($_,0,4) eq "7096")  || (substr($_,0,4) eq "7098") )  { $cr {FI} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if (substr($_,0,2) eq "71")   { $cr {FM} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if (substr($_,0,2) eq "72")   { $cr {FN} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if (substr($_,0,2) eq "74")   { $cr {FO} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if ( (substr($_,0,3) eq "781") || (substr($_,0,3) eq "791") )  { $cr {FP} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if (substr($_,0,2) eq "75")   { $cr {FQ} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
 
                     
                 break;
