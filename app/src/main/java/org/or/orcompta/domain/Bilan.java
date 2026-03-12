@@ -288,6 +288,40 @@ public class Bilan {
             }
 
         }
-    }
+
+
+//$bilan{BJ}{montant} = $bilan{AB}{montant} + $bilan{CX}{montant} + $bilan{AF}{montant} + $bilan{AH}{montant} + $bilan{AJ}{montant} + $bilan{AL}{montant} + $bilan{AN}{montant} + $bilan{AP}{montant} + $bilan{AR}{montant} + $bilan{AT}{montant} + $bilan{AV}{montant} + $bilan{AX}{montant} + $bilan{CS}{montant} + $bilan{CU}{montant} + $bilan{BB}{montant} + $bilan{BD}{montant} + $bilan{BF}{montant} + $bilan{BH}{montant} ;
+
+//$bilan{BK}{montant} = $bilan{AC}{montant} + $bilan{CQ}{montant} + $bilan{AG}{montant} + $bilan{AI}{montant} + $bilan{AK}{montant} + $bilan{AM}{montant} + $bilan{AO}{montant} + $bilan{AQ}{montant} + $bilan{AS}{montant} + $bilan{AU}{montant} + $bilan{AW}{montant} + $bilan{AY}{montant} + $bilan{CT}{montant} + $bilan{CV}{montant} + $bilan{BC}{montant} + $bilan{BE}{montant} + $bilan{BG}{montant} + $bilan{BI}{montant} ;
+
+//$bilan{BJ_BK}{montant} = $bilan{BJ}{montant} - $bilan{BK}{montant} ;
+
+//$bilan{CJ}{montant} = $bilan{BL}{montant} + $bilan{BN}{montant} + $bilan{BP}{montant} + $bilan{BR}{montant} + $bilan{BT}{montant} + $bilan{BV}{montant} + $bilan{BX}{montant} + $bilan{BZ}{montant} + $bilan{CB}{montant} + $bilan{CD}{montant} + $bilan{CF}{montant} + $bilan{CH}{montant};
+
+//$bilan{CK}{montant} = $bilan{BM}{montant} + $bilan{BO}{montant} + $bilan{BQ}{montant} + $bilan{BS}{montant} + $bilan{BU}{montant} + $bilan{BW}{montant} + $bilan{BY}{montant} + $bilan{CA}{montant} + $bilan{CC}{montant} + $bilan{CE}{montant} + $bilan{CG}{montant} + $bilan{CI}{montant} ;
+
+//$bilan{CJ_CK}{montant} = $bilan{CJ}{montant} - $bilan{CK}{montant} ;
+
+//$bilan{CO}{montant} = $bilan{AA}{montant} + $bilan{BJ}{montant} + $bilan{CJ}{montant} + $bilan{CW}{montant} + $bilan{CM}{montant} + $bilan{CN}{montant} ;
+
+//$bilan{'1A'}{montant} = $bilan{BK}{montant} + $bilan{CK}{montant}  ;
+
+//$bilan{CO_1A}{montant} = $bilan{CO}{montant} -$bilan{'1A'}{montant} ; 
+
+//$bilan {DI} {montant} += $resultat ;
+
+//$bilan {DL} {montant} = $bilan{DA}{montant} + $bilan{DB}{montant} + $bilan{DC}{montant} + $bilan{DD}{montant} + $bilan{DE}{montant} + $bilan{DF}{montant} + $bilan{DG}{montant} + $bilan{DH}{montant} + $bilan{DI}{montant} + $bilan{DJ}{montant} + $bilan{DK}{montant} ;
+
+//$bilan {DO} {montant} = $bilan {DM} {montant} + $bilan {DN} {montant} ;
+
+//$bilan {DR} {montant} = $bilan {DP} {montant} + $bilan {DQ} {montant} ;
+
+//$bilan {EC} {montant} = $bilan{DS}{montant} + $bilan{DT}{montant} + $bilan{DU}{montant} + $bilan{DV}{montant} + $bilan{DW}{montant} + $bilan{DX}{montant} + $bilan{DY}{montant} + $bilan{DZ}{montant} + $bilan{EA}{montant} + $bilan{EB}{montant} ;
+
+//$bilan {EE} {montant} = $bilan{DL}{montant} + $bilan{DO}{montant} + $bilan{DR}{montant} + $bilan{EC}{montant} + $bilan{ED}{montant} ;
+    
+
+
+}
 
 }

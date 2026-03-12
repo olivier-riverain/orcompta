@@ -43,27 +43,32 @@ public class CompteResultat {
                     if (cpte.substring(0,2).equals("63")) compteResultat.put("FX",  compteResultat.get("FX") + debit - credit);
                     if (cpte.substring(0,3).equals("641") || cpte.substring(0,3).equals("644")) compteResultat.put("FY",  compteResultat.get("FY") + debit - credit);
                     if (cpte.substring(0,3).equals("645") || cpte.substring(0,3).equals("646") || cpte.substring(0,3).equals("647") || cpte.substring(0,3).equals("648")) compteResultat.put("FZ",  compteResultat.get("FZ") + debit - credit);
+                    if (cpte.substring(0,4).equals("6811")) compteResultat.put("GA",  compteResultat.get("GA") + debit - credit);
+                    if (cpte.substring(0,4).equals("6816")) compteResultat.put("GB",  compteResultat.get("GB") + debit - credit);
+                    if (cpte.substring(0,4).equals("6817")) compteResultat.put("GC",  compteResultat.get("GC") + debit - credit);
+                    if (cpte.substring(0,4).equals("6815")) compteResultat.put("GD",  compteResultat.get("GD") + debit - credit);
+                    if (cpte.substring(0,3).equals("651") || cpte.substring(0,3).equals("653") || cpte.substring(0,3).equals("654") || cpte.substring(0,3).equals("658") || cpte.substring(0,4).equals("6812")) compteResultat.put("GE",  compteResultat.get("GE") + debit - credit);
+                    if (cpte.substring(0,4).equals("6551")) compteResultat.put("GH",  compteResultat.get("GH") + debit - credit);
+                    if (cpte.substring(0,4).equals("6555")) compteResultat.put("GI",  compteResultat.get("GI") + debit - credit);
 
+                    if (cpte.substring(0,3).equals("686")) compteResultat.put("GQ",  compteResultat.get("GQ") + debit - credit);                    
+                    if (cpte.substring(0,3).equals("661") || cpte.substring(0,3).equals("664") || cpte.substring(0,3).equals("665") || cpte.substring(0,3).equals("668")) compteResultat.put("GR",  compteResultat.get("GR") + debit - credit);
+                    if (cpte.substring(0,3).equals("666")) compteResultat.put("GS",  compteResultat.get("GS") + debit - credit);
+                    if (cpte.substring(0,3).equals("667")) compteResultat.put("GT",  compteResultat.get("GT") + debit - credit);
 
+                    if (cpte.substring(0,3).equals("671") || cpte.substring(0,3).equals("672") || cpte.substring(0,3).equals("678")) compteResultat.put("HE",  compteResultat.get("HE") + debit - credit);                    
+                    if (cpte.substring(0,3).equals("675")) compteResultat.put("HF",  compteResultat.get("HF") + debit - credit);
+                    if (cpte.substring(0,3).equals("687")) compteResultat.put("HG",  compteResultat.get("HG") + debit - credit);
+                    if (cpte.substring(0,3).equals("691")) compteResultat.put("HJ",  compteResultat.get("HJ") + debit - credit);
+                    if (cpte.substring(0,3).equals("695") || cpte.substring(0,3).equals("696") || cpte.substring(0,3).equals("697") || cpte.substring(0,4).equals("6989")) compteResultat.put("HK",  compteResultat.get("HK") + debit - credit);                    
+                    if (cpte.substring(0,4).equals("6981")) compteResultat.put("HJ",  compteResultat.get("HJ") + credit - debit);
 
+                    if (cpte.substring(0,4).equals("6122")) compteResultat.put("HP",  compteResultat.get("HP") + debit - credit);
+                    if (cpte.substring(0,4).equals("6125")) compteResultat.put("HQ",  compteResultat.get("HQ") + debit - credit);
+                    if (cpte.substring(0,4).equals("6713")) compteResultat.put("HX",  compteResultat.get("HX") + debit - credit);
+                    if (cpte.substring(0,3).equals("646")) compteResultat.put("A2",  compteResultat.get("A2") + debit - credit);
+                    if (cpte.substring(0,3).equals("651")) compteResultat.put("A4",  compteResultat.get("A4") + debit - credit);
 
-
-
-
-
-//if (substr($_,0,4) eq "6811")   { $cr {GA} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if (substr($_,0,4) eq "6816")   { $cr {GB} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if (substr($_,0,4) eq "6817")   { $cr {GC} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if (substr($_,0,4) eq "6815")   { $cr {GD} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if ( (substr($_,0,3) eq "651") || (substr($_,0,3) eq "653") || (substr($_,0,3) eq "654") || (substr($_,0,3) eq "658") || (substr($_,0,4) eq "6812" ) )   { $cr {GE} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
-
-//if (substr($_,0,4) eq "6551")   { $cr {GH} {montant} += $balance {$_} {montant_credit} - $balance {$_} {montant_debit} ; }
-
-//if (substr($_,0,4) eq "6555")   { $cr {GI} {montant} += $balance {$_} {montant_debit} - $balance {$_} {montant_credit} ; }
 
 
                 break;
@@ -86,6 +91,26 @@ public class CompteResultat {
                     if (cpte.substring(0,2).equals("74")) compteResultat.put("FO",  compteResultat.get("FO") + credit - debit);
                     if (cpte.substring(0,3).equals("781") || cpte.substring(0,3).equals("791")) compteResultat.put("FP",  compteResultat.get("FP") + credit - debit);
                     if (cpte.substring(0,2).equals("75")) compteResultat.put("FQ",  compteResultat.get("FQ") + credit - debit);
+
+                    if (cpte.substring(0,3).equals("761")) compteResultat.put("GJ",  compteResultat.get("GJ") + credit - debit);
+                    if (cpte.substring(0,3).equals("762") || cpte.substring(0,3).equals("763") || cpte.substring(0,3).equals("765")) compteResultat.put("GK",  compteResultat.get("GK") + credit - debit);
+                    if (cpte.substring(0,3).equals("764") || cpte.substring(0,3).equals("768")) compteResultat.put("GL",  compteResultat.get("GL") + credit - debit);
+                    if (cpte.substring(0,3).equals("786") || cpte.substring(0,3).equals("796")) compteResultat.put("GM",  compteResultat.get("GM") + credit - debit);
+                    if (cpte.substring(0,3).equals("766")) compteResultat.put("GN",  compteResultat.get("GN") + credit - debit);
+                    if (cpte.substring(0,3).equals("767")) compteResultat.put("GO",  compteResultat.get("GO") + credit - debit);
+
+                    if (cpte.substring(0,3).equals("771") || cpte.substring(0,3).equals("772") || cpte.substring(0,3).equals("778")) compteResultat.put("HA",  compteResultat.get("HA") + credit - debit);
+                    if (cpte.substring(0,3).equals("775") || cpte.substring(0,3).equals("777")) compteResultat.put("HB",  compteResultat.get("HB") + credit - debit);
+                    if (cpte.substring(0,3).equals("787") || cpte.substring(0,3).equals("797")) compteResultat.put("HC",  compteResultat.get("HC") + credit - debit);
+
+                    if (cpte.substring(0,3).equals("752")) compteResultat.put("HY",  compteResultat.get("HY") + credit - debit);
+                    if (cpte.substring(0,3).equals("791")) compteResultat.put("A1",  compteResultat.get("A1") + credit - debit);
+                    if (cpte.substring(0,3).equals("751")) compteResultat.put("A3",  compteResultat.get("A3") + credit - debit);
+
+
+
+
+
 
 
                     
