@@ -29,6 +29,8 @@ public class Bilan {
     }
     
     public void createBilan(Balance balance) {        
+        Double totalProduits = 0.0;
+        Double totalCharges = 0.0;
         for(Map.Entry<String, Double[]> account : balance.getAccounts().entrySet()) {
             String cpte = account.getKey();
             Double debit = account.getValue()[0];
@@ -280,47 +282,36 @@ public class Bilan {
 
                     if (cpte.substring(0,3).equals("519") ) bilan.put("EH",  bilan.get("EH") + debit - credit); 
                     
-
                     break;
 
+                case "6":
+                    totalCharges += debit - credit; 
+                    break;
+                
+                case "7":
+                    totalProduits += credit - debit;
+                    break;
+                
                 default:
                     break;                
             }
 
         }
 
-
-//$bilan{BJ}{montant} = $bilan{AB}{montant} + $bilan{CX}{montant} + $bilan{AF}{montant} + $bilan{AH}{montant} + $bilan{AJ}{montant} + $bilan{AL}{montant} + $bilan{AN}{montant} + $bilan{AP}{montant} + $bilan{AR}{montant} + $bilan{AT}{montant} + $bilan{AV}{montant} + $bilan{AX}{montant} + $bilan{CS}{montant} + $bilan{CU}{montant} + $bilan{BB}{montant} + $bilan{BD}{montant} + $bilan{BF}{montant} + $bilan{BH}{montant} ;
-
-//$bilan{BK}{montant} = $bilan{AC}{montant} + $bilan{CQ}{montant} + $bilan{AG}{montant} + $bilan{AI}{montant} + $bilan{AK}{montant} + $bilan{AM}{montant} + $bilan{AO}{montant} + $bilan{AQ}{montant} + $bilan{AS}{montant} + $bilan{AU}{montant} + $bilan{AW}{montant} + $bilan{AY}{montant} + $bilan{CT}{montant} + $bilan{CV}{montant} + $bilan{BC}{montant} + $bilan{BE}{montant} + $bilan{BG}{montant} + $bilan{BI}{montant} ;
-
-//$bilan{BJ_BK}{montant} = $bilan{BJ}{montant} - $bilan{BK}{montant} ;
-
-//$bilan{CJ}{montant} = $bilan{BL}{montant} + $bilan{BN}{montant} + $bilan{BP}{montant} + $bilan{BR}{montant} + $bilan{BT}{montant} + $bilan{BV}{montant} + $bilan{BX}{montant} + $bilan{BZ}{montant} + $bilan{CB}{montant} + $bilan{CD}{montant} + $bilan{CF}{montant} + $bilan{CH}{montant};
-
-//$bilan{CK}{montant} = $bilan{BM}{montant} + $bilan{BO}{montant} + $bilan{BQ}{montant} + $bilan{BS}{montant} + $bilan{BU}{montant} + $bilan{BW}{montant} + $bilan{BY}{montant} + $bilan{CA}{montant} + $bilan{CC}{montant} + $bilan{CE}{montant} + $bilan{CG}{montant} + $bilan{CI}{montant} ;
-
-//$bilan{CJ_CK}{montant} = $bilan{CJ}{montant} - $bilan{CK}{montant} ;
-
-//$bilan{CO}{montant} = $bilan{AA}{montant} + $bilan{BJ}{montant} + $bilan{CJ}{montant} + $bilan{CW}{montant} + $bilan{CM}{montant} + $bilan{CN}{montant} ;
-
-//$bilan{'1A'}{montant} = $bilan{BK}{montant} + $bilan{CK}{montant}  ;
-
-//$bilan{CO_1A}{montant} = $bilan{CO}{montant} -$bilan{'1A'}{montant} ; 
-
-//$bilan {DI} {montant} += $resultat ;
-
-//$bilan {DL} {montant} = $bilan{DA}{montant} + $bilan{DB}{montant} + $bilan{DC}{montant} + $bilan{DD}{montant} + $bilan{DE}{montant} + $bilan{DF}{montant} + $bilan{DG}{montant} + $bilan{DH}{montant} + $bilan{DI}{montant} + $bilan{DJ}{montant} + $bilan{DK}{montant} ;
-
-//$bilan {DO} {montant} = $bilan {DM} {montant} + $bilan {DN} {montant} ;
-
-//$bilan {DR} {montant} = $bilan {DP} {montant} + $bilan {DQ} {montant} ;
-
-//$bilan {EC} {montant} = $bilan{DS}{montant} + $bilan{DT}{montant} + $bilan{DU}{montant} + $bilan{DV}{montant} + $bilan{DW}{montant} + $bilan{DX}{montant} + $bilan{DY}{montant} + $bilan{DZ}{montant} + $bilan{EA}{montant} + $bilan{EB}{montant} ;
-
-//$bilan {EE} {montant} = $bilan{DL}{montant} + $bilan{DO}{montant} + $bilan{DR}{montant} + $bilan{EC}{montant} + $bilan{ED}{montant} ;
-    
-
+        bilan.put("BJ", bilan.get("AB") + bilan.get("CX") + bilan.get("AF") + bilan.get("AH") + bilan.get("AJ") + bilan.get("AL") + bilan.get("AN") + bilan.get("AP") + bilan.get("AR") + bilan.get("AT") + bilan.get("AV") + bilan.get("AX") + bilan.get("CS") + bilan.get("CU") + bilan.get("BB") + bilan.get("BD") + bilan.get("BF") + bilan.get("BH")); 
+        bilan.put("BK", bilan.get("AC") + bilan.get("CQ") + bilan.get("AG") + bilan.get("AI") + bilan.get("AK") + bilan.get("AM") + bilan.get("AO") + bilan.get("AQ") + bilan.get("AS") + bilan.get("AU") + bilan.get("AW") + bilan.get("AY") + bilan.get("CT") + bilan.get("CV") + bilan.get("BC") + bilan.get("BE") + bilan.get("BG") + bilan.get("BI")); 
+        bilan.put("BJ_BK", bilan.get("BJ") - bilan.get("BK"));
+        bilan.put("CK", bilan.get("BM") + bilan.get("BO") + bilan.get("BQ") + bilan.get("BS") + bilan.get("BU") + bilan.get("BW") + bilan.get("BY") + bilan.get("CA") + bilan.get("CC") + bilan.get("CE") + bilan.get("CG") + bilan.get("CI")); 
+        bilan.put("CJ_CK", bilan.get("CJ") - bilan.get("CK"));
+        bilan.put("CO", bilan.get("AA") + bilan.get("BJ") + bilan.get("CJ") + bilan.get("CW") + bilan.get("CM") + bilan.get("CN")); 
+        bilan.put("1A", bilan.get("BK") + bilan.get("CK"));
+        bilan.put("CO_1A", bilan.get("CO") - bilan.get("1A"));
+        bilan.put("DI", totalProduits - totalCharges);
+        bilan.put("DL", bilan.get("DA") + bilan.get("DB") + bilan.get("DC") + bilan.get("DD") + bilan.get("DE") + bilan.get("DF") + bilan.get("DG") + bilan.get("DH") + bilan.get("DI") + bilan.get("DJ") + bilan.get("DK")); 
+        bilan.put("DO", bilan.get("DM") + bilan.get("DN"));
+        bilan.put("DR", bilan.get("DP") + bilan.get("DQ"));
+        bilan.put("EC", bilan.get("DS") + bilan.get("DT") + bilan.get("DU") + bilan.get("DV") + bilan.get("DW") + bilan.get("DX") + bilan.get("DY") + bilan.get("DZ") + bilan.get("EA") + bilan.get("EB")); 
+        bilan.put("EE", bilan.get("DL") + bilan.get("DO") + bilan.get("DR") + bilan.get("EC") + bilan.get("ED")); 
 
 }
 
