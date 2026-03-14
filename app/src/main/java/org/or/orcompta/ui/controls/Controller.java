@@ -357,7 +357,19 @@ public class Controller {
 
     public void editBalance() {
         companyServices.editBalance(this.model.getIdCompany(), this.model.getIdExercice());
-    }    
+    }
+    
+    public void computeBilanCompteResultat(String beginjj, String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        companyServices.editBilanCompteResultat(this.model.getIdCompany(), this.model.getIdExercice(), beginjj, beginmm, beginyy, endjj, endmm, endyy);
+    }
+
+    public void editBilanCompteResultat(String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
+        companyServices.editBilanCompteResultat(this.model.getIdCompany(), this.model.getIdExercice(), fromjj, frommm, fromaa, tojj, tomm, toaa);
+    }
+
+    public void editBilanCompteResultat() {
+        companyServices.editBilanCompteResultat(this.model.getIdCompany(), this.model.getIdExercice());
+    }
 
 
 

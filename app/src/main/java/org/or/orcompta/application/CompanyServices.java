@@ -210,14 +210,11 @@ public class CompanyServices {
         return balance;
     }
 
-
-
     public void editBalance(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
         Balance balance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
         Company company = companies.getCompany(idCompany);
         BalancePdf balancePdf = new BalancePdf(company, balance);
         balancePdf.createPdf();
-
     }
 
     public void editBalance(CompanyId idCompany, ExerciceId idExercice) {
@@ -227,6 +224,43 @@ public class CompanyServices {
         balancePdf.createPdf();  
     }
 
+    public Balance computeBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
+        DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
+        return computeBilanCompteResultat(idCompany, idExercice, dateBegin, dateEnd);        
+    }
+
+    public Balance computeBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        DateEntry dateBegin = exercice.getBeginDate();
+        DateEntry dateEnd = exercice.getEndDate();        
+        return computeBilanCompteResultat(idCompany, idExercice, dateBegin, dateEnd);
+    }
+
+    public Balance computeBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        BalanceId idBalance = new BalanceId(0);
+        Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
+        balance.computeBilanCompteResultat();
+        System.out.println("computeBilanCompteResultat => " + balance);
+        return balance;
+    }
+    
+    public void editBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
+        Balance balance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
+        Company company = companies.getCompany(idCompany);
+        BalancePdf balancePdf = new BalancePdf(company, balance);
+        balancePdf.createPdf();
+    }
+
+    public void editBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice) {
+        Balance balance = computeBalance(idCompany, idExercice);
+        Company company = companies.getCompany(idCompany);
+        BalancePdf balancePdf = new BalancePdf(company, balance);
+        balancePdf.createPdf();  
+    }
     
     public void loadCompany(String idCompany) {
         Company company = repository.findCompanyById(new CompanyId(idCompany));        

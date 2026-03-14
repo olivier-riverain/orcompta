@@ -309,6 +309,7 @@ public class ViewMain implements View{
         Button editBalance = new Button("Editer la balance");
         editBalance.setOnAction(_ -> editBalance());
         Button editBilanCompteResultat = new Button("Bilan - Compte de résultat");
+        editBilanCompteResultat.setOnAction(_ -> editBilanCompteResultat());
         hbox2_2.getChildren().addAll(editBalance, editBilanCompteResultat);
 
         HBox hbox2_3 = new HBox(5); 
@@ -508,6 +509,15 @@ public class ViewMain implements View{
                 controller.editBalance();
         } else {
             controller.editBalance(fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(),  tomm.getText(), toaa.getText());
+        }
+    }
+
+    private void editBilanCompteResultat() {
+        if(fromjj.getText().equals("") || frommm.getText().equals("") || fromaa.getText().equals("") 
+            || tojj.getText().equals("") || tomm.getText().equals("") ||  toaa.getText().equals("")) {
+                controller.editBilanCompteResultat();
+        } else {
+            controller.editBilanCompteResultat(fromjj.getText(), frommm.getText(), fromaa.getText(), tojj.getText(),  tomm.getText(), toaa.getText());
         }
     }
 

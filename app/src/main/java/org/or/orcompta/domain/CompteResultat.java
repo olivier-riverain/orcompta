@@ -69,8 +69,6 @@ public class CompteResultat {
                     if (cpte.substring(0,3).equals("646")) compteResultat.put("A2",  compteResultat.get("A2") + debit - credit);
                     if (cpte.substring(0,3).equals("651")) compteResultat.put("A4",  compteResultat.get("A4") + debit - credit);
 
-
-
                 break;
 
                 case "7":
@@ -106,14 +104,7 @@ public class CompteResultat {
                     if (cpte.substring(0,3).equals("752")) compteResultat.put("HY",  compteResultat.get("HY") + credit - debit);
                     if (cpte.substring(0,3).equals("791")) compteResultat.put("A1",  compteResultat.get("A1") + credit - debit);
                     if (cpte.substring(0,3).equals("751")) compteResultat.put("A3",  compteResultat.get("A3") + credit - debit);
-
-
-
-
-
-
-
-                    
+                   
                 break;
 
                 default:
@@ -122,6 +113,24 @@ public class CompteResultat {
                     
             }
         }
+
+        compteResultat.put("FJ", compteResultat.get("FA") + compteResultat.get("FD") + compteResultat.get("FG"));
+        compteResultat.put("FK", compteResultat.get("FB") + compteResultat.get("FE") + compteResultat.get("FH"));
+        compteResultat.put("FL", compteResultat.get("FC") + compteResultat.get("FF") + compteResultat.get("FI"));
+        compteResultat.put("FR", compteResultat.get("FL") + compteResultat.get("FM") + compteResultat.get("FN") + compteResultat.get("F0") + compteResultat.get("FP") + compteResultat.get("FQ"));
+        compteResultat.put("GF", compteResultat.get("FS") + compteResultat.get("FT") + compteResultat.get("FU") + compteResultat.get("FV") + compteResultat.get("FW") + compteResultat.get("FX") + compteResultat.get("FY") + compteResultat.get("FZ") + compteResultat.get("GA") + compteResultat.get("GB") + compteResultat.get("GC") + compteResultat.get("GD") + compteResultat.get("GE"));
+        compteResultat.put("GG", compteResultat.get("FR") - compteResultat.get("GF"));
+        compteResultat.put("GP", compteResultat.get("GJ") + compteResultat.get("GK") + compteResultat.get("GL") + compteResultat.get("GM") + compteResultat.get("GN") + compteResultat.get("GO"));
+        compteResultat.put("GU", compteResultat.get("GQ") + compteResultat.get("GR") + compteResultat.get("GS") + compteResultat.get("GT"));
+        compteResultat.put("GV", compteResultat.get("GP") - compteResultat.get("GU"));
+        compteResultat.put("GW", compteResultat.get("FR") - compteResultat.get("GF") + compteResultat.get("GH") - compteResultat.get("GI") + compteResultat.get("GP") - compteResultat.get("GU"));
+        compteResultat.put("HD", compteResultat.get("HA") + compteResultat.get("HB") + compteResultat.get("HC"));
+        compteResultat.put("HH", compteResultat.get("HE") + compteResultat.get("HF") + compteResultat.get("HG"));
+        compteResultat.put("HI", compteResultat.get("HD") - compteResultat.get("HH"));
+        compteResultat.put("HL", compteResultat.get("FR") + compteResultat.get("GH") + compteResultat.get("GP") + compteResultat.get("HD"));
+        compteResultat.put("HM", compteResultat.get("GF") + compteResultat.get("GI") + compteResultat.get("GU") + compteResultat.get("HH") + compteResultat.get("HJ") + compteResultat.get("HK"));
+        compteResultat.put("HN", compteResultat.get("HL") - compteResultat.get("HM"));
+
     }
     
 }
