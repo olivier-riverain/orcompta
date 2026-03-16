@@ -27,7 +27,7 @@ public class CompteResultat {
         }
     }
 
-    public void createCompteResultat(Balance balance) {        
+    public void createCompteResultat() {        
         for(Map.Entry<String, Double[]> account : balance.getAccounts().entrySet()) {
             String cpte = account.getKey();
             Double debit = account.getValue()[0];

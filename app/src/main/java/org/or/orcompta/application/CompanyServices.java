@@ -11,18 +11,23 @@ import org.or.orcompta.domain.Account;
 import org.or.orcompta.domain.AddressCompany;
 import org.or.orcompta.domain.Balance;
 import org.or.orcompta.domain.BalanceId;
+import org.or.orcompta.domain.Bilan;
+import org.or.orcompta.domain.BilanId;
 import org.or.orcompta.domain.FactoryCompanies;
 import org.or.orcompta.domain.LineEntry;
 import org.or.orcompta.domain.LineEntryId;
 import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompanyId;
 import org.or.orcompta.domain.CompanyRepository;
+import org.or.orcompta.domain.CompteResultat;
+import org.or.orcompta.domain.CompteResultatId;
 import org.or.orcompta.domain.DateEntry;
 import org.or.orcompta.domain.Entry;
 import org.or.orcompta.domain.EntryId;
 import org.or.orcompta.domain.Exercice;
 import org.or.orcompta.domain.ExerciceId;
 import org.or.orcompta.infra.BalancePdf;
+import org.or.orcompta.infra.BilanCompteResultatPdf;
 import org.or.orcompta.infra.CompanyRepositoryWithFileJson;
 
 public class CompanyServices {
@@ -224,42 +229,73 @@ public class CompanyServices {
         balancePdf.createPdf();  
     }
 
-    public Balance computeBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+    public Bilan computeBilan(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
-        return computeBilanCompteResultat(idCompany, idExercice, dateBegin, dateEnd);        
+        return computeBilan(idCompany, idExercice, dateBegin, dateEnd);        
     }
 
-    public Balance computeBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice) {
+    public Bilan computeBilan(CompanyId idCompany, ExerciceId idExercice) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
         DateEntry dateBegin = exercice.getBeginDate();
         DateEntry dateEnd = exercice.getEndDate();        
-        return computeBilanCompteResultat(idCompany, idExercice, dateBegin, dateEnd);
+        return computeBilan(idCompany, idExercice, dateBegin, dateEnd);
     }
 
-    public Balance computeBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
+    public CompteResultat computeCompteResultat(CompanyId idCompany, ExerciceId idExercice, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy) {
+        DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
+        DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
+        return computeCompteResultat(idCompany, idExercice, dateBegin, dateEnd);        
+    }
+
+    public CompteResultat computeCompteResultat(CompanyId idCompany, ExerciceId idExercice) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        DateEntry dateBegin = exercice.getBeginDate();
+        DateEntry dateEnd = exercice.getEndDate();        
+        return computeCompteResultat(idCompany, idExercice, dateBegin, dateEnd);
+    }
+
+    public Bilan computeBilan(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
         Company company = companies.getCompany(idCompany);
         Exercice exercice = company.getExercice(idExercice.toString());
         BalanceId idBalance = new BalanceId(0);
         Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
-        balance.computeBilanCompteResultat();
-        System.out.println("computeBilanCompteResultat => " + balance);
-        return balance;
+        BilanId idBilan = new BilanId(0);
+        Bilan bilan = new Bilan(idBilan, balance);
+        bilan.createBilan();
+        System.out.println("computeBilan => " + bilan);
+        return bilan;
+    }
+
+    public CompteResultat computeCompteResultat(CompanyId idCompany, ExerciceId idExercice, DateEntry dateBegin, DateEntry dateEnd) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        BalanceId idBalance = new BalanceId(0);
+        Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
+        CompteResultatId idCompteResultat = new CompteResultatId(0);
+        CompteResultat compteResultat = new CompteResultat(idCompteResultat, balance);
+        compteResultat.createCompteResultat();;
+        System.out.println("computeCompteResultat => " + compteResultat);
+        return compteResultat;
     }
     
     public void editBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice, String fromjj, String frommm, String fromaa, String tojj,  String tomm, String toaa) {
         Balance balance = computeBalance(idCompany, idExercice, fromjj, frommm, fromaa, tojj, tomm, toaa);
         Company company = companies.getCompany(idCompany);
-        BalancePdf balancePdf = new BalancePdf(company, balance);
-        balancePdf.createPdf();
+        Bilan bilan = computeBilan(idCompany, idExercice);
+        CompteResultat compteResultat = computeCompteResultat(idCompany, idExercice);
+        BilanCompteResultatPdf bilanCompteResultatPdf = new BilanCompteResultatPdf(company, bilan, compteResultat);
+        bilanCompteResultatPdf.createPdf();
     }
 
-    public void editBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice) {
-        Balance balance = computeBalance(idCompany, idExercice);
+    public void editBilanCompteResultat(CompanyId idCompany, ExerciceId idExercice) {        
         Company company = companies.getCompany(idCompany);
-        BalancePdf balancePdf = new BalancePdf(company, balance);
-        balancePdf.createPdf();  
+        Bilan bilan = computeBilan(idCompany, idExercice);
+        CompteResultat compteResultat = computeCompteResultat(idCompany, idExercice);
+        BilanCompteResultatPdf bilanCompteResultatPdf = new BilanCompteResultatPdf(company, bilan, compteResultat);
+        bilanCompteResultatPdf.createPdf();  
     }
     
     public void loadCompany(String idCompany) {

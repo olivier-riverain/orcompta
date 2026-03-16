@@ -28,7 +28,7 @@ public class Bilan {
 
     }
     
-    public void createBilan(Balance balance) {        
+    public void createBilan() {        
         Double totalProduits = 0.0;
         Double totalCharges = 0.0;
         for(Map.Entry<String, Double[]> account : balance.getAccounts().entrySet()) {
