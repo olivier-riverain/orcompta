@@ -23,11 +23,16 @@ import org.or.orcompta.domain.Balance;
 import org.or.orcompta.domain.Bilan;
 import org.or.orcompta.domain.Company;
 import org.or.orcompta.domain.CompteResultat;
+import org.or.orcompta.domain.DateEntry;
 
 public class BilanCompteResultatPdf  extends PdfPageEventHelper{
     
     private Bilan bilan;
+    private Map<String, Double> codesBilan;
     private CompteResultat compteResultat;
+    private Map<String, Double> codesCompteResultat;
+    private String dateBegin;
+    private String dateEnd;
     private Company company;
     private String fileName;
     private float width;
@@ -38,71 +43,57 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
         this.bilan = bilan;
         this.compteResultat = compteResultat;
         this.company = company;
+        codesBilan = bilan.getCodesBilan();
         String companyName = this.company.getName().replace(" ", "-");
-        //String dateBegin = balance.getDateBegin().toString().replace("/", "-");
-        //String dateEnd = balance.getDateEnd().toString().replace("/", "-");
-        //System.out.println("BalancePdf " + " dateBegin = " + dateBegin + " dateEnd = " + dateEnd);
-       //fileName = this.company.getSaveDirectory() + this.company.getIdCompany() + "-" + companyName + "_balance_" + dateBegin + "_" + dateEnd + ".pdf";
+        dateBegin = compteResultat.getDateBegin().toString().replace("/", "-");
+        dateEnd = compteResultat.getDateEnd().toString().replace("/", "-");
+        System.out.println("BilanCompteResultat " + " dateBegin = " + dateBegin + " dateEnd = " + dateEnd);
+        fileName = this.company.getSaveDirectory() + this.company.getIdCompany() + "-" + companyName + "_bilanCompteResultat_" + dateBegin + "_" + dateEnd + ".pdf";
     }
 
     public void createPdf() {
-        System.out.println("BalancePdf createPdf");
-        /*Document document = new Document(PageSize.A4);
+        System.out.println("BilanCompteResultatPdf createPdf");
+        Document document = new Document(PageSize.A4);
         width = document.getPageSize().getWidth();
-        System.out.println("BalancePdf createPdf width = " + width);
+        System.out.println("BilanCompteResultatPdf createPdf width = " + width);
         height = document.getPageSize().getHeight();
-        System.out.println("BalancePdf createPdf height = " + height);
+        System.out.println("BilanCompteResultatPdf createPdf height = " + height);
         yPos = height;
         PdfWriter writer = null;;
         try {            
             writer = PdfWriter.getInstance(document, new FileOutputStream(this.fileName));           
             document.addAuthor("ORcompta"); 
-            document.addSubject("Balance de l'exercice.");
+            document.addSubject("Bilan Compte de résultat de l'exercice.");
             writer.setPageEvent(this); 
             document.open();
             writer.getInfo().put(PdfName.CREATOR, new PdfString(Document.getVersion()));            
-            PdfPTable tableTitle = new PdfPTable(5);        
+            PdfPTable tableTitle = new PdfPTable(2);        
             tableTitle.setTotalWidth(width);
-            tableTitle.setWidths(new float[]{15.0F, 40.0F, 15.0F, 15.0F, 15.0F});
+            tableTitle.setWidths(new float[]{30.0F, 60.0F});
             tableTitle.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             tableTitle.getDefaultCell().setPaddingBottom(5);
             tableTitle.getDefaultCell().setBorder(Rectangle.BOX);
             Font fontTitle = new Font(Font.HELVETICA, 8, Font.BOLD);
-            Phrase compteName = new Phrase("COMPTE", fontTitle);
-            PdfPCell compteCell = new PdfPCell(compteName);
-            tableTitle.addCell(compteCell);
-            Phrase libelleName = new Phrase("LIBELLE", fontTitle);
-            PdfPCell libelleCell = new PdfPCell(libelleName);
-            tableTitle.addCell(libelleCell);                       
-            Phrase debitName = new Phrase("DEBIT", fontTitle);
-            PdfPCell debitCell = new PdfPCell(debitName);
-            tableTitle.addCell(debitCell);
-            Phrase creditName = new Phrase("DEBIT", fontTitle);
-            PdfPCell creditCell = new PdfPCell(creditName);
-            tableTitle.addCell(creditCell);
-            Phrase soldeName = new Phrase("SOLDE", fontTitle);
-            PdfPCell soldeCell = new PdfPCell(soldeName);
-            tableTitle.addCell(soldeCell);
+            Phrase codeName = new Phrase("CODE", fontTitle);
+            PdfPCell codeCell = new PdfPCell(codeName);
+            tableTitle.addCell(codeCell);
+            Phrase amount = new Phrase("Montant", fontTitle);
+            PdfPCell amountCell = new PdfPCell(amount);
+            tableTitle.addCell(amountCell);            
             Font fontItem = new Font(Font.HELVETICA, 8);
-            Map<String, Double[]> accounts = balance.getAccounts();
-            for(Map.Entry<String, Double[]> accountItem: accounts.entrySet()) {
-                compteName = new Phrase(accountItem.getKey(), fontItem);
-                compteCell = new PdfPCell(compteName);
-                tableTitle.addCell(compteCell);
-                String libelle = balance.getAccountLibelle(accountItem.getKey());
-                libelleName = new Phrase(libelle, fontItem);
-                libelleCell = new PdfPCell(libelleName);
-                tableTitle.addCell(libelleCell);                       
-                debitName = new Phrase(accountItem.getValue()[0].toString(), fontItem);
-                debitCell = new PdfPCell(debitName);
-                tableTitle.addCell(debitCell);
-                creditName = new Phrase(accountItem.getValue()[1].toString(), fontItem);
-                creditCell = new PdfPCell(creditName);
-                tableTitle.addCell(creditCell);
-                Double solde = accountItem.getValue()[0] - accountItem.getValue()[1];
-                soldeName = new Phrase(solde.toString(), fontItem);
-                soldeCell = new PdfPCell(soldeName);
-                tableTitle.addCell(soldeCell);
+            codesBilan = bilan.getCodesBilan();
+            for(Map.Entry<String, Double> codeItem: codesBilan.entrySet()) {
+                codeName = new Phrase(codeItem.getKey(), fontItem);
+                codeCell = new PdfPCell(codeName);
+                tableTitle.addCell(codeCell);
+                amount = new Phrase(codeItem.getKey(), fontItem);
+                amountCell = new PdfPCell(codeName);
+                tableTitle.addCell(amountCell);
+                //String libelle = balance.getAccountLibelle(accountItem.getKey());
+                //libelleName = new Phrase(libelle, fontItem);
+                //libelleCell = new PdfPCell(libelleName);
+                //tableTitle.addCell(libelleCell);                       
+                
             }
             document.add(tableTitle);
 
@@ -112,7 +103,7 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
 
         document.close();
         writer.close();
-    */}
+    }
 
     @Override
     public void onStartPage(PdfWriter writer, Document document) {

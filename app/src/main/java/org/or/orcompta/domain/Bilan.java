@@ -25,10 +25,9 @@ public class Bilan {
         for(String code: passifCode) {
             bilan.put(code, 0.0);
         }
-
     }
     
-    public void createBilan() {        
+    public void createBilan() {       
         Double totalProduits = 0.0;
         Double totalCharges = 0.0;
         for(Map.Entry<String, Double[]> account : balance.getAccounts().entrySet()) {
@@ -313,6 +312,10 @@ public class Bilan {
         bilan.put("EC", bilan.get("DS") + bilan.get("DT") + bilan.get("DU") + bilan.get("DV") + bilan.get("DW") + bilan.get("DX") + bilan.get("DY") + bilan.get("DZ") + bilan.get("EA") + bilan.get("EB")); 
         bilan.put("EE", bilan.get("DL") + bilan.get("DO") + bilan.get("DR") + bilan.get("EC") + bilan.get("ED")); 
 
-}
+    }
+
+    public Map<String, Double> getCodesBilan() {
+        return this.bilan;
+    }
 
 }

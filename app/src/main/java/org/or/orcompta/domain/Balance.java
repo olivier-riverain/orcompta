@@ -65,7 +65,7 @@ public void computeBalance() {
     Collection<Entry> entriesInExercice = exercice.getEntries();
     for(Entry entry : entriesInExercice) {        
         DateEntry date = entry.getDate();
-        System.out.println("Balance computeBalance" + " dateBegin = " + dateBegin + " dateEnd = " + dateEnd + " date = " + date);
+        //System.out.println("Balance computeBalance" + " dateBegin = " + dateBegin + " dateEnd = " + dateEnd + " date = " + date);
         if(date.between(dateBegin, dateEnd)) {
             Collection<LineEntry> linesEntryInEntry = entry.getLinesEntry();
             for(LineEntry lineEntry : linesEntryInEntry) {
