@@ -86,8 +86,8 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
                 codeName = new Phrase(codeItem.getKey(), fontItem);
                 codeCell = new PdfPCell(codeName);
                 tableTitle.addCell(codeCell);
-                amount = new Phrase(codeItem.getKey(), fontItem);
-                amountCell = new PdfPCell(codeName);
+                amount = new Phrase(codeItem.getValue().toString(), fontItem);
+                amountCell = new PdfPCell(amount);
                 tableTitle.addCell(amountCell);
                 //String libelle = balance.getAccountLibelle(accountItem.getKey());
                 //libelleName = new Phrase(libelle, fontItem);

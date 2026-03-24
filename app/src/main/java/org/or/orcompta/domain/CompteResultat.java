@@ -15,6 +15,7 @@ public class CompteResultat {
 
     public CompteResultat(CompteResultatId idCompteResultat, Balance balance) {
         this.idCompteResultat = idCompteResultat;
+        this.balance = balance;
         compteResultat = new LinkedHashMap<>();
         dateBegin = balance.getDateBegin();
         dateEnd = balance.getDateEnd();
@@ -129,7 +130,7 @@ public class CompteResultat {
         compteResultat.put("FJ", compteResultat.get("FA") + compteResultat.get("FD") + compteResultat.get("FG"));
         compteResultat.put("FK", compteResultat.get("FB") + compteResultat.get("FE") + compteResultat.get("FH"));
         compteResultat.put("FL", compteResultat.get("FC") + compteResultat.get("FF") + compteResultat.get("FI"));
-        compteResultat.put("FR", compteResultat.get("FL") + compteResultat.get("FM") + compteResultat.get("FN") + compteResultat.get("F0") + compteResultat.get("FP") + compteResultat.get("FQ"));
+        compteResultat.put("FR", compteResultat.get("FL") + compteResultat.get("FM") + compteResultat.get("FN") + compteResultat.get("FO") + compteResultat.get("FP") + compteResultat.get("FQ"));
         compteResultat.put("GF", compteResultat.get("FS") + compteResultat.get("FT") + compteResultat.get("FU") + compteResultat.get("FV") + compteResultat.get("FW") + compteResultat.get("FX") + compteResultat.get("FY") + compteResultat.get("FZ") + compteResultat.get("GA") + compteResultat.get("GB") + compteResultat.get("GC") + compteResultat.get("GD") + compteResultat.get("GE"));
         compteResultat.put("GG", compteResultat.get("FR") - compteResultat.get("GF"));
         compteResultat.put("GP", compteResultat.get("GJ") + compteResultat.get("GK") + compteResultat.get("GL") + compteResultat.get("GM") + compteResultat.get("GN") + compteResultat.get("GO"));
