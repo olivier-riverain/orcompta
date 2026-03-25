@@ -29,14 +29,14 @@ public class Bilan {
     
     public void createBilan() {       
         Double totalProduits = 0.0;
-        Double totalCharges = 0.0;
+        Double totalCharges = 0.0;        
         for(Map.Entry<String, Double[]> account : balance.getAccounts().entrySet()) {
             String cpte = account.getKey();
             Double debit = account.getValue()[0];
             Double credit = account.getValue()[1];
-            String first = cpte.substring(0, 1);            
+            String first = cpte.substring(0, 1);                       
             switch(first) {
-                case "1":                    
+                case "1":                                      
                     if (cpte.substring(0,4).equals("1011") || cpte.substring(0,3).equals("109") ) bilan.put("AA",  bilan.get("AA") + debit - credit); 
                     bilan.put("AA_AAA", bilan.get("AA") - bilan.get("AAA"));
 
@@ -96,7 +96,7 @@ public class Bilan {
 
                     break;
 
-                case "2":                    
+                case "2":                                         
                     if (cpte.substring(0,3).equals("201")) bilan.put("AB",  bilan.get("AB") + debit - credit); 
                     if (cpte.substring(0,4).equals("2801")) bilan.put("AC",  bilan.get("AC") + credit - debit);
                     bilan.put("AB_AC", bilan.get("AB") - bilan.get("AC"));
@@ -145,7 +145,7 @@ public class Bilan {
                     // il n'y a pas de compte amortissement et provision pour AY
                     bilan.put("AX_AY", bilan.get("AX") - bilan.get("AY"));
 
-                    if (cpte.substring(0,2).equals("26")) bilan.put("CS",  bilan.get("CS") + debit - credit); 
+                    //if (cpte.substring(0,2).equals("26")) bilan.put("CS",  bilan.get("CS") + debit - credit); 
                     // il n'y a pas de compte amortissement et provision pour CT
                     bilan.put("CS_CT", bilan.get("CS") - bilan.get("CT"));
 
@@ -173,7 +173,7 @@ public class Bilan {
                                         
                     break;
                 
-                case "3":                    
+                case "3":                                         
                     if ((cpte.substring(0,2).equals("31")) || (cpte.substring(0,2).equals("32"))) bilan.put("BL",  bilan.get("BL") + debit - credit); 
                     if ((cpte.substring(0,3).equals("391")) || (cpte.substring(0,3).equals("392"))) bilan.put("BI",  bilan.get("BM") + credit - debit);
                     bilan.put("BL_BM", bilan.get("BL") - bilan.get("BM"));
@@ -196,7 +196,7 @@ public class Bilan {
 
                     break;
                 
-                case "4":                    
+                case "4":                                          
                     if (cpte.substring(0,4).equals("4091")) bilan.put("BV",  bilan.get("BV") + debit - credit); 
                     //il n'y a pas de compte provision pour BW
                     bilan.put("BV_BW", bilan.get("BV") - bilan.get("BW"));
@@ -271,7 +271,7 @@ public class Bilan {
 
                     break;
 
-                case "5":                    
+                case "5":                                        
                     if (cpte.substring(0,2).equals("50")) bilan.put("CD",  bilan.get("CD") + debit - credit); 
                     //il n'y a pas de compte provision pour CE
                     bilan.put("CD_CE", bilan.get("CD") - bilan.get("CE"));
@@ -283,11 +283,11 @@ public class Bilan {
                     
                     break;
 
-                case "6":
+                case "6":                   
                     totalCharges += debit - credit; 
                     break;
                 
-                case "7":
+                case "7":                    
                     totalProduits += credit - debit;
                     break;
                 

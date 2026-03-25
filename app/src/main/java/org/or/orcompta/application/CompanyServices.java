@@ -248,6 +248,7 @@ public class CompanyServices {
         Exercice exercice = company.getExercice(idExercice.toString());
         BalanceId idBalance = new BalanceId(0);
         Balance balance = new Balance(idBalance, exercice, dateBegin, dateEnd);
+        balance.computeBalance();
         BilanId idBilan = new BilanId(0);
         Bilan bilan = new Bilan(idBilan, balance);
         bilan.createBilan();
