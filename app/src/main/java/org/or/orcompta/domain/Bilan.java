@@ -84,7 +84,7 @@ public class Bilan {
 
                     if (cpte.substring(0,4).equals("1675")) bilan.put("EI",  bilan.get("EI") + credit - debit); 
 
-                    if (cpte.substring(0,3).equals("165") || cpte.substring(0,3).equals("166") || cpte.substring(0,3).equals("167") || cpte.substring(0,3).equals("168") || cpte.substring(0,3).equals("169") || cpte.substring(0,2).equals("45")) bilan.put("DV",  bilan.get("DV") + credit - debit); 
+                    if (cpte.substring(0,3).equals("165") || cpte.substring(0,3).equals("166") || cpte.substring(0,3).equals("167") || cpte.substring(0,3).equals("168") || cpte.substring(0,3).equals("169")) bilan.put("DV",  bilan.get("DV") + credit - debit); 
 
                     if (cpte.substring(0,4).equals("1051")) bilan.put("1C",  bilan.get("1C") + credit - debit);
 
@@ -207,16 +207,20 @@ public class Bilan {
 
                     if ((cpte.substring(0,3).equals("425")) || (cpte.substring(0,4).equals("4287")) || (cpte.substring(0,4).equals("4387")) || (cpte.substring(0,3).equals("441")) || (cpte.substring(0,3).equals("442")  || (cpte.substring(0,3).equals("443"))) || (cpte.substring(0,4).equals("4456")) || (cpte.substring(0,5).equals("44581")) || (cpte.substring(0,5).equals("44582")) || (cpte.substring(0,5).equals("44583")) || (cpte.substring(0,5).equals("44586")) || (cpte.substring(0,4).equals("4487"))) {
                         if(debit-credit>=0) {
+                            System.err.println("cpte = " + cpte + "debit-credit = " + (debit-credit));
                             bilan.put("BZ",  bilan.get("BZ") + debit - credit);       
                         } else {
+                            System.err.println("cpte = " + cpte + "credit-debit = " + (credit-debit));
                             bilan.put("DY",  bilan.get("DY") + credit - debit);
                         }
                     }
                     
                     if ((cpte.substring(0,3).equals("462")) || (cpte.substring(0,3).equals("465")) || (cpte.substring(0,4).equals("4687")) || (cpte.substring(0,4).equals("4096")) || (cpte.substring(0,4).equals("4097"))  || (cpte.substring(0,4).equals("4098"))) {
                         if(debit-credit>=0) {
+                            System.err.println("cpte = " + cpte + "debit-credit = " + (debit-credit));
                             bilan.put("BZ",  bilan.get("BZ") + debit - credit);       
                         } else {
+                            System.err.println("cpte = " + cpte + "credit-debit = " + (credit-debit));
                             bilan.put("EA",  bilan.get("EA") + credit - debit);
                         }
                     }
@@ -249,18 +253,22 @@ public class Bilan {
                         if(credit-debit>=0) {
                             bilan.put("DX",  bilan.get("DX") + credit - debit);       
                         } else {
+                            System.err.println("cpte = " + cpte + "debit-credit = " + (debit-credit));
                             bilan.put("BZ",  bilan.get("BZ") + debit - credit);
                         }
                     }
 
-                    if (cpte.substring(0,2).equals("42") || cpte.substring(0,2).equals("43") || cpte.substring(0,2).equals("44")) {
+                    if (cpte.substring(0,2).equals("42") || cpte.substring(0,2).equals("43") || (cpte.substring(0,2).equals("44") && !cpte.substring(0,4).equals("4456") && !cpte.substring(0,4).equals("4458"))) {
                         if(credit-debit>=0) {
+                            System.err.println("cpte = " + cpte + "credit-debit = " + (credit-debit));
                             bilan.put("DY",  bilan.get("DY") + credit - debit);       
                         } else {
                             bilan.put("BZ",  bilan.get("BZ") + debit - credit);
                         }
                     }
 
+                    if(cpte.substring(0,2).equals("45")) bilan.put("DV",  bilan.get("DV") + credit - debit);
+                    
                     if (cpte.substring(0,3).equals("404") || cpte.substring(0,3).equals("405") || cpte.substring(0,4).equals("4084")) bilan.put("DZ",  bilan.get("DZ") + credit - debit); 
 
                     if (cpte.substring(0,2).equals("46") ) bilan.put("EA",  bilan.get("EA") + credit - debit); 
@@ -301,6 +309,7 @@ public class Bilan {
         bilan.put("BK", bilan.get("AC") + bilan.get("CQ") + bilan.get("AG") + bilan.get("AI") + bilan.get("AK") + bilan.get("AM") + bilan.get("AO") + bilan.get("AQ") + bilan.get("AS") + bilan.get("AU") + bilan.get("AW") + bilan.get("AY") + bilan.get("CT") + bilan.get("CV") + bilan.get("BC") + bilan.get("BE") + bilan.get("BG") + bilan.get("BI")); 
         bilan.put("BJ_BK", bilan.get("BJ") - bilan.get("BK"));
         bilan.put("CK", bilan.get("BM") + bilan.get("BO") + bilan.get("BQ") + bilan.get("BS") + bilan.get("BU") + bilan.get("BW") + bilan.get("BY") + bilan.get("CA") + bilan.get("CC") + bilan.get("CE") + bilan.get("CG") + bilan.get("CI")); 
+        bilan.put("CJ", bilan.get("BL") + bilan.get("BN") + bilan.get("BP") + bilan.get("BR") + bilan.get("BT") + bilan.get("BV") + bilan.get("BX") + bilan.get("BZ") + bilan.get("CB") + bilan.get("CD") + bilan.get("CF") + bilan.get("CH")); 
         bilan.put("CJ_CK", bilan.get("CJ") - bilan.get("CK"));
         bilan.put("CO", bilan.get("AA") + bilan.get("BJ") + bilan.get("CJ") + bilan.get("CW") + bilan.get("CM") + bilan.get("CN")); 
         bilan.put("1A", bilan.get("BK") + bilan.get("CK"));
