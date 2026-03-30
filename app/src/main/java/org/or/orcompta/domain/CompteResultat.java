@@ -145,5 +145,9 @@ public class CompteResultat {
         compteResultat.put("HN", compteResultat.get("HL") - compteResultat.get("HM"));
 
     }
+
+    public Map<String, Double> getCodesCompteResultat() {
+        return this.compteResultat;
+    }
     
 }

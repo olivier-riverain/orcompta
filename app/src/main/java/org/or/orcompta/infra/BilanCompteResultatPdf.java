@@ -95,6 +95,20 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
                 //tableTitle.addCell(libelleCell);                       
                 
             }
+            codesCompteResultat = compteResultat.getCodesCompteResultat();
+            for(Map.Entry<String, Double> codeItem: codesCompteResultat.entrySet()) {
+                codeName = new Phrase(codeItem.getKey(), fontItem);
+                codeCell = new PdfPCell(codeName);
+                tableTitle.addCell(codeCell);
+                amount = new Phrase(codeItem.getValue().toString(), fontItem);
+                amountCell = new PdfPCell(amount);
+                tableTitle.addCell(amountCell);
+                //String libelle = balance.getAccountLibelle(accountItem.getKey());
+                //libelleName = new Phrase(libelle, fontItem);
+                //libelleCell = new PdfPCell(libelleName);
+                //tableTitle.addCell(libelleCell);                       
+                
+            }
             document.add(tableTitle);
 
         } catch (DocumentException | IOException de) {
