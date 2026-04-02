@@ -7,6 +7,7 @@ public class Bilan {
 
     private final BilanId idBilan;
     private Map<String, Double> bilan;
+    private Map<String, String> libelle;
     private Balance balance;
     private String[] actifCode = {"AA", "AAA","AA_AAA", "AB", "AC", "AB_AC", "CX", "CQ", "CX_CQ", "AF", "AG", "AF_AG", "AH", "AI", "AH_AI", "AJ", "AK", "AJ_AK", "AL", "AM", "AL_AM", "AN", "AO", "AN_AO", "AP", "AQ", "AP_AQ", "AR", "AS", "AR_AS", "AT", "AU", "AT_AU", "AV", "AW", "AV_AW", "AX", "AY", "AX_AY", "CS", "CT", "CS_CT", "CU", "CV", "CU_CV", "BB", "BC", "BB_BC", "BD", "BE", "BD_BE", "BF", "BG", "BF_BG", "BH", "BI", "BH_BI", "BJ", "BK", "BJ_BK", "BL", "BM", "BL_BM", "BN", "BO", "BN_BO", "BP", "BQ", "BP_BQ", "BR", "BS", "BR_BS", "BT", "BU", "BT_BU", "BV", "BW", "BV_BW", "BX", "BY", "BX_BY", "BZ", "CA", "BZ_CA", "CB", "CC", "CB_CC", "CD_AP", "CD", "CE", "CD_CE", "CF", "CG", "CF_CG", "CH", "CI", "CH_CI", "CJ", "CK", "CJ_CK", "CW", "CWW", "CW_CWW", "CM", "CMM", "CM_CMM", "CN", "CNN", "CN_CNN", "CO", "1A", "CO_1A", "CP", "CR"} ;
     private String[] passifCode = {"DA_V", "DA", "DB", "EK", "DC", "DD", "DE", "B1", "DF", "EJ", "DG", "DH", "DI", "DJ", "DK", "DL", "DM", "DN", "DO", "DP", "DQ", "DR", "DS", "DT", "DU", "EI", "DV", "DW", "DX", "DY", "DZ", "EA", "EB", "EC", "ED", "EE", "1B", "1C", "1D", "1E", "EF", "EG", "EH"} ;
@@ -16,6 +17,7 @@ public class Bilan {
         this.balance = balance;
         bilan = new LinkedHashMap<>();
         initBilan();
+        initLibelle();
     }
 
     private void initBilan() {
@@ -320,5 +322,105 @@ public class Bilan {
     public Map<String, Double> getCodesBilan() {
         return this.bilan;
     }
+
+    private void initLibelle() {        
+        libelle.put("AA", "Capital souscrit non appelé (I)");
+        libelle.put("AB", "Frais d'établissement");
+        libelle.put("CX", "Frais de développement");
+        libelle.put("AF", "Concessions, brevets et droits similaires");
+        libelle.put("AH", "Fonds commercial (1)");
+        libelle.put("AJ", "Autres immobilisations incorporelles");
+        libelle.put("AL", "Avances et acomptes sur immobilisations incorporelles");
+        libelle.put("AN", "Terrrains");
+        libelle.put("AP", "Constructions");
+        libelle.put("AR", "Installations techniques, matériel et outillage industriels");        
+        libelle.put("AT", "Autres immobilisations corporelles");
+        libelle.put("AV", "Immobilisations en cours");
+        libelle.put("AX", "Avances et acomptes");
+        libelle.put("CS", "Participations évaluées selon la méthode de mise en équiv");
+        libelle.put("CU", "Autres participations");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+    }
+
+
+    //# bilan actif
+
+
+
+//$bilan {BB} {libelle} = "Créances rattachées à des participations" ;
+//$bilan {BD} {libelle} = "Autres titres immobilisés" ;
+//$bilan {BF} {libelle} = "Prêts" ;
+//$bilan {BH} {libelle} = "Autres immobilisations financières" ;
+//$bilan {BJ} {libelle} = "TOTAL (II)" ;
+//$bilan {BL} {libelle} = "Matières premières, approvisionnements" ;
+//$bilan {BN} {libelle} = "En cours de production de biens" ;
+//$bilan {BP} {libelle} = "En cours de production de services" ;
+//$bilan {BR} {libelle} = "Produits intermédiaires et finis" ;
+//$bilan {BT} {libelle} = "Marchandises" ;
+//$bilan {BV} {libelle} = "Avances et acomptes versés sur commandes" ;
+//$bilan {BX} {libelle} = "Clients et comptes rattachés (3)" ;
+//$bilan {BZ} {libelle} = "Autres créances (3)" ;
+//$bilan {CB} {libelle} = "Capital souscrit et appelé, non versé" ;
+//$bilan {CD} {libelle} = "Valeurs mobilières de placement (dont actions propres: " ;
+//$bilan {CF} {libelle} = "Disponibilités" ;
+//$bilan {CH} {libelle} = "Charges constatées d'avance (3)" ;
+//$bilan {CJ} {libelle} = "TOTAL (III)" ;
+//$bilan {CW} {libelle} = "Frais d'émission d'emprunt à étaler     (IV)" ;
+//$bilan {CM} {libelle} = "Primes de remboursement des obligations (V)" ;
+//$bilan {CN} {libelle} = "Écarts de conversion actif              (VI)" ;
+//$bilan {CO} {libelle} = "TOTAL (I à VI)" ;
+//$bilan {CP} {libelle} = "(2) Parts à moins d'un an des immobilisations financières nettes :" ;
+//$bilan {CR} {libelle} = "(3) Part à plus d'un an" ;
+
+//# bilan passif
+//$bilan {DA} {libelle} = "Capital social ou individuel (1) (Dont versé : " ;
+//$bilan {DB} {libelle} = "Primes d'émission, de fusion, d'apport,..." ;
+//$bilan {DC} {libelle} = "Écarts de réévaluation (2) (dont écart d'équivalence" ;
+//$bilan {DD} {libelle} = "Réserve légale (3)" ;
+//$bilan {DE} {libelle} = "Réserves statutaires ou contractuelles" ;
+//$bilan {DF} {libelle} = "Réserves réglementées (3) (Dont réserve spéciale des provisions pour fluctuation des cours" ;
+//$bilan {DG} {libelle} = "Autres réserves (Dont réserve relative à l'achat d'oeuvres originales d'artistes vivants" ;
+//$bilan {DH} {libelle} = "Report à nouveau" ;
+//$bilan {DI} {libelle} = "RÉSULTAT DE L'EXERCICE (bénéfice ou perte)" ;
+//$bilan {DJ} {libelle} = "Subventions d'investissement" ;
+//$bilan {DK} {libelle} = "Provisions réglementées" ;
+//$bilan {DL} {libelle} = "TOTAL (I)" ;
+//$bilan {DM} {libelle} = "Produit des émissions de titres participatifs" ;
+//$bilan {DN} {libelle} = "Avances conditionnées" ;
+//$bilan {DO} {libelle} = "TOTAL (II)" ;
+//$bilan {DP} {libelle} = "Provisions pour risques" ;
+//$bilan {DQ} {libelle} = "Provisions pour charges" ;
+//$bilan {DR} {libelle} = "TOTAL (III)" ;
+//$bilan {DS} {libelle} = "Emprunts obligataires convertibles" ;
+//$bilan {DT} {libelle} = "Autres emprunts obligataires" ;
+//$bilan {DU} {libelle} = "Emprunts et dettes auprès des établissements de crédit (5)" ;
+//$bilan {DV} {libelle} = "Emprunts et dettes financières divers (Dont emprunts participatifs" ;
+//$bilan {DW} {libelle} = "Avances et acomptes reçus sur commandes en cours" ;
+//$bilan {DX} {libelle} = "Dettes fournisseurs et comptes rattachés" ;
+//$bilan {DY} {libelle} = "Dettes fiscales et sociales" ;
+//$bilan {DZ} {libelle} = "Dettes sur immobilisations et comptes rattachés" ;
+//$bilan {EA} {libelle} = "Autres dettes" ;
+//$bilan {EB} {libelle} = "Produits constatés d'avance (4)";
+//$bilan {EC} {libelle} = "TOTAL (IV)" ;
+//$bilan {ED} {libelle} = "Écarts de conversion passif (V)" ;
+//$bilan {EE} {libelle} = "TOTAL GÉNÉRAL (I À V)" ;
+//$bilan {"1B"} {libelle} = "Écarts de réévaluation incorporé au capital" ;
+//$bilan {"1C"} {libelle} = "Réserve spéciale de réévaluation (1959)" ;
+//$bilan {"1D"} {libelle} = "Écarts de réévaluation libre" ;
+//$bilan {"1E"} {libelle} = "Réserve de réévaluation (1976)" ;
+//$bilan {"EF"} {libelle} = "Dont réserve spéciale des plus-values à long terme" ;
+//$bilan {EG} {libelle} = "Dettes et produits constatés d'avance à moins d'un an" ;
+//$bilan {EH} {libelle} = "Dont concours bancaires courants et soldes créditeurs de banques et CCP" ;
+
+public Map<String, String> getLibelleBilan() {
+        return this.libelle;
+    }
+
 
 }
