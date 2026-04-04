@@ -7,6 +7,7 @@ public class CompteResultat {
 
     private final CompteResultatId idCompteResultat;
     private Map<String, Double> compteResultat;
+    private Map<String, String> libelle;
     private Balance balance;
     private DateEntry dateBegin;
     private DateEntry dateEnd;
@@ -20,6 +21,7 @@ public class CompteResultat {
         dateBegin = balance.getDateBegin();
         dateEnd = balance.getDateEnd();
         initCompteResultat();
+        initLibelle();
     
     }
 
@@ -148,6 +150,95 @@ public class CompteResultat {
 
     public Map<String, Double> getCodesCompteResultat() {
         return this.compteResultat;
+    }
+
+    private void initLibelle() { 
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+        libelle.put("", "");
+
+
+//$cr {FC} {libelle} = "Ventes de marchandises" ;
+//$cr {FF} {libelle} = "Production vendue de biens" ;
+//$cr {FI} {libelle} = "Production vendue de services" ;
+//$cr {FL} {libelle} = "Chiffres d'affaires nets" ;
+//$cr {FM} {libelle} = "Production stockée" ;
+//$cr {FN} {libelle} = "Production immobilisée" ;
+//$cr {FO} {libelle} = "Subventions d'exploitation" ;
+//$cr {FP} {libelle} = "Reprises sur amortissements et provisions, transferts de charges (9)" ;
+//$cr {FQ} {libelle} = "Autres produits (1) (11)" ;
+//$cr {FR} {libelle} = "Total des produits d'exploitation (2) (1)" ;
+//$cr {FS} {libelle} = "Achats de marchandises (y compris droits de douane)" ;
+//$cr {FT} {libelle} = "Variation de stock (marchandises)" ;
+//$cr {FU} {libelle} = "Achats de matières premières et autres approvisionnements (y compris droits de douane)" ;
+//$cr {FV} {libelle} = "Variation de stock (matières premières et approvisionnements)" ;
+//$cr {FW} {libelle} = "Autres achats et charges externes (3) (6 bis)" ;
+//$cr {FX} {libelle} = "Impôts, taxes et versements assimilés" ;
+//$cr {FY} {libelle} = "Salaires et traitements" ;
+//$cr {FZ} {libelle} = "Charges sociales (10)" ;
+//$cr {GA} {libelle} = "Sur immobilisations : dotations aux amortissements" ;
+//$cr {GB} {libelle} = "Sur immobilisations : dotations aux provisions" ;
+//$cr {GC} {libelle} = "Sur actif circulant : dotations aux provisions" ;
+//$cr {GD} {libelle} = "Pour risques et charges : dotations aux provisions" ;
+//$cr {GE} {libelle} = "Autres charges (12)" ;
+//$cr {GF} {libelle} = "Total des charges d'exploitation (4) (II)" ;
+//$cr {GG} {libelle} = "1 - RÉSULTAT D'EXPLOITATION (I - II)" ;
+//$cr {GH} {libelle} = "Bénéfice attribué ou perte transférée (III)" ;
+//$cr {GI} {libelle} = "Perte supportée ou bénéfice transféré (IV)" ;
+//$cr {GJ} {libelle} = "Produits financiers de participations (5)" ;
+//$cr {GK} {libelle} = "Produits des autres valeurs mobilières et créances de l'actif immobilisé (5)" ;
+//$cr {GL} {libelle} = "Autres intérêts et produits assimilés (5)" ;
+//$cr {GM} {libelle} = "Reprises sur provisions et transferts de charges" ;
+//$cr {GN} {libelle} = "Différences positives de change" ;
+//$cr {GO} {libelle} = "Produits nets sur cessions de valeurs mobilières de placement" ;
+//$cr {GP} {libelle} = "Total de produits financiers (V)" ;
+//$cr {GQ} {libelle} = "Dotations financières aux amortissements et provisions" ;
+//$cr {GR} {libelle} = "Intérêts et charges assimilées (6)" ;
+//$cr {GS} {libelle} = "Différences négatives de change" ;
+//$cr {GT} {libelle} = "Charges nettes sur cessions de valeurs mobilières de placement" ;
+//$cr {GU} {libelle} = "Total des charges financières (VI)" ;
+//$cr {GV} {libelle} = "2 - RÉSULTAT FINANCIER (V - VI)" ;
+//$cr {GW} {libelle} = "3 - RÉSULTAT COURANT AVANT IMPÔTS (I - II + III - IV + V - VI)" ;
+//$cr {HA} {libelle} = "Produits exceptionnels sur opérations de gestion" ;
+//$cr {HB} {libelle} = "Produits exceptionnels sur opérations en capital" ;
+//$cr {HC} {libelle} = "Reprises sur provisions et transferts de charges" ;
+//$cr {HD} {libelle} = "Total des produits exceptionnels (7) (VII)" ;
+//$cr {HE} {libelle} = "Charges exceptionnelles sur opérations de gestion (6 bis)" ;
+//$cr {HF} {libelle} = "Charges exceptionnelles sur opérations en capital" ;
+//$cr {HG} {libelle} = "Dotations exceptionnelles aux amortissements et provisions" ;
+//$cr {HH} {libelle} = "Total des charges exceptionnelles (7) (VIII)" ;
+//$cr {HI} {libelle} = "4- RÉSULTAT EXCEPTIONNEL (VII - VIII)" ;
+//$cr {HJ} {libelle} = "Participation des salariés aux résultats de l'entreprise (IX)" ;
+//$cr {HK} {libelle} = "Impôts sur les bénéfices (X)" ;
+//$cr {HL} {libelle} = "TOTAL DES PRODUITS (I + III + V + VII)" ;
+//$cr {HM} {libelle} = "TOTAL DES CHARGES (II + IV + VI + VIII + IX + X)" ;
+//$cr {HN} {libelle} = "5- BÉNÉFICE OU PERTE (Total des produits - total des charges)" ;
+//$cr {HO} {libelle} = "(1) Dont produits nets partiels sur opérations à long terme" ;
+//$cr {HY} {libelle} = "(2) Dont produits de locations immobilières" ;
+//$cr {"1G"} {libelle} = "(2) Dont produits d'exploitation afférents à des exercices antérieurs (à détailler au (8) ci-dessous)" ;
+//$cr {HP} {libelle} = "(3) Dont Crédit-bail mobilier" ;
+//$cr {HQ} {libelle} = "(3) Dont Crédit-bail immobilier" ;
+//$cr {"1H"} {libelle} = "(4) Dont charges d'exploitation afférentes à des exercices antérieurs (à détailler au (8) ci-dessous)" ;
+//$cr {"1J"} {libelle} = "(5) Dont produits concernant les entreprises liées" ;
+//$cr {"1K"} {libelle} = "(6) Dont intérêts concernant les entreprises liées" ;
+//$cr {HX} {libelle} = "(6bis) Dont dons faits aux organismes d'intérêt général (art. 238 bis du C.G.I.)" ;
+//$cr {"A1"} {libelle} = "(9) Dont tranferts de charges" ;
+//$cr {"A2"} {libelle} = "(10) Dont cotisations personnelles de l'exploitant (13)" ;
+//$cr {"A3"} {libelle} = "(11) Dont redevances pour concessions de brevets, de licences (produits)" ;
+//$cr {"A4"} {libelle} = "(12) Dont redevances pour concessions de brevets, de licences (charges)" ;
+    
+    }
+
+    public Map<String, String> getLibelleBilan() {
+        return this.libelle;
     }
     
 }
