@@ -173,18 +173,7 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
     }
 
 
-    private void initLibelle() {
-
-
-
-
-
-
-    }
-
-
-
-
+   
 
 }
  

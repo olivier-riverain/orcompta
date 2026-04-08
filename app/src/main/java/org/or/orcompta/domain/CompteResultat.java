@@ -205,35 +205,22 @@ public class CompteResultat {
         libelle.put("HI", "4- RÉSULTAT EXCEPTIONNEL (VII - VIII)");
         libelle.put("HJ", "Participation des salariés aux résultats de l'entreprise (IX)");
         libelle.put("HK", "Impôts sur les bénéfices (X)");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-        libelle.put("", "");
-
-
-//$cr {HL} {libelle} = "TOTAL DES PRODUITS (I + III + V + VII)" ;
-//$cr {HM} {libelle} = "TOTAL DES CHARGES (II + IV + VI + VIII + IX + X)" ;
-//$cr {HN} {libelle} = "5- BÉNÉFICE OU PERTE (Total des produits - total des charges)" ;
-//$cr {HO} {libelle} = "(1) Dont produits nets partiels sur opérations à long terme" ;
-//$cr {HY} {libelle} = "(2) Dont produits de locations immobilières" ;
-//$cr {"1G"} {libelle} = "(2) Dont produits d'exploitation afférents à des exercices antérieurs (à détailler au (8) ci-dessous)" ;
-//$cr {HP} {libelle} = "(3) Dont Crédit-bail mobilier" ;
-//$cr {HQ} {libelle} = "(3) Dont Crédit-bail immobilier" ;
-//$cr {"1H"} {libelle} = "(4) Dont charges d'exploitation afférentes à des exercices antérieurs (à détailler au (8) ci-dessous)" ;
-//$cr {"1J"} {libelle} = "(5) Dont produits concernant les entreprises liées" ;
-//$cr {"1K"} {libelle} = "(6) Dont intérêts concernant les entreprises liées" ;
-//$cr {HX} {libelle} = "(6bis) Dont dons faits aux organismes d'intérêt général (art. 238 bis du C.G.I.)" ;
-//$cr {"A1"} {libelle} = "(9) Dont tranferts de charges" ;
-//$cr {"A2"} {libelle} = "(10) Dont cotisations personnelles de l'exploitant (13)" ;
-//$cr {"A3"} {libelle} = "(11) Dont redevances pour concessions de brevets, de licences (produits)" ;
-//$cr {"A4"} {libelle} = "(12) Dont redevances pour concessions de brevets, de licences (charges)" ;
-    
+        libelle.put("HL", "TOTAL DES PRODUITS (I + III + V + VII)");
+        libelle.put("HM", "TOTAL DES CHARGES (II + IV + VI + VIII + IX + X)");
+        libelle.put("HN", "5- BÉNÉFICE OU PERTE (Total des produits - total des charges)");
+        libelle.put("HO", "(1) Dont produits nets partiels sur opérations à long terme");
+        libelle.put("HY", "(2) Dont produits de locations immobilières");
+        libelle.put("1G", "(2) Dont produits d'exploitation afférents à des exercices antérieurs (à détailler au (8) ci-dessous)");
+        libelle.put("HP", "(3) Dont Crédit-bail mobilier");
+        libelle.put("HQ", "(3) Dont Crédit-bail immobilier");
+        libelle.put("1H", "(4) Dont charges d'exploitation afférentes à des exercices antérieurs (à détailler au (8) ci-dessous)");
+        libelle.put("1J", "(5) Dont produits concernant les entreprises liées");
+        libelle.put("1K", "(6) Dont intérêts concernant les entreprises liées");
+        libelle.put("HX", "(6bis) Dont dons faits aux organismes d'intérêt général (art. 238 bis du C.G.I.)");
+        libelle.put("A1", "(9) Dont tranferts de charges");
+        libelle.put("A2", "(10) Dont cotisations personnelles de l'exploitant (13)");
+        libelle.put("A3", "(11) Dont redevances pour concessions de brevets, de licences (produits)");
+        libelle.put("A4", "(12) Dont redevances pour concessions de brevets, de licences (charges)");    
     }
 
     public Map<String, String> getLibelleBilan() {
