@@ -20,6 +20,7 @@ public class CompteResultat {
         compteResultat = new LinkedHashMap<>();
         dateBegin = balance.getDateBegin();
         dateEnd = balance.getDateEnd();
+        libelle = new LinkedHashMap<>();
         initCompteResultat();
         initLibelle();
     
@@ -223,7 +224,7 @@ public class CompteResultat {
         libelle.put("A4", "(12) Dont redevances pour concessions de brevets, de licences (charges)");    
     }
 
-    public Map<String, String> getLibelleBilan() {
+    public Map<String, String> getLibelleCompteResultat() {
         return this.libelle;
     }
     

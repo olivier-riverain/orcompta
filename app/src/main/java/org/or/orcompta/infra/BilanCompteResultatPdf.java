@@ -29,7 +29,9 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
     
     private Bilan bilan;
     private Map<String, Double> codesBilan;
+    private Map<String, String> libellesBilan;
     private CompteResultat compteResultat;
+    private Map<String, String> libellesCompteResultat;
     private Map<String, Double> codesCompteResultat;
     private String dateBegin;
     private String dateEnd;
@@ -43,7 +45,10 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
         this.bilan = bilan;
         this.compteResultat = compteResultat;
         this.company = company;
-        codesBilan = bilan.getCodesBilan();
+        codesBilan = this.bilan.getCodesBilan();
+        libellesBilan = this.bilan.getLibelleBilan();
+        codesCompteResultat = this.compteResultat.getCodesCompteResultat();
+        libellesCompteResultat = this.compteResultat.getLibelleCompteResultat();
         String companyName = this.company.getName().replace(" ", "-");
         dateBegin = compteResultat.getDateBegin().toString().replace("/", "-");
         dateEnd = compteResultat.getDateEnd().toString().replace("/", "-");
@@ -67,47 +72,48 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
             writer.setPageEvent(this); 
             document.open();
             writer.getInfo().put(PdfName.CREATOR, new PdfString(Document.getVersion()));            
-            PdfPTable tableTitle = new PdfPTable(2);        
+            PdfPTable tableTitle = new PdfPTable(3);        
             tableTitle.setTotalWidth(width);
-            tableTitle.setWidths(new float[]{30.0F, 60.0F});
+            tableTitle.setWidths(new float[]{50.0F, 20.0F, 30.0F});
             tableTitle.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             tableTitle.getDefaultCell().setPaddingBottom(5);
             tableTitle.getDefaultCell().setBorder(Rectangle.BOX);
             Font fontTitle = new Font(Font.HELVETICA, 8, Font.BOLD);
+            String key = "";
+            Phrase libelleName = new Phrase("Libelle", fontTitle);
+            PdfPCell libelleCell = new PdfPCell(libelleName);
+            tableTitle.addCell(libelleCell);
             Phrase codeName = new Phrase("CODE", fontTitle);
             PdfPCell codeCell = new PdfPCell(codeName);
             tableTitle.addCell(codeCell);
             Phrase amount = new Phrase("Montant", fontTitle);
             PdfPCell amountCell = new PdfPCell(amount);
             tableTitle.addCell(amountCell);            
-            Font fontItem = new Font(Font.HELVETICA, 8);
-            codesBilan = bilan.getCodesBilan();
+            Font fontItem = new Font(Font.HELVETICA, 8);            
             for(Map.Entry<String, Double> codeItem: codesBilan.entrySet()) {
+                key = codeItem.getKey();
+                libelleName = new Phrase(libellesBilan.get(key) , fontItem);
+                libelleCell = new PdfPCell(libelleName);
+                tableTitle.addCell(libelleCell);
                 codeName = new Phrase(codeItem.getKey(), fontItem);
                 codeCell = new PdfPCell(codeName);
                 tableTitle.addCell(codeCell);
                 amount = new Phrase(codeItem.getValue().toString(), fontItem);
                 amountCell = new PdfPCell(amount);
                 tableTitle.addCell(amountCell);
-                //String libelle = balance.getAccountLibelle(accountItem.getKey());
-                //libelleName = new Phrase(libelle, fontItem);
-                //libelleCell = new PdfPCell(libelleName);
-                //tableTitle.addCell(libelleCell);                       
-                
             }
             codesCompteResultat = compteResultat.getCodesCompteResultat();
             for(Map.Entry<String, Double> codeItem: codesCompteResultat.entrySet()) {
+                key = codeItem.getKey();
+                libelleName = new Phrase(libellesCompteResultat.get(key) , fontItem);
+                libelleCell = new PdfPCell(libelleName);
+                tableTitle.addCell(libelleCell);
                 codeName = new Phrase(codeItem.getKey(), fontItem);
                 codeCell = new PdfPCell(codeName);
                 tableTitle.addCell(codeCell);
                 amount = new Phrase(codeItem.getValue().toString(), fontItem);
                 amountCell = new PdfPCell(amount);
-                tableTitle.addCell(amountCell);
-                //String libelle = balance.getAccountLibelle(accountItem.getKey());
-                //libelleName = new Phrase(libelle, fontItem);
-                //libelleCell = new PdfPCell(libelleName);
-                //tableTitle.addCell(libelleCell);                       
-                
+                tableTitle.addCell(amountCell);                
             }
             document.add(tableTitle);
 

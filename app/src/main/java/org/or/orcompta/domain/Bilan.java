@@ -16,6 +16,7 @@ public class Bilan {
         this.idBilan = idBilan;
         this.balance = balance;
         bilan = new LinkedHashMap<>();
+        libelle = new LinkedHashMap<>();
         initBilan();
         initLibelle();
     }
