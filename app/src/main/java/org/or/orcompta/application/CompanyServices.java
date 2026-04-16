@@ -35,8 +35,8 @@ public class CompanyServices {
     private FactoryCompanies companies;
     private CompanyRepository repository;
     
-    public CompanyServices(File orcomptaConfigFile) {
-        companies = new FactoryCompanies();
+    public CompanyServices(CompanyId lastIdCompany, File orcomptaConfigFile) {
+        companies = new FactoryCompanies(lastIdCompany);
         repository = new CompanyRepositoryWithFileJson(orcomptaConfigFile);
     }
 
@@ -50,7 +50,10 @@ public class CompanyServices {
 
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy, String idExerciceBefore) {
         Company company = companies.getCompany(idCompany);
-        ExerciceId idExercice = company.getIdNewExercice();
+        ExerciceId idExercice;
+        //if(idExerciceBefore.equals("")) idExercice = new  
+        idExercice = company.getIdNewExercice();
+        System.out.println("CompanyServices createNewExercice idExercice = " + idExercice.toString());
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         Exercice newExercice = new Exercice(idExercice, dateBegin, dateEnd, new ExerciceId(idExerciceBefore));

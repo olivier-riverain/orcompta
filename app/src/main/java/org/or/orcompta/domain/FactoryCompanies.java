@@ -7,13 +7,15 @@ public class FactoryCompanies {
     private Map<CompanyId, Company> companies;
     private CompanyId lastIdcompany = null;
 
-    public FactoryCompanies() {
+    public FactoryCompanies(CompanyId lastIdcompany) {
         this.companies = new LinkedHashMap<>();
-        lastIdcompany = new CompanyId();
+        this.lastIdcompany = lastIdcompany;
     }
 
     public CompanyId addCompany(String name, AddressCompany addressCompany, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) {        
+        System.out.println("FactoryCompanies addCompany lastIdcompany = " + lastIdcompany.toString());
         CompanyId idNewCompany = getNewIdCompany();
+        System.out.println("FactoryCompanies addCompany idNewCompany = " + idNewCompany.toString());
         Company newCompany = new Company(idNewCompany, name, addressCompany, legalForm, siret, naf, shareCapital, saveDirectory);       
         companies.put(idNewCompany, newCompany);
         lastIdcompany = idNewCompany;        

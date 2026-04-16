@@ -51,7 +51,7 @@ public class Controller {
         this.stage = stage;
         this.model = new Model();
         loadFileConfig();
-        this.companyServices = new CompanyServices(this.model.getConfigFile());        
+        this.companyServices = new CompanyServices(this.model.getLastIdCompany(), this.model.getConfigFile());        
         this.viewMain = new ViewMain();
         this.viewNewCompany = new ViewNewCompany();
         this.viewOpenCompany = new ViewOpenCompany();
@@ -194,12 +194,12 @@ public class Controller {
 
     public CompanyId createNewCompany(String name, String numero, String address, String address2, String postalCode, String city, String legalForm, String siret, String naf, Double shareCapital, String saveDirectory) throws IOException {
         CompanyId idCompany = companyServices.createNewCompany(name, numero, address, address2, postalCode, city, legalForm, siret, naf, shareCapital, saveDirectory + File.separator);
-        saveFileConfig(idCompany.toString(), name, saveDirectory);
+        this.model.setLastIdCompany(idCompany);
+        saveFileConfig(idCompany.toString(), name, saveDirectory + File.separator);
         return idCompany; 
     }
 
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm,  String beginyy, String endjj, String endmm, String endyy, String idExerciceBefore) {
-        System.out.println("controller createNewExercice idCompany = " + idCompany);
         ExerciceId idExercice = companyServices.createNewExercice(idCompany, beginjj, beginmm, beginyy, endjj, endmm, endyy, idExerciceBefore);        
         model.setIdCreateExercice(idExercice);
         return idExercice;
