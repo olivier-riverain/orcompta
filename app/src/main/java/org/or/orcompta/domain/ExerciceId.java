@@ -12,7 +12,11 @@ public class ExerciceId {
     }
     
     public ExerciceId(String idExercice) {
-        this.idExercice = Integer.parseInt(idExercice);           
+        if(idExercice.equals("")) {
+            this.idExercice = -1;
+        } else {
+            this.idExercice = Integer.parseInt(idExercice);    
+        }                  
     }
 
     public Integer getId() {

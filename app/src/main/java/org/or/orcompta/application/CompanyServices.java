@@ -50,15 +50,15 @@ public class CompanyServices {
 
     public ExerciceId createNewExercice(CompanyId idCompany, String beginjj,  String beginmm, String beginyy, String endjj, String endmm, String endyy, String idExerciceBefore) {
         Company company = companies.getCompany(idCompany);
-        ExerciceId idExercice;
+        
         //if(idExerciceBefore.equals("")) idExercice = new  
-        idExercice = company.getIdNewExercice();
+        ExerciceId idExercice = company.getIdNewExercice();
         System.out.println("CompanyServices createNewExercice idExercice = " + idExercice.toString());
         DateEntry dateBegin = new DateEntry(beginjj, beginmm, beginyy);
         DateEntry dateEnd = new DateEntry(endjj, endmm, endyy);
         Exercice newExercice = new Exercice(idExercice, dateBegin, dateEnd, new ExerciceId(idExerciceBefore));
         company.addExercice(newExercice);
-        repository.saveExercice(newExercice);        
+        repository.saveExercice(company, newExercice);        
         return idExercice;
     }
     
@@ -342,10 +342,12 @@ public class CompanyServices {
 
     public boolean closeExercice(String idCompany, String idExercice) {
         System.err.println("CompanyServices closeExercice");
+        System.err.println("CompanyServices closeExercice idExercice = " + idExercice);
         Company company = companies.getCompany(new CompanyId(idCompany));
         Exercice exercice = company.getExercice(idExercice);
         if(exercice.exerciceIsClosed()) return true;        
         String idExerciceAfter = getExerciceAfter(company, idExercice);
+        System.err.println("CompanyServices closeExercice idExerciceAfter = " + idExerciceAfter);
         loadExercice(idCompany, idExerciceAfter);
         Exercice exerciceAfter = company.getExercice(idExerciceAfter);
         DateEntry newDateEntry = exerciceAfter.getBeginDate();        
@@ -366,8 +368,8 @@ public class CompanyServices {
                 exerciceAfter.addAccount(accountItem.getName(), accountItem.getDescription());
         }              
         exercice.setExerciceClosed();
-        repository.saveExercice(exerciceAfter);
-        repository.saveExercice(exercice);
+        repository.saveExercice(company, exerciceAfter);
+        repository.saveExercice(company, exercice);
         return false;
     }
 

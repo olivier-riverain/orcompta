@@ -157,7 +157,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
 
     }
 
-    public void saveExercice(Exercice newExercice) {
+    public void saveExercice(Company company, Exercice newExercice) {
         this.exercice = newExercice;
         this.idExercice = newExercice.getIdExercice();              
         String name = company.getName();
@@ -269,7 +269,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
     }
 
     public void saveEntry(Entry newEntry) {        
-        saveExercice(this.exercice);
+        saveExercice(this.company, this.exercice);
     }
 
     public void importExercice_first_version() {
@@ -344,7 +344,7 @@ public class CompanyRepositoryWithFileJson  implements CompanyRepository{
             e.printStackTrace();
         }
         company.addExercice(exercice);
-        saveExercice(exercice);
+        saveExercice(company, exercice);
     }
 
     public String getIdExerciceBefore(String idExercice) {

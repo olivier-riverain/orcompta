@@ -24,7 +24,7 @@ public class CompanyRepositoryWithFileXml implements CompanyRepository{
         return null;
     }
 
-    public void saveExercice(Exercice newExercice) {
+    public void saveExercice(Company company, Exercice newExercice) {
 
     }
 

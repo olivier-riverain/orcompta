@@ -143,6 +143,8 @@ public class Exercice {
                 accounts.put(account.getName(), newAmount);
             }           
         }
+        Double totalProduits = 0.0;
+        Double totalCharges = 0.0;
         LineEntryId idLineEntry = new LineEntryId();        
         for(Map.Entry<String, Double> accountItem: accounts.entrySet()) {
             Double amountDebit = 0.0;
@@ -155,11 +157,28 @@ public class Exercice {
                 amountCredit = -1.0 * accountItem.getValue();
                 if(amountCredit<0.01) amountCredit = 0.0;
             }
-            
+            if(accountItem.getKey().substring(0,1).equals("7")) {
+                totalProduits += amountCredit;
+            }
+            if(accountItem.getKey().substring(0,1).equals("6")) {
+                totalCharges += amountDebit;
+            }
+
             LineEntry lineEntry = new LineEntry(idLineEntry, account, amountDebit, amountCredit);
             entry.addLineEntry(lineEntry);
             idLineEntry = idLineEntry.nextId();
         }
+        Double resultat = totalProduits - totalCharges;
+        LineEntry lineEntryResultat;
+        Account accountResultat;
+        if(resultat >= 0) {
+            accountResultat = new Account("12000000", "Résultat de l'exercice(bénéfice)");
+            lineEntryResultat = new LineEntry(idLineEntry, accountResultat, 0.0, resultat);    
+        } else {
+            accountResultat = new Account("12900000", "Résultat de l'exercice(déficit)");
+            lineEntryResultat = new LineEntry(idLineEntry, accountResultat, -1*resultat, 0.0);            
+        }
+        entry.addLineEntry(lineEntryResultat);
         return entry;
     }
 
