@@ -164,9 +164,12 @@ public class Exercice {
                 totalCharges += amountDebit;
             }
 
-            LineEntry lineEntry = new LineEntry(idLineEntry, account, amountDebit, amountCredit);
-            entry.addLineEntry(lineEntry);
-            idLineEntry = idLineEntry.nextId();
+            if(!accountItem.getKey().substring(0,1).equals("7") && !accountItem.getKey().substring(0,1).equals("6")) {
+                LineEntry lineEntry = new LineEntry(idLineEntry, account, amountDebit, amountCredit);
+                entry.addLineEntry(lineEntry);
+                idLineEntry = idLineEntry.nextId();            
+            }
+            
         }
         Double resultat = totalProduits - totalCharges;
         LineEntry lineEntryResultat;

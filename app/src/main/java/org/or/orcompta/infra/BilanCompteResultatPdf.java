@@ -98,7 +98,17 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
                 codeName = new Phrase(codeItem.getKey(), fontItem);
                 codeCell = new PdfPCell(codeName);
                 tableTitle.addCell(codeCell);
-                amount = new Phrase(codeItem.getValue().toString(), fontItem);
+                Long arrondi;
+                String  arrondiString;
+                if(codeItem.getValue()<0) {
+                    arrondi = -1 * Math.round(codeItem.getValue());
+                    arrondiString = "(" + arrondi.toString() + ")";
+                } 
+                else {
+                    arrondi = Math.round(codeItem.getValue());
+                    arrondiString = arrondi.toString();
+                }
+                amount = new Phrase(arrondiString, fontItem);
                 amountCell = new PdfPCell(amount);
                 tableTitle.addCell(amountCell);
             }
@@ -111,7 +121,17 @@ public class BilanCompteResultatPdf  extends PdfPageEventHelper{
                 codeName = new Phrase(codeItem.getKey(), fontItem);
                 codeCell = new PdfPCell(codeName);
                 tableTitle.addCell(codeCell);
-                amount = new Phrase(codeItem.getValue().toString(), fontItem);
+                Long arrondi;
+                String arrondiString;
+                if(codeItem.getValue()<0) {
+                    arrondi = -1 * Math.round(codeItem.getValue());
+                    arrondiString = "(" + arrondi.toString() + ")";
+                } 
+                else {
+                    arrondi = Math.round(codeItem.getValue());
+                    arrondiString = arrondi.toString();
+                }
+                amount = new Phrase(arrondiString, fontItem);
                 amountCell = new PdfPCell(amount);
                 tableTitle.addCell(amountCell);                
             }

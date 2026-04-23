@@ -95,8 +95,8 @@ public class BalancePdf  extends PdfPageEventHelper{
                 creditName = new Phrase(accountItem.getValue()[1].toString(), fontItem);
                 creditCell = new PdfPCell(creditName);
                 tableTitle.addCell(creditCell);
-                Double solde = accountItem.getValue()[0] - accountItem.getValue()[1];
-                soldeName = new Phrase(solde.toString(), fontItem);
+                Double solde = accountItem.getValue()[0] - accountItem.getValue()[1];                
+;               soldeName = new Phrase(solde.toString(), fontItem);
                 soldeCell = new PdfPCell(soldeName);
                 tableTitle.addCell(soldeCell);
             }

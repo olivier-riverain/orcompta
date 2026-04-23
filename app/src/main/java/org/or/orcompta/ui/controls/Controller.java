@@ -221,6 +221,7 @@ public class Controller {
         Entry newEntry = companyServices.getEntry(idCompany, idExercice, idEntry);
         if(newEntry.checkAmountsEntry()) {
             this.addEntryInTabViewEntries(newEntry);
+            companyServices.saveExercice(idCompany, idExercice);
             return true;
         } else {
             Alert error = new Alert(AlertType.ERROR);

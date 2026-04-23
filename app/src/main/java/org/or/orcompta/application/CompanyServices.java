@@ -68,7 +68,7 @@ public class CompanyServices {
         EntryId idEntry = exercice.getIdNewEntry();
         DateEntry date = new DateEntry(jj, mm, yy);
         Entry newEntry = new Entry(idEntry, date, journal, voucher);
-        exercice.addEntry(newEntry);              
+        exercice.addEntry(newEntry);                  
         return idEntry;
     }
 
@@ -387,12 +387,18 @@ public class CompanyServices {
         return idExerciceAfter;
     }
 
+    public void saveExercice(CompanyId idCompany, ExerciceId idExercice) {
+        Company company = companies.getCompany(idCompany);
+        Exercice exercice = company.getExercice(idExercice.toString());
+        repository.saveExercice(company, exercice);    
+    }
+
     @Override
     public String toString() {
         return "companies : " + companies;
     }
 
-    
+       
 
     
    
